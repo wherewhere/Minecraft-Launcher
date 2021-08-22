@@ -7,3 +7,16 @@
 
 <a href="https://github.com/wherewhere/Minecraft-Launcher/releases/latest"><img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/wherewhere/Minecraft-Launcher/total.svg?label=DOWNLOAD&logo=github&style=for-the-badge"></a>
 <a href=""><img alt="Baidu Netdisk" src="https://img.shields.io/badge/download-%e5%af%86%e7%a0%81%ef%bc%9alIIl-magenta.svg?label=%e4%b8%8b%e8%bd%bd&logo=baidu&style=for-the-badge"></a>
+
+## 目录
+- [Minecraft-Launcher](#Minecraft-Launcher)
+  - [目录](#目录)
+  - [使用到的模块](#使用到的模块)
+
+## 使用到的模块
+- [Win UI](https://github.com/microsoft/microsoft-ui-xaml "Win UI")
+- [KMCCC](https://github.com/MineStudio/KMCCC "KMCCC")
+- [ModuleLauncher.Re](https://github.com/AHpxChina/ModuleLauncher.Re "ModuleLauncher.Re")
+
+## Star 数量统计
+[![Star 数量统计](https://starchart.cc/wherewhere/Minecraft-Launcher.svg)](https://starchart.cc/wherewhere/Minecraft-Launcher "Star 数量统计")
