@@ -7,13 +7,13 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="b0de99b9-68bb-4385-8e5a-37943ff39d82"
-    Publisher="CN=qq251"
+    Name="wherewhere.MinecraftLauncher"
+    Publisher="CN=where"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>MinecraftLauncher (Package)</DisplayName>
-    <PublisherDisplayName>qq251</PublisherDisplayName>
+    <DisplayName>Minecraft Launcher</DisplayName>
+    <PublisherDisplayName>wherewhere</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
@@ -31,13 +31,18 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="MinecraftLauncher (Package)"
-        Description="MinecraftLauncher (Package)"
+        DisplayName="Minecraft Launcher"
+        Description="Minecraft Launcher"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Images\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="portraitFlipped"/>
+          <uap:Rotation Preference="portrait"/>
+          <uap:Rotation Preference="landscape"/>
+          <uap:Rotation Preference="landscapeFlipped"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>

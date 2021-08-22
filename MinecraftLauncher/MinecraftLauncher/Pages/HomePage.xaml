@@ -4,8 +4,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:MinecraftLauncher.Helpers.ValueConverters"
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlBackgroundListLowBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid>
         <Grid.ChildrenTransitions>
@@ -14,16 +20,25 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
         <ScrollViewer>
-            <StackPanel Margin="16,0">
+            <StackPanel Margin="16,16,16,0">
                 <TextBlock
+                    Margin="0,0,0,2"
                     x:Name="GetDPI"/>
                 <Button
+                    Margin="0,2"
                     Content="启动"
                     Click="Button_Click"/>
-                <ProgressBar
-                    x:Name="StartInfo"
-                    Visibility="Collapsed"
-                    IsIndeterminate="True"/>
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,2"
+                        x:Name="StartInfo"
+                        Visibility="{x:Bind Path=StartInfo.Text, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='string'}"/>
+                    <ProgressBar
+                        Margin="0,2"
+                        x:Name="IsInfo"
+                        Visibility="Collapsed"
+                        IsIndeterminate="True"/>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>
