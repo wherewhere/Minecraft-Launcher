@@ -13,7 +13,89 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
         <ScrollViewer>
-            <StackPanel Margin="16,0">
+            <StackPanel Margin="16,8,16,0">
+                <StackPanel>
+                    <TextBlock
+                        Text="主题"
+                        Margin="0,8"
+                        FontSize="18"/>
+                    <RadioButton
+                        Content="浅色"
+                        x:Name="Light"
+                        IsEnabled="False"
+                        Checked="Button_Checked"/>
+                    <RadioButton
+                        x:Name="Dark"
+                        Content="深色"
+                        IsEnabled="False"
+                        Checked="Button_Checked"/>
+                    <RadioButton
+                        x:Name="Default"
+                        Content="跟随系统"
+                        IsEnabled="False"
+                        Checked="Button_Checked"/>
+                </StackPanel>
+                <TextBlock
+                    Text="配置"
+                    Margin="0,8"
+                    FontSize="18"/>
+                <TextBox
+                    Margin="0,2"
+                    x:Name="Java8Root"
+                    Header="修改 Java8 路径"
+                    KeyDown="TextBox_KeyDown"/>
+                <StackPanel
+                    Margin="0,2"
+                    Orientation="Horizontal">
+                    <Button
+                        Content="选择"
+                        Margin="0,0,2,0"
+                        IsEnabled="False"
+                        Click="Button_Click"/>
+                    <Button
+                        Margin="2,0"
+                        Content="保存"
+                        Click="Button_Click"
+                        x:Name="SaveJava8Root"/>
+                </StackPanel>
+                <TextBox
+                    Margin="0,2"
+                    x:Name="Java16Root"
+                    Header="修改 Java16 路径"
+                    KeyDown="TextBox_KeyDown"/>
+                <StackPanel
+                    Margin="0,2"
+                    Orientation="Horizontal">
+                    <Button
+                        Content="选择"
+                        Margin="0,0,2,0"
+                        IsEnabled="False"
+                        Click="Button_Click"/>
+                    <Button
+                        Margin="2,0"
+                        Content="保存"
+                        Click="Button_Click"
+                        x:Name="SaveJava16Root"/>
+                </StackPanel>
+                <TextBox
+                    Margin="0,2"
+                    x:Name="MCRoot"
+                    Header="修改 Minecraft 路径"
+                    KeyDown="TextBox_KeyDown"/>
+                <StackPanel
+                    Margin="0,2"
+                    Orientation="Horizontal">
+                    <Button
+                        Content="选择"
+                        Margin="0,0,2,0"
+                        IsEnabled="False"
+                        Click="Button_Click"/>
+                    <Button
+                        Margin="2,0"
+                        Content="保存"
+                        x:Name="SaveMCRoot"
+                        Click="Button_Click"/>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

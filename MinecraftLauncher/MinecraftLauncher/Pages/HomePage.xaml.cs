@@ -1,9 +1,11 @@
-﻿using KMCCC.Tools;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 using MinecraftLauncher.Helpers;
 using ModuleLauncher.Re.Launcher;
+using ModuleLauncher.Re.Locators;
+using ModuleLauncher.Re.Locators.Concretes;
+using ModuleLauncher.Re.Models.Locators.Minecraft;
 using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,9 +23,18 @@ namespace MinecraftLauncher.Pages
         {
             InitializeComponent();
             GetDPI.Text = $"X:{UIHelper.DpiX} Y:{UIHelper.DpiY}";
+            SettingsHelper.GetCapacity();
+            SettingsHelper.GetAvailable();
+            _ = LaunchHelper.GetMinecrafts();
+            GetMemory.Text = $"{SettingsHelper.Available.GetSizeString()}/{SettingsHelper.Capacity.GetSizeString()}";
         }
 
-        private async void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            StartLaunch();
+        }
+
+        private async void StartLaunch()
         {
             Launcher launcher = LaunchHelper.Launch(false);
             IsInfo.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
@@ -36,6 +47,16 @@ namespace MinecraftLauncher.Pages
             await Task.Delay(1000);
             IsInfo.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
             StartInfo.Text = string.Empty;
+        }
+
+        private async void UpdateMemory()
+        {
+            SettingsHelper.GetCapacity();
+            GetMemory.Text = $"{SettingsHelper.Capacity}G";
+
+            while (true)
+            {
+            }
         }
     }
 }
