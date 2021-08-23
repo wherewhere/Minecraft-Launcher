@@ -40,9 +40,11 @@ namespace MinecraftLauncher.Pages
                     StartLaunch();
                     break;
                 case "Login":
-                    LoginDialog dialog = new();
+                    LoginDialog dialog = new() { RequestedTheme = SettingsHelper.Theme };
                     dialog.XamlRoot = XamlRoot;
                     _ = dialog.ShowAsync();
+                    break;
+                default:
                     break;
             }
         }
@@ -58,18 +60,8 @@ namespace MinecraftLauncher.Pages
             }
             StartInfo.Text = "已退出";
             await Task.Delay(1000);
-            IsInfo.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            IsInfo.Visibility = Visibility.Collapsed;
             StartInfo.Text = string.Empty;
-        }
-
-        private async void UpdateMemory()
-        {
-            SettingsHelper.GetCapacity();
-            GetMemory.Text = $"{SettingsHelper.Capacity}G";
-
-            while (true)
-            {
-            }
         }
     }
 }

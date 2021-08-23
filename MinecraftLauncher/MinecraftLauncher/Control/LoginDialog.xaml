@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="登录"
+    CornerRadius="8"
     CloseButtonText="取消"
     DefaultButton="Primary"
     PrimaryButtonText="确定">
@@ -15,14 +16,15 @@
                 <EntranceThemeTransition/>
             </TransitionCollection>
         </Grid.ChildrenTransitions>
-        <ScrollViewer>
+        <ScrollViewer
+            ScrollViewer.VerticalScrollBarVisibility="Hidden">
             <StackPanel>
                 <TextBox
                     Margin="0,2"
                     Header="用户名"
                     x:Name="Username"
                     KeyDown="TextBox_KeyDown"/>
-                <TextBox
+                <PasswordBox
                     Margin="0,2"
                     Header="密码"
                     x:Name="Password"

@@ -5,10 +5,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlBackgroundListLowBrush}"
+    Background="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}"
     Loaded="Page_Loaded">
     <NavigationView
+        PaneTitle="启动器"
         x:Name="NavigationView"
+        Loaded="NavigationView_Loaded"
+        BackRequested="NavigationView_BackRequested"
         SelectionChanged="NavigationView_SelectionChanged"
         Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
         <NavigationView.MenuItems>
