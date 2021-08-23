@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
+using ModuleLauncher.Re.Models.Authenticators;
 using System;
 using System.Management;
 using Windows.Storage;
@@ -12,6 +13,7 @@ namespace MinecraftLauncher.Helpers
         public static ulong version = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
         private static readonly ApplicationDataContainer LocalSettings = ApplicationData.Current.LocalSettings;
 
+        public static object GetValue(string key) => LocalSettings.Values[key];
         public static bool GetBoolen(string key) => (bool)LocalSettings.Values[key];
         public static string GetString(string key) => LocalSettings.Values[key] as string;
 
@@ -21,6 +23,10 @@ namespace MinecraftLauncher.Helpers
 
         static SettingsHelper()
         {
+            if (!LocalSettings.Values.ContainsKey("Username"))
+            { LocalSettings.Values.Add("Username", null); }
+            if (!LocalSettings.Values.ContainsKey("Password"))
+            { LocalSettings.Values.Add("Password", null); }
             if (!LocalSettings.Values.ContainsKey("Java8Root"))
             { LocalSettings.Values.Add("Java8Root", "C:/Program Files (x86)/Minecraft Launcher/runtime/jre-x64/bin/javaw.exe"); }
             if (!LocalSettings.Values.ContainsKey("Java16Root"))

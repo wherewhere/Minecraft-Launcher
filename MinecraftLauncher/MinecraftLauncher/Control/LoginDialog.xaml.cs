@@ -1,17 +1,10 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
+﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
+using MinecraftLauncher.Helpers;
+using ModuleLauncher.Re.Authenticators;
+using ModuleLauncher.Re.Models.Authenticators;
+using ModuleLauncher.Re.Utils.Extensions;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -22,12 +15,24 @@ namespace MinecraftLauncher.Control
     {
         public LoginDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void TextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
 
+        }
+
+        [Obsolete]
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            MojangAuthenticator Mojang = new(Username.Text, Password.Password);
+            AuthenticateResult Result = await Mojang.Authenticate();
+            if (await Result.Validate())
+            {
+                SettingsHelper.Set("Username", Username.Text);
+                SettingsHelper.Set("Password", Password.Password);
+            }
         }
     }
 }

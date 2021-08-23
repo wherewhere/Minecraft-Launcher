@@ -9,7 +9,8 @@
     CornerRadius="8"
     CloseButtonText="取消"
     DefaultButton="Primary"
-    PrimaryButtonText="确定">
+    PrimaryButtonText="确定"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
     <Grid>
         <Grid.ChildrenTransitions>
             <TransitionCollection>
