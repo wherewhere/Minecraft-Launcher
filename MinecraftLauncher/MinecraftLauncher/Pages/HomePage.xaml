@@ -32,7 +32,13 @@
                     x:Name="GetVersion"/>
                 <Button
                     Margin="0,2"
+                    Content="登录"
+                    x:Name="Login"
+                    Click="Button_Click"/>
+                <Button
+                    Margin="0,2"
                     Content="启动"
+                    x:Name="Start"
                     Click="Button_Click"/>
                 <StackPanel>
                     <TextBlock

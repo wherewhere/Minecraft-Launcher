@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using MinecraftLauncher.Control;
 using MinecraftLauncher.Helpers;
 using ModuleLauncher.Re.Launcher;
 using ModuleLauncher.Re.Locators;
@@ -29,15 +31,26 @@ namespace MinecraftLauncher.Pages
             GetMemory.Text = $"{SettingsHelper.Available.GetSizeString()}/{SettingsHelper.Capacity.GetSizeString()}";
         }
 
-        private void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            StartLaunch();
+            FrameworkElement element = sender as FrameworkElement;
+            switch (element.Name)
+            {
+                case "Start":
+                    StartLaunch();
+                    break;
+                case "Login":
+                    LoginDialog dialog = new();
+                    dialog.XamlRoot = XamlRoot;
+                    _ = dialog.ShowAsync();
+                    break;
+            }
         }
 
         private async void StartLaunch()
         {
             Launcher launcher = LaunchHelper.Launch(false);
-            IsInfo.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+            IsInfo.Visibility = Visibility.Visible;
             System.Diagnostics.Process Process = await launcher.Launch("1.16.5");
             while (!string.IsNullOrEmpty(await Process.StandardOutput.ReadLineAsync()))
             {

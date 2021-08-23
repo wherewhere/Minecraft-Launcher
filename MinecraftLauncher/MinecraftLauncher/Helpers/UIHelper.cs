@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -29,8 +30,6 @@ namespace MinecraftLauncher.Helpers
 
             if (Window.Current.Content is FrameworkElement frameworkElement)
             {
-                frameworkElement.RequestedTheme = SettingsHelper.Theme;
-
                 foreach (CoreApplicationView item in CoreApplication.Views)
                 {
                     await item.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -53,6 +52,14 @@ namespace MinecraftLauncher.Helpers
                     view.ButtonBackgroundColor = view.InactiveBackgroundColor = view.ButtonInactiveBackgroundColor = Colors.Transparent;
                     view.ButtonForegroundColor = Colors.Black;
                 }
+            }
+        }
+
+        public static void ChangeTheme(object sender)
+        {
+            if (sender != null)
+            {
+                (sender as Frame).RequestedTheme = SettingsHelper.Theme;
             }
         }
 

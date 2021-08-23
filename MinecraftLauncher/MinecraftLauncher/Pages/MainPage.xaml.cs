@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using MinecraftLauncher.Helpers;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -53,6 +54,14 @@ namespace MinecraftLauncher.Pages
             {
                 NavigationView.Header = " ";
                 NavigationView.PaneTitle = "麦块启动器";
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (XamlRoot != null)
+            {
+                UIHelper.ChangeTheme(XamlRoot.Content);
             }
         }
     }

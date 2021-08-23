@@ -17,7 +17,7 @@ namespace MinecraftLauncher.Helpers
 
         public static void Set(string key, object value) => LocalSettings.Values[key] = value;
         public static double WindowsVersion = double.Parse($"{(ushort)((version & 0x00000000FFFF0000L) >> 16)}.{(ushort)(version & 0x000000000000FFFFL)}");
-        public static ElementTheme Theme => GetBoolen("IsBackgroundColorFollowSystem") ? ElementTheme.Default : (GetBoolen("IsDarkMode") ? ElementTheme.Dark : ElementTheme.Light);
+        public static ElementTheme Theme => GetBoolen("IsBackgroundColorFollowSystem") ? ElementTheme.Default : (GetBoolen("IsDarkTheme") ? ElementTheme.Dark : ElementTheme.Light);
 
         static SettingsHelper()
         {
