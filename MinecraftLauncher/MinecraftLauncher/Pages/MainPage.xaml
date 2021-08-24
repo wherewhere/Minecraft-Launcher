@@ -20,6 +20,25 @@
                 Icon="Home"
                 Content="主页"/>
         </NavigationView.MenuItems>
+        <NavigationView.FooterMenuItems>
+            <NavigationViewItem Tag="UserHub">
+                <StackPanel
+                    Height="40"
+                    Orientation="Horizontal">
+                    <PersonPicture
+                        Width="20"
+                        Height="20"
+                        x:Name="UserIcon"
+                        Margin="-6,0,0,0"
+                        HorizontalAlignment="Left"
+                        DisplayName="{x:Bind UserNames, Mode=OneWay}"/>
+                    <TextBlock
+                        Margin="10"
+                        x:Name="UserName"
+                        Text="{x:Bind UserNames, Mode=OneWay}"/>
+                </StackPanel>
+            </NavigationViewItem>
+        </NavigationView.FooterMenuItems>
         <Grid
             CornerRadius="8,0,0,0">
             <Frame x:Name="NavigationViewFrame"/>

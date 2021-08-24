@@ -1,5 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
+using ModuleLauncher.Re.Authenticators;
 using ModuleLauncher.Re.Models.Authenticators;
+using ModuleLauncher.Re.Utils.Extensions;
 using System;
 using System.Management;
 using Windows.Storage;
@@ -10,6 +12,7 @@ namespace MinecraftLauncher.Helpers
     internal class SettingsHelper
     {
         public static double Capacity, Available;
+        public static AuthenticateResult Authentication;
         public static ulong version = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
         private static readonly ApplicationDataContainer LocalSettings = ApplicationData.Current.LocalSettings;
 
@@ -23,20 +26,45 @@ namespace MinecraftLauncher.Helpers
 
         static SettingsHelper()
         {
-            if (!LocalSettings.Values.ContainsKey("Username"))
-            { LocalSettings.Values.Add("Username", null); }
-            if (!LocalSettings.Values.ContainsKey("Password"))
-            { LocalSettings.Values.Add("Password", null); }
             if (!LocalSettings.Values.ContainsKey("Java8Root"))
             { LocalSettings.Values.Add("Java8Root", "C:/Program Files (x86)/Minecraft Launcher/runtime/jre-x64/bin/javaw.exe"); }
             if (!LocalSettings.Values.ContainsKey("Java16Root"))
             { LocalSettings.Values.Add("Java16Root", "C:/Program Files (x86)/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"); }
             if (!LocalSettings.Values.ContainsKey("IsDarkTheme"))
             { LocalSettings.Values.Add("IsDarkTheme", true); }
+            if (!LocalSettings.Values.ContainsKey("AccessToken"))
+            { LocalSettings.Values.Add("AccessToken", null); }
+            if (!LocalSettings.Values.ContainsKey("ClientToken"))
+            { LocalSettings.Values.Add("ClientToken", null); }
             if (!LocalSettings.Values.ContainsKey("MinecraftRoot"))
             { LocalSettings.Values.Add("MinecraftRoot", $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).Replace("\\","/")}/.minecraft"); }
             if (!LocalSettings.Values.ContainsKey("IsBackgroundColorFollowSystem"))
             { LocalSettings.Values.Add("IsBackgroundColorFollowSystem", true); }
+        }
+
+        [Obsolete]
+        public static async void CheckLogin()
+        {
+            if (!string.IsNullOrEmpty(GetString("AccessToken")) && !string.IsNullOrEmpty(GetString("ClientToken")))
+            {
+                MojangAuthenticator Mojang = new();
+                AuthenticateResult Authentication = await Mojang.Refresh(GetString("AccessToken"), GetString("ClientToken"));
+                if (await Authentication.Validate())
+                {
+                    if (UIHelper.MainPage != null)
+                    {
+                        UIHelper.MainPage.UserNames = Authentication.Name;
+                    }
+                }
+            }
+            else
+            {
+                if (UIHelper.MainPage != null)
+                {
+                    UIHelper.MainPage.UserNames = "登录";
+                }
+            }
+
         }
 
         public static void GetCapacity()

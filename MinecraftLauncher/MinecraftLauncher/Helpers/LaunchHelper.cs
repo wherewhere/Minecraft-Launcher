@@ -20,7 +20,7 @@ namespace MinecraftLauncher.Helpers
             Launcher launcher = new(SettingsHelper.GetString("MinecraftRoot"))
             {
                 Java = IsOld ? SettingsHelper.GetString("Java8Root") : SettingsHelper.GetString("Java16Root"),
-                Authentication = await Login(),
+                Authentication = SettingsHelper.Authentication,
                 LauncherName = "UWP", //optianal
                 MaximumMemorySize = (int)(SettingsHelper.Available * 0.9 / 1048576), //optional
                 MinimumMemorySize = null, //optional
@@ -35,14 +35,6 @@ namespace MinecraftLauncher.Helpers
         {
             MinecraftLocator Locator = new MinecraftLocator(new LocalityLocator(SettingsHelper.GetString("MinecraftRoot")));
             Minecrafts = await Locator.GetLocalMinecrafts();
-        }
-
-        [System.Obsolete]
-        public static async Task<AuthenticateResult> Login()
-        {
-            MojangAuthenticator Mojang = new(SettingsHelper.GetString("Username"), SettingsHelper.GetString("Password"));
-            AuthenticateResult Result = await Mojang.Authenticate();
-            return Result;
         }
     }
 }

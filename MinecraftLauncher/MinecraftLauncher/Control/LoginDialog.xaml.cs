@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using MinecraftLauncher.Helpers;
+using MinecraftLauncher.Pages;
 using ModuleLauncher.Re.Authenticators;
 using ModuleLauncher.Re.Models.Authenticators;
 using ModuleLauncher.Re.Utils.Extensions;
@@ -18,9 +19,13 @@ namespace MinecraftLauncher.Control
             InitializeComponent();
         }
 
+        [Obsolete]
         private void TextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-
+            if (e.Key == Windows.System.VirtualKey.Enter && !string.IsNullOrEmpty(Username.Text) && !string.IsNullOrEmpty(Password.Password))
+            {
+                ContentDialog_PrimaryButtonClick(sender as ContentDialog, null);
+            }
         }
 
         [Obsolete]
@@ -30,8 +35,12 @@ namespace MinecraftLauncher.Control
             AuthenticateResult Result = await Mojang.Authenticate();
             if (await Result.Validate())
             {
-                SettingsHelper.Set("Username", Username.Text);
-                SettingsHelper.Set("Password", Password.Password);
+                SettingsHelper.Set("AccessToken", Result.AccessToken);
+                SettingsHelper.Set("ClientToken", Result.ClientToken);
+                if (UIHelper.MainPage != null)
+                {
+                    UIHelper.MainPage.UserNames = Result.Name;
+                }
             }
         }
     }

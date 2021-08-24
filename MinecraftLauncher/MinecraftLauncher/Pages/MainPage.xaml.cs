@@ -6,6 +6,7 @@ using MinecraftLauncher.Helpers;
 using MinecraftLauncher.Pages.SettingPages;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -16,17 +17,49 @@ namespace MinecraftLauncher.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string useravatar;
+        public string UserAvatar
+        {
+            get => useravatar;
+            set
+            {
+                useravatar = value;
+                RaisePropertyChangedEvent();
+            }
+        }
+
+        private string usernames;
+        public string UserNames
+        {
+            get => usernames;
+            set
+            {
+                if (value == null) { value = "登录"; }
+                usernames = value;
+                RaisePropertyChangedEvent();
+            }
+        }
+
+        internal void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        {
+            if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
+        }
+
         private readonly List<(string Tag, Type Page)> _pages = new()
         {
             ("Home", typeof(HomePage)),
         };
 
+        [Obsolete]
         public MainPage()
         {
             InitializeComponent();
             UIHelper.CheckTheme();
+            SettingsHelper.CheckLogin();
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -55,7 +88,7 @@ namespace MinecraftLauncher.Pages
             // Only navigate if the selected page isn't currently loaded.
             if (!(_page is null) && !Equals(PreNavPageType, _page))
             {
-                NavigationViewFrame.Navigate(_page, null, TransitionInfo);
+                _ = NavigationViewFrame.Navigate(_page, null, TransitionInfo);
             }
         }
 
@@ -68,7 +101,7 @@ namespace MinecraftLauncher.Pages
         {
             if (args.IsSettingsSelected)
             {
-                _ = NavigationViewFrame.Navigate(typeof(SettingPage), args.RecommendedNavigationTransitionInfo);
+                _ = NavigationViewFrame.Navigate(typeof(SettingPage), null, args.RecommendedNavigationTransitionInfo);
             }
             else if (args.SelectedItemContainer != null)
             {

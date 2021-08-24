@@ -31,6 +31,7 @@ namespace MinecraftLauncher.Pages
             GetMemory.Text = $"{SettingsHelper.Available.GetSizeString()}/{SettingsHelper.Capacity.GetSizeString()}";
         }
 
+        [Obsolete]
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             FrameworkElement element = sender as FrameworkElement;

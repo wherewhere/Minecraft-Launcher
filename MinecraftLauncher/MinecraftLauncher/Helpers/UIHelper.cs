@@ -1,6 +1,8 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
+using MinecraftLauncher.Pages;
 using System;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -13,12 +15,41 @@ namespace MinecraftLauncher.Helpers
     internal static class UIHelper
     {
         public static float DpiX, DpiY;
+        public static MainPage MainPage = null;
+
+        public enum NavigationThemeTransition
+        {
+            Default,
+            Entrance,
+            DrillIn,
+            Suppress
+        }
 
         static UIHelper()
         {
             Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
             DpiX = graphics.DpiX / 96;
             DpiY = graphics.DpiY / 96;
+        }
+
+        public static void Navigate(Type pageType, object e = null, NavigationThemeTransition Type = NavigationThemeTransition.Default)
+        {
+            switch (Type)
+            {
+                case NavigationThemeTransition.DrillIn:
+                    _ = (MainPage?.Frame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()));
+                    break;
+                case NavigationThemeTransition.Entrance:
+                    _ = (MainPage?.Frame.Navigate(pageType, e, new EntranceNavigationTransitionInfo()));
+                    break;
+                case NavigationThemeTransition.Suppress:
+                    _ = (MainPage?.Frame.Navigate(pageType, e, new SuppressNavigationTransitionInfo()));
+                    break;
+                case NavigationThemeTransition.Default:
+                default:
+                    _ = (MainPage?.Frame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()));
+                    break;
+            }
         }
 
         public static async void CheckTheme()
