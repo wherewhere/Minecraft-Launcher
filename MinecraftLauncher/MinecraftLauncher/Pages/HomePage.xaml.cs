@@ -1,14 +1,8 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using MinecraftLauncher.Control;
 using MinecraftLauncher.Helpers;
 using ModuleLauncher.Re.Launcher;
-using ModuleLauncher.Re.Locators;
-using ModuleLauncher.Re.Locators.Concretes;
-using ModuleLauncher.Re.Models.Locators.Minecraft;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,

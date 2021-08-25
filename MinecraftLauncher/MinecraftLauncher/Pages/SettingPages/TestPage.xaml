@@ -42,6 +42,20 @@
                     Orientation="Horizontal">
                     <Button
                         Margin="0,0,2,0"
+                        x:Name="ShowError"
+                        Click="Button_Click"
+                        Content="生成同步错误"/>
+                    <Button
+                        Margin="2,0"
+                        Click="Button_Click"
+                        Content="生成异步错误"
+                        x:Name="ShowAsyncError"/>
+                </StackPanel>
+                <StackPanel
+                    Margin="0,2"
+                    Orientation="Horizontal">
+                    <Button
+                        Margin="0,0,2,0"
                         Content="打开进度条"
                         Click="Button_Click"
                         x:Name="ShowProgressBar"/>

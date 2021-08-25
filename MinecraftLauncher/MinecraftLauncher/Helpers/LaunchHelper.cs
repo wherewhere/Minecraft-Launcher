@@ -16,9 +16,9 @@ namespace MinecraftLauncher.Helpers
         {
             SettingsHelper.CheckLogin();
             SettingsHelper.GetCapacity();
-            Launcher launcher = new(SettingsHelper.GetString("MinecraftRoot"))
+            Launcher launcher = new(SettingsHelper.Get<string>(SettingsHelper.MinecraftRoot))
             {
-                Java = IsOld ? SettingsHelper.GetString("Java8Root") : SettingsHelper.GetString("Java16Root"),
+                Java = IsOld ? SettingsHelper.Get<string>(SettingsHelper.Java8Root) : SettingsHelper.Get<string>(SettingsHelper.Java16Root),
                 Authentication = SettingsHelper.Authentication,
                 LauncherName = "UWP", //optianal
                 MaximumMemorySize = (int)(SettingsHelper.Available * 0.9 / 1048576), //optional
@@ -32,7 +32,7 @@ namespace MinecraftLauncher.Helpers
 
         public static async Task GetMinecrafts()
         {
-            MinecraftLocator Locator = new(new LocalityLocator(SettingsHelper.GetString("MinecraftRoot")));
+            MinecraftLocator Locator = new(new LocalityLocator(SettingsHelper.Get<string>(SettingsHelper.MinecraftRoot)));
             Minecrafts = await Locator.GetLocalMinecrafts();
         }
     }

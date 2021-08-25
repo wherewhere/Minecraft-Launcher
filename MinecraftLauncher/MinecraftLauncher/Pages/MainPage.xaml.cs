@@ -137,7 +137,11 @@ namespace MinecraftLauncher.Pages
             {
                 // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
                 NavigationView.SelectedItem = (NavigationViewItem)NavigationView.SettingsItem;
-                NavigationView.Header = "设置";
+                HeaderTitle.Text = "设置";
+            }
+            else if (NavigationViewFrame.SourcePageType == typeof(TestPage))
+            {
+                HeaderTitle.Text = "测试";
             }
             else if (NavigationViewFrame.SourcePageType != null)
             {
@@ -160,14 +164,9 @@ namespace MinecraftLauncher.Pages
                     catch { }
                 }
 
-                if (NavigationViewFrame.SourcePageType == typeof(MyPage))
-                {
-                    NavigationView.Header = UserNames;
-                }
-                else
-                {
-                    NavigationView.Header = ((NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString();
-                }
+                HeaderTitle.Text = NavigationViewFrame.SourcePageType == typeof(MyPage)
+                    ? UserNames
+                    : (((NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString());
             }
         }
 
@@ -236,7 +235,7 @@ namespace MinecraftLauncher.Pages
             {
                 MessageColor.Red => new SolidColorBrush(Color.FromArgb(255, 245, 88, 98)),
                 MessageColor.Blue => new SolidColorBrush(Color.FromArgb(255, 119, 220, 255)),
-                MessageColor.Green => new SolidColorBrush(Colors.LightGreen),
+                MessageColor.Green => new SolidColorBrush(Color.FromArgb(255, 155, 230, 155)),
                 MessageColor.Yellow => new SolidColorBrush(Color.FromArgb(255, 254, 228, 160)),
                 _ => new SolidColorBrush(Colors.Yellow),
             };
@@ -253,5 +252,10 @@ namespace MinecraftLauncher.Pages
             ExitStoryboard.Begin();
         }
         #endregion
+
+        private void NavigationView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            HeaderTitle.FontSize = (sender as NavigationView).PaneDisplayMode == NavigationViewPaneDisplayMode.LeftMinimal ? UserName.FontSize : 24;
+        }
     }
 }

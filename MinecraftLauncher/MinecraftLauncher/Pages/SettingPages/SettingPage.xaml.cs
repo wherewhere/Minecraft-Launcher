@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using MinecraftLauncher.Helpers;
 using System;
 using System.Runtime.InteropServices;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT;
@@ -25,6 +26,16 @@ namespace MinecraftLauncher.Pages.SettingPages
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto, PreserveSig = true, SetLastError = false)]
         public static extern IntPtr GetActiveWindow();
 
+        internal static string VersionTextBlockText
+        {
+            get
+            {
+                string ver = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}";
+                string name = "Minecraft Launcher";
+                return $"{name} v{ver}";
+            }
+        }
+
         public SettingPage()
         {
             InitializeComponent();
@@ -33,14 +44,14 @@ namespace MinecraftLauncher.Pages.SettingPages
 
         private void SetValue()
         {
-            Java8Root.Text = SettingsHelper.GetString("Java8Root");
-            MCRoot.Text = SettingsHelper.GetString("MinecraftRoot");
-            Java16Root.Text = SettingsHelper.GetString("Java16Root");
-            if (SettingsHelper.GetBoolen("IsBackgroundColorFollowSystem"))
+            Java8Root.Text = SettingsHelper.Get<string>(SettingsHelper.Java8Root);
+            MCRoot.Text = SettingsHelper.Get<string>(SettingsHelper.MinecraftRoot);
+            Java16Root.Text = SettingsHelper.Get<string>(SettingsHelper.Java16Root);
+            if (SettingsHelper.Get<bool>(SettingsHelper.IsBackgroundColorFollowSystem))
             {
                 Default.IsChecked = true;
             }
-            else if (SettingsHelper.GetBoolen("IsDarkTheme"))
+            else if (SettingsHelper.Get<bool>(SettingsHelper.IsDarkTheme))
             {
                 Dark.IsChecked = true;
             }
@@ -53,26 +64,26 @@ namespace MinecraftLauncher.Pages.SettingPages
         private void Button_Checked(object sender, RoutedEventArgs _)
         {
             FrameworkElement element = sender as FrameworkElement;
-            switch(element.Name)
+            switch (element.Name)
             {
                 case "Dark":
-                    SettingsHelper.Set("IsBackgroundColorFollowSystem", false);
-                    SettingsHelper.Set("IsDarkTheme", true);
+                    SettingsHelper.Set(SettingsHelper.IsBackgroundColorFollowSystem, false);
+                    SettingsHelper.Set(SettingsHelper.IsDarkTheme, true);
                     if (XamlRoot != null)
                     {
                         UIHelper.ChangeTheme(XamlRoot.Content);
                     }
                     break;
                 case "Light":
-                    SettingsHelper.Set("IsBackgroundColorFollowSystem", false);
-                    SettingsHelper.Set("IsDarkTheme", false);
+                    SettingsHelper.Set(SettingsHelper.IsBackgroundColorFollowSystem, false);
+                    SettingsHelper.Set(SettingsHelper.IsDarkTheme, false);
                     if (XamlRoot != null)
                     {
                         UIHelper.ChangeTheme(XamlRoot.Content);
                     }
                     break;
                 case "Default":
-                    SettingsHelper.Set("IsBackgroundColorFollowSystem", true);
+                    SettingsHelper.Set(SettingsHelper.IsBackgroundColorFollowSystem, true);
                     if (XamlRoot != null)
                     {
                         UIHelper.ChangeTheme(XamlRoot.Content);
@@ -83,22 +94,25 @@ namespace MinecraftLauncher.Pages.SettingPages
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             FrameworkElement element = sender as FrameworkElement;
-            switch(element.Name)
+            switch (element.Name)
             {
                 case "TestPage":
                     _ = Frame.Navigate(typeof(TestPage));
                     break;
                 case "SaveMCRoot":
-                    SettingsHelper.Set("MinecraftRoot", MCRoot.Text);
+                    SettingsHelper.Set(SettingsHelper.MinecraftRoot, MCRoot.Text);
                     break;
                 case "SaveJava8Root":
-                    SettingsHelper.Set("Java8Root", Java8Root.Text);
+                    SettingsHelper.Set(SettingsHelper.Java8Root, Java8Root.Text);
                     break;
                 case "SaveJava16Root":
-                    SettingsHelper.Set("Java16Root", Java16Root.Text);
+                    SettingsHelper.Set(SettingsHelper.Java16Root, Java16Root.Text);
+                    break;
+                case "LogFolder":
+                    await Windows.System.Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists));
                     break;
                 default:
                     break;
@@ -128,7 +142,7 @@ namespace MinecraftLauncher.Pages.SettingPages
                 switch (element.Name)
                 {
                     case "ChooseMCRoot":
-                        MCRoot.Text = file.Path.Replace("\\","/");
+                        MCRoot.Text = file.Path.Replace("\\", "/");
                         break;
                     case "ChooseJava8Root":
                         Java8Root.Text = file.Path.Replace("\\", "/");
@@ -150,13 +164,13 @@ namespace MinecraftLauncher.Pages.SettingPages
                 switch (element.Name)
                 {
                     case "MCRoot":
-                        SettingsHelper.Set("MinecraftRoot", MCRoot.Text);
+                        SettingsHelper.Set(SettingsHelper.MinecraftRoot, MCRoot.Text);
                         break;
                     case "Java8Root":
-                        SettingsHelper.Set("Java8Root", Java8Root.Text);
+                        SettingsHelper.Set(SettingsHelper.Java8Root, Java8Root.Text);
                         break;
                     case "Java16Root":
-                        SettingsHelper.Set("Java16Root", Java8Root.Text);
+                        SettingsHelper.Set(SettingsHelper.Java16Root, Java8Root.Text);
                         break;
                     default:
                         break;

@@ -83,7 +83,7 @@ namespace MinecraftLauncher.Helpers
             MainPage.HideProgressBar();
         }
 
-        public static async void ShowMessage(string message, string info = "", MainPage.MessageColor color = MainPage.MessageColor.Blue)
+        public static async void ShowMessage(string message, string info = "", MainPage.MessageColor color = MainPage.MessageColor.Blue)
         {
             MessageList.Add((message, info, color));
             if (!IsShowingMessage)
@@ -93,12 +93,15 @@ namespace MinecraftLauncher.Helpers
                 {
                     if (!string.IsNullOrEmpty(MessageList[0].message))
                     {
-                        string messages = $"[{MessageList.Count}]{MessageList[0].message}";
+                        string messages = $"{MessageList[0].message.Replace("\n", " ")}";
                         MainPage.ShowMessage(messages, MessageList[0].info, MessageList[0].color);
                         await Task.Delay(3000);
                     }
                     MessageList.RemoveAt(0);
-                    if (MessageList.Count == 0) { MainPage.RectanglePointerExited(); }
+                    if (MessageList.Count == 0)
+                    {
+                        MainPage.RectanglePointerExited();
+                    }
                 }
                 IsShowingMessage = false;
             }

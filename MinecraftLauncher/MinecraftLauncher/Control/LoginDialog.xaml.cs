@@ -1,9 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using MinecraftLauncher.Helpers;
-using MinecraftLauncher.Pages;
 using ModuleLauncher.Re.Authenticators;
-using ModuleLauncher.Re.Models.Authenticators;
 using ModuleLauncher.Re.Utils.Extensions;
 using System;
 
