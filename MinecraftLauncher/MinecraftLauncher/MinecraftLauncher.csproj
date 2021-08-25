@@ -13,7 +13,9 @@
     <None Remove="Control\LoginDialog.xaml" />
     <None Remove="Pages\HomePage.xaml" />
     <None Remove="Pages\MainPage.xaml" />
+    <None Remove="Pages\MyPage.xaml" />
     <None Remove="Pages\SettingPages\SettingPage.xaml" />
+    <None Remove="Pages\SettingPages\TestPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,5 +57,17 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\SettingPages\TestPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\MyPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

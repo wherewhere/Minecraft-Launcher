@@ -32,14 +32,14 @@ namespace MinecraftLauncher.Control
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             MojangAuthenticator Mojang = new(Username.Text, Password.Password);
-            AuthenticateResult Result = await Mojang.Authenticate();
-            if (await Result.Validate())
+            SettingsHelper.Authentication = await Mojang.Authenticate();
+            if (await SettingsHelper.Authentication.Validate())
             {
-                SettingsHelper.Set("AccessToken", Result.AccessToken);
-                SettingsHelper.Set("ClientToken", Result.ClientToken);
+                SettingsHelper.Set("AccessToken", SettingsHelper.Authentication.AccessToken);
+                SettingsHelper.Set("ClientToken", SettingsHelper.Authentication.ClientToken);
                 if (UIHelper.MainPage != null)
                 {
-                    UIHelper.MainPage.UserNames = Result.Name;
+                    UIHelper.MainPage.UserNames = SettingsHelper.Authentication.Name;
                 }
             }
         }

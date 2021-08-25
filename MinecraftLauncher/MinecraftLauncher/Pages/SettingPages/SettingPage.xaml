@@ -93,6 +93,15 @@
                         x:Name="SaveMCRoot"
                         Click="Button_Click"/>
                 </StackPanel>
+                <TextBlock
+                    Text="其他"
+                    Margin="0,8"
+                    FontSize="18"/>
+                <Button
+                    Margin="2,0"
+                    x:Name="TestPage"
+                    Click="Button_Click"
+                    Content="前往测试页面"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

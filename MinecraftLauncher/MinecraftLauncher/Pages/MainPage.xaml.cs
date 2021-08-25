@@ -1,5 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using MinecraftLauncher.Helpers;
@@ -8,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -38,7 +41,6 @@ namespace MinecraftLauncher.Pages
             get => usernames;
             set
             {
-                if (value == null) { value = "登录"; }
                 usernames = value;
                 RaisePropertyChangedEvent();
             }
@@ -52,12 +54,15 @@ namespace MinecraftLauncher.Pages
         private readonly List<(string Tag, Type Page)> _pages = new()
         {
             ("Home", typeof(HomePage)),
+            ("UserHub", typeof(MyPage)),
         };
 
         [Obsolete]
         public MainPage()
         {
             InitializeComponent();
+            UIHelper.MainPage = this;
+            RectanglePointerExited();
             UIHelper.CheckTheme();
             SettingsHelper.CheckLogin();
         }
@@ -78,7 +83,7 @@ namespace MinecraftLauncher.Pages
             }
             else
             {
-                (string Tag, Type Page) item = _pages.FirstOrDefault(p => p.Tag.Equals(NavItemTag));
+                (string Tag, Type Page) item = _pages.FirstOrDefault(p => p.Tag.Equals(NavItemTag, StringComparison.Ordinal));
                 _page = item.Page;
             }
             // Get the page type before navigation so you can prevent duplicate
@@ -94,7 +99,7 @@ namespace MinecraftLauncher.Pages
 
         private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
-            TryGoBack();
+            _ = TryGoBack();
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -113,13 +118,13 @@ namespace MinecraftLauncher.Pages
         private bool TryGoBack()
         {
             if (!NavigationViewFrame.CanGoBack)
-                return false;
+            { return false; }
 
             // Don't go back if the nav pane is overlayed.
             if (NavigationView.IsPaneOpen &&
                 (NavigationView.DisplayMode == NavigationViewDisplayMode.Compact ||
                  NavigationView.DisplayMode == NavigationViewDisplayMode.Minimal))
-                return false;
+            { return false; }
 
             NavigationViewFrame.GoBack();
             return true;
@@ -136,14 +141,33 @@ namespace MinecraftLauncher.Pages
             }
             else if (NavigationViewFrame.SourcePageType != null)
             {
-                var item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
+                (string Tag, Type Page) item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
 
-                NavigationView.SelectedItem = NavigationView.MenuItems
-                    .OfType<NavigationViewItem>()
-                    .First(n => n.Tag.Equals(item.Tag));
+                try
+                {
+                    NavigationView.SelectedItem = NavigationView.MenuItems
+                        .OfType<NavigationViewItem>()
+                        .First(n => n.Tag.Equals(item.Tag));
+                }
+                catch
+                {
+                    try
+                    {
+                        NavigationView.SelectedItem = NavigationView.FooterMenuItems
+                            .OfType<NavigationViewItem>()
+                            .First(n => n.Tag.Equals(item.Tag));
+                    }
+                    catch { }
+                }
 
-                NavigationView.Header =
-                    ((NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString();
+                if (NavigationViewFrame.SourcePageType == typeof(MyPage))
+                {
+                    NavigationView.Header = UserNames;
+                }
+                else
+                {
+                    NavigationView.Header = ((NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString();
+                }
             }
         }
 
@@ -154,5 +178,80 @@ namespace MinecraftLauncher.Pages
                 UIHelper.ChangeTheme(XamlRoot.Content);
             }
         }
+
+        #region 状态栏
+        public enum MessageColor
+        {
+            Red,
+            Blue,
+            Green,
+            Yellow,
+        }
+
+        public void ShowProgressRing()
+        {
+            ProgressRing.Visibility = Visibility.Visible;
+            ProgressRing.IsActive = true;
+        }
+
+        public void HideProgressRing()
+        {
+            ProgressRing.IsActive = false;
+            ProgressRing.Visibility = Visibility.Collapsed;
+        }
+
+        public void ShowProgressBar()
+        {
+            ProgressBar.IsIndeterminate = true;
+            ProgressBar.ShowError = false;
+            ProgressBar.ShowPaused = false;
+        }
+
+        public void PausedProgressBar()
+        {
+            ProgressBar.IsIndeterminate = true;
+            ProgressBar.ShowError = false;
+            ProgressBar.ShowPaused = true;
+        }
+
+        public void ErrorProgressBar()
+        {
+            ProgressBar.IsIndeterminate = true;
+            ProgressBar.ShowPaused = false;
+            ProgressBar.ShowError = true;
+        }
+
+        public void HideProgressBar()
+        {
+            ProgressBar.IsIndeterminate = false;
+            ProgressBar.ShowError = false;
+            ProgressBar.ShowPaused = false;
+        }
+
+        public void ShowMessage(string message, string info, MessageColor color)
+        {
+            Message.Text = message;
+            MessageInfo.Glyph = info;
+            MessageInfo.Foreground = color switch
+            {
+                MessageColor.Red => new SolidColorBrush(Color.FromArgb(255, 245, 88, 98)),
+                MessageColor.Blue => new SolidColorBrush(Color.FromArgb(255, 119, 220, 255)),
+                MessageColor.Green => new SolidColorBrush(Colors.LightGreen),
+                MessageColor.Yellow => new SolidColorBrush(Color.FromArgb(255, 254, 228, 160)),
+                _ => new SolidColorBrush(Colors.Yellow),
+            };
+            RectanglePointerEntered();
+        }
+
+        public void RectanglePointerEntered()
+        {
+            EnterStoryboard.Begin();
+        }
+
+        public void RectanglePointerExited()
+        {
+            ExitStoryboard.Begin();
+        }
+        #endregion
     }
 }

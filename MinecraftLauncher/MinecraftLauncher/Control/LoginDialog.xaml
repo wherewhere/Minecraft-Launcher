@@ -22,7 +22,7 @@
             <StackPanel>
                 <TextBox
                     Margin="0,2"
-                    Header="用户名"
+                    Header="邮箱"
                     x:Name="Username"
                     KeyDown="TextBox_KeyDown"/>
                 <PasswordBox

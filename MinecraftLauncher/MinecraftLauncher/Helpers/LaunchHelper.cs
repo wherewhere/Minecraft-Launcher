@@ -1,8 +1,6 @@
-﻿using ModuleLauncher.Re.Authenticators;
-using ModuleLauncher.Re.Launcher;
+﻿using ModuleLauncher.Re.Launcher;
 using ModuleLauncher.Re.Locators;
 using ModuleLauncher.Re.Locators.Concretes;
-using ModuleLauncher.Re.Models.Authenticators;
 using ModuleLauncher.Re.Models.Locators.Minecraft;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,8 +12,9 @@ namespace MinecraftLauncher.Helpers
         public static IEnumerable<Minecraft> Minecrafts;
 
         [System.Obsolete]
-        public static async Task<Launcher> Launch(bool IsOld = false,bool Fullscreen = false)
+        public static Launcher Launch(bool IsOld = false, bool Fullscreen = false)
         {
+            SettingsHelper.CheckLogin();
             SettingsHelper.GetCapacity();
             Launcher launcher = new(SettingsHelper.GetString("MinecraftRoot"))
             {
@@ -33,7 +32,7 @@ namespace MinecraftLauncher.Helpers
 
         public static async Task GetMinecrafts()
         {
-            MinecraftLocator Locator = new MinecraftLocator(new LocalityLocator(SettingsHelper.GetString("MinecraftRoot")));
+            MinecraftLocator Locator = new(new LocalityLocator(SettingsHelper.GetString("MinecraftRoot")));
             Minecrafts = await Locator.GetLocalMinecrafts();
         }
     }

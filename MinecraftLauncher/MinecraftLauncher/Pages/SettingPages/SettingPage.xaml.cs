@@ -88,6 +88,9 @@ namespace MinecraftLauncher.Pages.SettingPages
             FrameworkElement element = sender as FrameworkElement;
             switch(element.Name)
             {
+                case "TestPage":
+                    _ = Frame.Navigate(typeof(TestPage));
+                    break;
                 case "SaveMCRoot":
                     SettingsHelper.Set("MinecraftRoot", MCRoot.Text);
                     break;

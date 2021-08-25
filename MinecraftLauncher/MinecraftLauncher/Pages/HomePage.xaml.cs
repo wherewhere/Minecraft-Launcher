@@ -40,11 +40,6 @@ namespace MinecraftLauncher.Pages
                 case "Start":
                     StartLaunch();
                     break;
-                case "Login":
-                    LoginDialog dialog = new() { RequestedTheme = SettingsHelper.Theme };
-                    dialog.XamlRoot = XamlRoot;
-                    _ = dialog.ShowAsync();
-                    break;
                 default:
                     break;
             }
@@ -53,7 +48,7 @@ namespace MinecraftLauncher.Pages
         [Obsolete]
         private async void StartLaunch()
         {
-            Launcher launcher = await LaunchHelper.Launch(false);
+            Launcher launcher = LaunchHelper.Launch(false);
             IsInfo.Visibility = Visibility.Visible;
             System.Diagnostics.Process Process = await launcher.Launch("1.16.5");
             while (!string.IsNullOrEmpty(await Process.StandardOutput.ReadLineAsync()))

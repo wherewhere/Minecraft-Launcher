@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using MinecraftLauncher.Pages;
 using System;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -15,7 +16,9 @@ namespace MinecraftLauncher.Helpers
     internal static class UIHelper
     {
         public static float DpiX, DpiY;
-        public static MainPage MainPage = null;
+        public static MainPage MainPage;
+        public static bool IsShowingProgressRing, IsShowingProgressBar, IsShowingMessage;
+        private static readonly ObservableCollection<(string message, string info, MainPage.MessageColor color)> MessageList = new();
 
         public enum NavigationThemeTransition
         {
@@ -34,21 +37,70 @@ namespace MinecraftLauncher.Helpers
 
         public static void Navigate(Type pageType, object e = null, NavigationThemeTransition Type = NavigationThemeTransition.Default)
         {
-            switch (Type)
+            _ = Type switch
             {
-                case NavigationThemeTransition.DrillIn:
-                    _ = (MainPage?.Frame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()));
-                    break;
-                case NavigationThemeTransition.Entrance:
-                    _ = (MainPage?.Frame.Navigate(pageType, e, new EntranceNavigationTransitionInfo()));
-                    break;
-                case NavigationThemeTransition.Suppress:
-                    _ = (MainPage?.Frame.Navigate(pageType, e, new SuppressNavigationTransitionInfo()));
-                    break;
-                case NavigationThemeTransition.Default:
-                default:
-                    _ = (MainPage?.Frame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()));
-                    break;
+                NavigationThemeTransition.DrillIn => MainPage?.Frame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()),
+                NavigationThemeTransition.Entrance => MainPage?.Frame.Navigate(pageType, e, new EntranceNavigationTransitionInfo()),
+                NavigationThemeTransition.Suppress => MainPage?.Frame.Navigate(pageType, e, new SuppressNavigationTransitionInfo()),
+                NavigationThemeTransition.Default => MainPage?.Frame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()),
+                _ => MainPage?.Frame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()),
+            };
+        }
+
+        public static void ShowProgressRing()
+        {
+            IsShowingProgressRing = true;
+            MainPage.ShowProgressRing();
+        }
+
+        public static void HideProgressRing()
+        {
+            IsShowingProgressRing = false;
+            MainPage.HideProgressRing();
+        }
+
+        public static void ShowProgressBar()
+        {
+            IsShowingProgressBar = true;
+            MainPage.ShowProgressBar();
+        }
+
+        public static void PausedProgressBar()
+        {
+            IsShowingProgressBar = true;
+            MainPage.PausedProgressBar();
+        }
+
+        public static void ErrorProgressBar()
+        {
+            IsShowingProgressBar = true;
+            MainPage.ErrorProgressBar();
+        }
+
+        public static void HideProgressBar()
+        {
+            IsShowingProgressBar = false;
+            MainPage.HideProgressBar();
+        }
+
+        public static async void ShowMessage(string message, string info = "", MainPage.MessageColor color = MainPage.MessageColor.Blue)
+        {
+            MessageList.Add((message, info, color));
+            if (!IsShowingMessage)
+            {
+                IsShowingMessage = true;
+                while (MessageList.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(MessageList[0].message))
+                    {
+                        string messages = $"[{MessageList.Count}]{MessageList[0].message}";
+                        MainPage.ShowMessage(messages, MessageList[0].info, MessageList[0].color);
+                        await Task.Delay(3000);
+                    }
+                    MessageList.RemoveAt(0);
+                    if (MessageList.Count == 0) { MainPage.RectanglePointerExited(); }
+                }
+                IsShowingMessage = false;
             }
         }
 
