@@ -14,7 +14,7 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
         <ScrollViewer>
-            <StackPanel Margin="16,8,16,0">
+            <StackPanel Margin="16,6,16,14">
                 <TextBlock
                     Margin="0,8"
                     FontSize="18"

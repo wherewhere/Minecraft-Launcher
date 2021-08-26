@@ -179,6 +179,11 @@ namespace MinecraftLauncher.Pages
             }
         }
 
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            CustomTitleBar.Width = XamlRoot.Size.Width - 166;
+        }
+
         #region 状态栏
         public enum MessageColor
         {
@@ -202,6 +207,7 @@ namespace MinecraftLauncher.Pages
 
         public void ShowProgressBar()
         {
+            ProgressBar.Visibility = Visibility.Visible;
             ProgressBar.IsIndeterminate = true;
             ProgressBar.ShowError = false;
             ProgressBar.ShowPaused = false;
@@ -209,6 +215,7 @@ namespace MinecraftLauncher.Pages
 
         public void PausedProgressBar()
         {
+            ProgressBar.Visibility = Visibility.Visible;
             ProgressBar.IsIndeterminate = true;
             ProgressBar.ShowError = false;
             ProgressBar.ShowPaused = true;
@@ -216,6 +223,7 @@ namespace MinecraftLauncher.Pages
 
         public void ErrorProgressBar()
         {
+            ProgressBar.Visibility = Visibility.Visible;
             ProgressBar.IsIndeterminate = true;
             ProgressBar.ShowPaused = false;
             ProgressBar.ShowError = true;
@@ -223,6 +231,7 @@ namespace MinecraftLauncher.Pages
 
         public void HideProgressBar()
         {
+            ProgressBar.Visibility = Visibility.Collapsed;
             ProgressBar.IsIndeterminate = false;
             ProgressBar.ShowError = false;
             ProgressBar.ShowPaused = false;

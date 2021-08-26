@@ -15,7 +15,7 @@ namespace MinecraftLauncher.Pages
     {
         public MyPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

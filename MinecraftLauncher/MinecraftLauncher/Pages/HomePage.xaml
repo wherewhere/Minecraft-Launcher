@@ -19,8 +19,8 @@
                 <EntranceThemeTransition/>
             </TransitionCollection>
         </Grid.ChildrenTransitions>
-        <ScrollViewer>
-            <StackPanel Margin="16,16,16,0">
+        <ScrollViewer Margin="16,16,16,16">
+            <StackPanel>
                 <TextBlock
                     Margin="0,0,0,2"
                     x:Name="GetDPI"/>

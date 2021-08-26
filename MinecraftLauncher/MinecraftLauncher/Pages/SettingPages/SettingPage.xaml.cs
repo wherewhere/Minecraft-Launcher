@@ -24,6 +24,7 @@ namespace MinecraftLauncher.Pages.SettingPages
     public sealed partial class SettingPage : Page
     {
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto, PreserveSig = true, SetLastError = false)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1401:P/Invokes 应该是不可见的", Justification = "<挂起>")]
         public static extern IntPtr GetActiveWindow();
 
         internal static string VersionTextBlockText
@@ -112,7 +113,7 @@ namespace MinecraftLauncher.Pages.SettingPages
                     SettingsHelper.Set(SettingsHelper.Java16Root, Java16Root.Text);
                     break;
                 case "LogFolder":
-                    await Windows.System.Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists));
+                    _ = await Windows.System.Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists));
                     break;
                 default:
                     break;

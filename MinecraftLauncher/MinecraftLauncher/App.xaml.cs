@@ -31,17 +31,19 @@ namespace MinecraftLauncher
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
+        private MainWindow m_window;
+
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             RegisterExceptionHandlingSynchronizationContext();
 
-            m_window = new Window
-            {
-                ExtendsContentIntoTitleBar = true
-            };
-
             Frame rootFrame = new();
-            m_window.Content = rootFrame;
+            m_window = new MainWindow
+            {
+                ExtendsContentIntoTitleBar = true,
+                Content = rootFrame
+            };
+            //m_window.SetTitleBar(m_window.CustomTitleBar);
             _ = rootFrame.Navigate(typeof(MainPage));
 
             m_window.Activate();
@@ -92,7 +94,5 @@ namespace MinecraftLauncher
             }
             SettingsHelper.LogManager.GetLogger("UnhandledException").Error($"\n{e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)})\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
         }
-
-        private Window m_window;
     }
 }

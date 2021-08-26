@@ -27,7 +27,7 @@ namespace MinecraftLauncher.Pages
     {
         public ListPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -49,10 +49,8 @@ namespace MinecraftLauncher.Pages
 
         private async void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
-            using (Deferral RefreshCompletionDeferral = args.GetDeferral())
-            {
-                await Refresh(-2);
-            }
+            using Deferral RefreshCompletionDeferral = args.GetDeferral();
+            await Refresh(-2);
         }
     }
 }

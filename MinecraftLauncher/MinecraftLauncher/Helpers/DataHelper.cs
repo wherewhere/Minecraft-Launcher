@@ -22,26 +22,15 @@ namespace MinecraftLauncher.Helpers
         public static string ConvertUnixTimeStampToReadable(double time, DateTime baseTime)
         {
             (Utils.TimeIntervalType type, object obj) = Utils.ConvertUnixTimeStampToReadable(time, baseTime);
-            switch (type)
+            return type switch
             {
-                case Utils.TimeIntervalType.MonthsAgo:
-                    return ((DateTime)obj).ToLongDateString();
-
-                case Utils.TimeIntervalType.DaysAgo:
-                    return $"{((TimeSpan)obj).Days}天前";
-
-                case Utils.TimeIntervalType.HoursAgo:
-                    return $"{((TimeSpan)obj).Hours}小时前";
-
-                case Utils.TimeIntervalType.MinutesAgo:
-                    return $"{((TimeSpan)obj).Minutes}分钟前";
-
-                case Utils.TimeIntervalType.JustNow:
-                    return "刚刚";
-
-                default:
-                    return string.Empty;
-            }
+                Utils.TimeIntervalType.MonthsAgo => ((DateTime)obj).ToLongDateString(),
+                Utils.TimeIntervalType.DaysAgo => $"{((TimeSpan)obj).Days}天前",
+                Utils.TimeIntervalType.HoursAgo => $"{((TimeSpan)obj).Hours}小时前",
+                Utils.TimeIntervalType.MinutesAgo => $"{((TimeSpan)obj).Minutes}分钟前",
+                Utils.TimeIntervalType.JustNow => "刚刚",
+                _ => string.Empty,
+            };
         }
     }
 }

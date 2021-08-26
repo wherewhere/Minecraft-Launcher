@@ -5,116 +5,125 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Loaded="Page_Loaded">
-    <Grid
-        Margin="0,28,0,0"
-        Background="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}">
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition/>
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
-        <Grid.Resources>
-            <Storyboard x:Name="EnterStoryboard">
-                <FadeInThemeAnimation Storyboard.TargetName="MessageBar"/>
-            </Storyboard>
-            <Storyboard x:Name="ExitStoryboard">
-                <FadeOutThemeAnimation Storyboard.TargetName="MessageBar"/>
-            </Storyboard>
-        </Grid.Resources>
-        <NavigationView
-            PaneTitle="启动器"
-            x:Name="NavigationView"
-            Loaded="NavigationView_Loaded"
-            SizeChanged="NavigationView_SizeChanged"
-            BackRequested="NavigationView_BackRequested"
-            SelectionChanged="NavigationView_SelectionChanged"
-            Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
-            <NavigationView.Header>
-                <Grid
-                    Margin="0,5,0,0"
-                    x:Name="HeaderGrid">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        Grid.Column="0"
-                        x:Name="HeaderTitle"
-                        HorizontalAlignment="Left"
-                        TextTrimming="CharacterEllipsis"/>
+    Loaded="Page_Loaded"
+    SizeChanged="Page_SizeChanged">
+    <Grid>
+        <Border
+            x:Name="CustomTitleBar"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Height="{StaticResource PageTitleHeight}"
+            Background="{ThemeResource SystemChromeMediumColor}"/>
+        <Grid
+            Margin="{StaticResource PageFrameMargin}"
+            Background="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}">
+            <Grid.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition/>
+                </TransitionCollection>
+            </Grid.ChildrenTransitions>
+            <Grid.Resources>
+                <Storyboard x:Name="EnterStoryboard">
+                    <FadeInThemeAnimation Storyboard.TargetName="MessageBar"/>
+                </Storyboard>
+                <Storyboard x:Name="ExitStoryboard">
+                    <FadeOutThemeAnimation Storyboard.TargetName="MessageBar"/>
+                </Storyboard>
+            </Grid.Resources>
+            <NavigationView
+                PaneTitle="启动器"
+                x:Name="NavigationView"
+                Loaded="NavigationView_Loaded"
+                SizeChanged="NavigationView_SizeChanged"
+                BackRequested="NavigationView_BackRequested"
+                SelectionChanged="NavigationView_SelectionChanged"
+                Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+                <NavigationView.Header>
                     <Grid
-                        Margin="10,0"
-                        Grid.Column="1"
-                        x:Name="MessageGrid"
-                        HorizontalAlignment="Right">
+                        Margin="0,5,0,0"
+                        x:Name="HeaderGrid">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Grid
-                            Grid.Column="0"
-                            x:Name="MessageBar">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <FontIcon
-                                Grid.Column="0"
-                                x:Name="MessageInfo"
-                                FontFamily="Segoe MDL2 Assets"
-                                FontSize="{x:Bind Path=UserName.FontSize, Mode=OneWay}"/>
-                            <TextBlock
-                                MaxLines="1"
-                                Grid.Column="1"
-                                x:Name="Message"
-                                Margin="2,0,0,0"
-                                TextTrimming="CharacterEllipsis"
-                                FontSize="{x:Bind Path=UserName.FontSize, Mode=OneWay}"/>
-                        </Grid>
-                        <ProgressRing
-                            Width="20"
-                            Height="20"
-                            Grid.Column="1"
-                            x:Name="ProgressRing"
-                            Visibility="Collapsed"
-                            Background="Transparent"/>
-                    </Grid>
-                </Grid>
-            </NavigationView.Header>
-            <NavigationView.MenuItems>
-                <NavigationViewItem
-                    Tag="Home"
-                    Icon="Home"
-                    Content="主页"/>
-                <NavigationViewItem
-                    Tag="List"
-                    Content="列表"
-                    Icon="Library"/>
-            </NavigationView.MenuItems>
-            <NavigationView.FooterMenuItems>
-                <NavigationViewItem Tag="UserHub">
-                    <StackPanel
-                        Height="40"
-                        Orientation="Horizontal">
-                        <PersonPicture
-                            Width="20"
-                            Height="20"
-                            x:Name="UserIcon"
-                            Margin="-6,0,0,0"
-                            HorizontalAlignment="Left"
-                            DisplayName="{x:Bind UserNames, Mode=OneWay}"/>
                         <TextBlock
-                            Margin="10"
-                            x:Name="UserName"
-                            Text="{x:Bind UserNames, Mode=OneWay}"/>
-                    </StackPanel>
-                </NavigationViewItem>
-            </NavigationView.FooterMenuItems>
-            <Grid CornerRadius="8,0,0,0">
-                <Frame x:Name="NavigationViewFrame"/>
-            </Grid>
-        </NavigationView>
+                            Grid.Column="0"
+                            x:Name="HeaderTitle"
+                            HorizontalAlignment="Left"
+                            TextTrimming="CharacterEllipsis"/>
+                        <Grid
+                            Margin="10,0"
+                            Grid.Column="1"
+                            x:Name="MessageGrid"
+                            HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid
+                                Grid.Column="0"
+                                x:Name="MessageBar">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    Grid.Column="0"
+                                    x:Name="MessageInfo"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="{x:Bind Path=UserName.FontSize, Mode=OneWay}"/>
+                                <TextBlock
+                                    MaxLines="1"
+                                    Grid.Column="1"
+                                    x:Name="Message"
+                                    Margin="2,0,0,0"
+                                    TextTrimming="CharacterEllipsis"
+                                    FontSize="{x:Bind Path=UserName.FontSize, Mode=OneWay}"/>
+                            </Grid>
+                            <ProgressRing
+                                Width="20"
+                                Height="20"
+                                Grid.Column="1"
+                                x:Name="ProgressRing"
+                                Visibility="Collapsed"
+                                Background="Transparent"/>
+                        </Grid>
+                    </Grid>
+                </NavigationView.Header>
+                <NavigationView.MenuItems>
+                    <NavigationViewItem
+                        Tag="Home"
+                        Icon="Home"
+                        Content="主页"/>
+                    <NavigationViewItem
+                        Tag="List"
+                        Content="列表"
+                        Icon="Library"/>
+                </NavigationView.MenuItems>
+                <NavigationView.FooterMenuItems>
+                    <NavigationViewItem Tag="UserHub">
+                        <StackPanel
+                            Height="40"
+                            Margin="-6,0,0,0"
+                            Orientation="Horizontal">
+                            <PersonPicture
+                                Width="20"
+                                Height="20"
+                                x:Name="UserIcon"
+                                HorizontalAlignment="Left"
+                                DisplayName="{x:Bind UserNames, Mode=OneWay}"/>
+                            <TextBlock
+                                Margin="10"
+                                x:Name="UserName"
+                                Text="{x:Bind UserNames, Mode=OneWay}"/>
+                        </StackPanel>
+                    </NavigationViewItem>
+                </NavigationView.FooterMenuItems>
+                <Grid CornerRadius="8,0,0,0">
+                    <Frame x:Name="NavigationViewFrame"/>
+                </Grid>
+            </NavigationView>
+        </Grid>
         <ProgressBar
             x:Name="ProgressBar"
             IsIndeterminate="False"

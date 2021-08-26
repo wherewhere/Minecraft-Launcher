@@ -10,9 +10,12 @@
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
             <SolidColorBrush x:Key="GrayText" Color="{ThemeResource SystemColorGrayTextColor}"/>
-            <x:Double x:Key="PageTitleHeight">72</x:Double>
-            <Thickness x:Key="StackPanelMargin">0,72,0,0</Thickness>
+            <x:Double x:Key="PageTitleHeight">28</x:Double>
+            <Thickness x:Key="PageFrameMargin">0,28,0,0</Thickness>
             <VerticalAlignment x:Key="TitleContentVerticalAlignment">Bottom</VerticalAlignment>
+
+            <SolidColorBrush x:Key="WindowCaptionBackground" Color="{ThemeResource SystemChromeMediumColor}"/>
+            <SolidColorBrush x:Key="WindowCaptionBackgroundDisabled" Color="{ThemeResource SystemChromeMediumColor}"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

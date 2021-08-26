@@ -7,12 +7,10 @@ namespace MinecraftLauncher.Core.Helpers
     {
         public static string GetMD5(string input)
         {
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
-            {
-                byte[] r1 = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
-                string r2 = BitConverter.ToString(r1).ToLowerInvariant();
-                return r2.Replace("-", "");
-            }
+            using System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] r1 = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
+            string r2 = BitConverter.ToString(r1).ToLowerInvariant();
+            return r2.Replace("-", "");
         }
 
         public static string GetBase64(string input)
