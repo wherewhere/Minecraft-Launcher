@@ -27,9 +27,6 @@
                 <TextBlock
                     Margin="0,2"
                     x:Name="GetMemory"/>
-                <TextBlock
-                    Margin="0,2"
-                    x:Name="GetVersion"/>
                 <Button
                     Margin="0,2"
                     Content="启动"

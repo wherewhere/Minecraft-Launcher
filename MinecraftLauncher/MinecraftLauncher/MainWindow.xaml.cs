@@ -1,26 +1,33 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using MinecraftLauncher.Helpers;
+using MinecraftLauncher.Pages;
 using MinecraftLauncher.Pages.SettingPages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace MinecraftLauncher.Pages
+namespace MinecraftLauncher
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// An empty window that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page, INotifyPropertyChanged
+    public sealed partial class MainWindow : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -58,14 +65,9 @@ namespace MinecraftLauncher.Pages
             ("UserHub", typeof(MyPage)),
         };
 
-        [Obsolete]
-        public MainPage()
+        public MainWindow()
         {
-            InitializeComponent();
-            UIHelper.MainPage = this;
-            RectanglePointerExited();
-            UIHelper.CheckTheme();
-            SettingsHelper.CheckLogin();
+            this.InitializeComponent();
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -173,10 +175,7 @@ namespace MinecraftLauncher.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (XamlRoot != null)
-            {
-                UIHelper.ChangeTheme(XamlRoot.Content);
-            }
+            
         }
 
         #region 状态栏

@@ -35,7 +35,10 @@ namespace MinecraftLauncher
         {
             RegisterExceptionHandlingSynchronizationContext();
 
-            m_window = new Window();
+            m_window = new Window
+            {
+                ExtendsContentIntoTitleBar = true
+            };
 
             Frame rootFrame = new();
             m_window.Content = rootFrame;

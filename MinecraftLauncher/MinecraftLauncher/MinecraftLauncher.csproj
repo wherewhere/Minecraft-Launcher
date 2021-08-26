@@ -11,7 +11,9 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Control\LoginDialog.xaml" />
+    <None Remove="MainWindow.xaml" />
     <None Remove="Pages\HomePage.xaml" />
+    <None Remove="Pages\ListPage.xaml" />
     <None Remove="Pages\MainPage.xaml" />
     <None Remove="Pages\MyPage.xaml" />
     <None Remove="Pages\SettingPages\SettingPage.xaml" />
@@ -27,7 +29,6 @@
     <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.0.0-experimental1" />
     <PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.0.0-experimental1" />
     <PackageReference Include="ModuleLauncher.Re" Version="3.1.0" />
-    <PackageReference Include="OneMinecraftLauncher.Core" Version="1.1.6" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0-preview.7.21377.19" />
     <PackageReference Include="System.Management" Version="6.0.0-preview.7.21377.19" />
     <Manifest Include="$(ApplicationManifest)" />
@@ -62,18 +63,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Strings\zh\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    <Page Update="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Strings\zh\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Page Update="Pages\ListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
