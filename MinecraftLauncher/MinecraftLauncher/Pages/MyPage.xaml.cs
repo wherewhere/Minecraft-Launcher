@@ -24,8 +24,11 @@ namespace MinecraftLauncher.Pages
             switch (element.Name)
             {
                 case "Login":
-                    LoginDialog dialog = new() { RequestedTheme = SettingsHelper.Theme };
-                    dialog.XamlRoot = XamlRoot;
+                    LoginDialog dialog = new()
+                    {
+                        RequestedTheme = SettingsHelper.Theme,
+                        XamlRoot = XamlRoot
+                    };
                     _ = dialog.ShowAsync();
                     break;
                 default:

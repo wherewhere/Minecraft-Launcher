@@ -58,7 +58,7 @@ namespace MinecraftLauncher
 #if DEBUG
                     + $"\n{e.Exception.StackTrace}"
 #endif
-                , "", MainPage.MessageColor.Yellow);
+                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
             }
             SettingsHelper.LogManager.GetLogger("UnhandledException").Error($"\n{e.Exception.Message}\n{e.Exception.HResult}\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}",e.Exception);
         }
@@ -67,7 +67,7 @@ namespace MinecraftLauncher
         {
             if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
             {
-                UIHelper.ShowMessage(e.ExceptionObject.ToString(), "", MainPage.MessageColor.Red);
+                UIHelper.ShowMessage(e.ExceptionObject.ToString(), UIHelper.Error, MainPage.MessageColor.Red);
             }
             SettingsHelper.LogManager.GetLogger("UnhandledException").Error(e.ExceptionObject.ToString());
         }
@@ -90,7 +90,7 @@ namespace MinecraftLauncher
 #if DEBUG
                     + $"\n{e.Exception.StackTrace}"
 #endif
-                , "", MainPage.MessageColor.Yellow);
+                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
             }
             SettingsHelper.LogManager.GetLogger("UnhandledException").Error($"\n{e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)})\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
         }

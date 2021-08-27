@@ -4,9 +4,58 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:MinecraftLauncher.Models"
     xmlns:local="using:MinecraftLauncher.Pages.SettingPages"
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlBackgroundListLowBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="JavaList" x:DataType="models:JavaVersion">
+                <ListViewItem
+                    Tag="{x:Bind}">
+                    <Grid Padding="4,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <FontIcon/>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Text="版本:"
+                                    TextTrimming="CharacterEllipsis"/>
+                                <TextBlock
+                                    Margin="4,0"
+                                    TextTrimming="CharacterEllipsis"
+                                    Text="{x:Bind Version.ProductVersion}"/>
+                                <TextBlock
+                                    Text="(x86)"
+                                    x:Name="ISWOW6432"
+                                    x:Load="{x:Bind ISWOW6432}"
+                                    TextTrimming="CharacterEllipsis"/>
+                                <TextBlock
+                                    Margin="4,0"
+                                    TextTrimming="CharacterEllipsis"
+                                    Text="{x:Bind Version.CompanyName}"
+                                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Text="目录:"
+                                    TextTrimming="CharacterEllipsis"
+                                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                                <TextBlock
+                                    Margin="4,0"
+                                    TextTrimming="CharacterEllipsis"
+                                    Text="{x:Bind RootPath}"
+                                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </ListViewItem>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid>
         <Grid.ChildrenTransitions>
             <TransitionCollection>
@@ -37,11 +86,13 @@
                     Text="配置"
                     Margin="0,8"
                     FontSize="18"/>
-                <TextBox
+                <AutoSuggestBox
                     Margin="0,2"
                     x:Name="Java8Root"
                     Header="修改 Java8 路径"
-                    KeyDown="TextBox_KeyDown"/>
+                    KeyDown="TextBox_KeyDown"
+                    ItemTemplate="{StaticResource JavaList}"
+                    SuggestionChosen="AutoSuggestBox_SuggestionChosen"/>
                 <StackPanel
                     Margin="0,2"
                     Orientation="Horizontal">
@@ -56,11 +107,13 @@
                         Click="Button_Click"
                         x:Name="SaveJava8Root"/>
                 </StackPanel>
-                <TextBox
+                <AutoSuggestBox
                     Margin="0,2"
                     x:Name="Java16Root"
                     Header="修改 Java16 路径"
-                    KeyDown="TextBox_KeyDown"/>
+                    KeyDown="TextBox_KeyDown"
+                    ItemTemplate="{StaticResource JavaList}"
+                    SuggestionChosen="AutoSuggestBox_SuggestionChosen"/>
                 <StackPanel
                     Margin="0,2"
                     Orientation="Horizontal">

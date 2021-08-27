@@ -15,6 +15,11 @@ namespace MinecraftLauncher.Helpers
 {
     internal static class UIHelper
     {
+        public const string Error = "";
+        public const string Seccess = "";
+        public const string Message = "";
+        public const string Warnning = "";
+
         public static float DpiX, DpiY;
         public static MainPage MainPage;
         public static bool IsShowingProgressRing, IsShowingProgressBar, IsShowingMessage;
@@ -83,7 +88,7 @@ namespace MinecraftLauncher.Helpers
             MainPage.HideProgressBar();
         }
 
-        public static async void ShowMessage(string message, string info = "", MainPage.MessageColor color = MainPage.MessageColor.Blue)
+        public static async void ShowMessage(string message, string info = Message, MainPage.MessageColor color = MainPage.MessageColor.Blue)
         {
             MessageList.Add((message, info, color));
             if (!IsShowingMessage)

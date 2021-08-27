@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using MinecraftLauncher.Core.Helpers;
 using MinecraftLauncher.Helpers;
 using ModuleLauncher.Re.Launcher;
 using System;

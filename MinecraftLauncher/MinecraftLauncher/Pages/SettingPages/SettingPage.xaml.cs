@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MinecraftLauncher.Helpers;
+using MinecraftLauncher.Models;
 using System;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
@@ -40,11 +41,13 @@ namespace MinecraftLauncher.Pages.SettingPages
         public SettingPage()
         {
             InitializeComponent();
+            LaunchHelper.GetJavas();
             SetValue();
         }
 
         private void SetValue()
         {
+            Java8Root.ItemsSource = Java16Root.ItemsSource = LaunchHelper.Javas;
             Java8Root.Text = SettingsHelper.Get<string>(SettingsHelper.Java8Root);
             MCRoot.Text = SettingsHelper.Get<string>(SettingsHelper.MinecraftRoot);
             Java16Root.Text = SettingsHelper.Get<string>(SettingsHelper.Java16Root);
@@ -59,6 +62,22 @@ namespace MinecraftLauncher.Pages.SettingPages
             else
             {
                 Light.IsChecked = true;
+            }
+        }
+
+        private static void SaveValue(string title, string value, bool isbackground = false)
+        {
+            SettingsHelper.Set(title, value);
+            if (SettingsHelper.Get<string>(title) == value)
+            {
+                if (!isbackground)
+                {
+                    UIHelper.ShowMessage("保存成功", UIHelper.Seccess, MainPage.MessageColor.Green);
+                }
+            }
+            else
+            {
+                UIHelper.ShowMessage("保存失败", UIHelper.Error, MainPage.MessageColor.Red);
             }
         }
 
@@ -104,13 +123,13 @@ namespace MinecraftLauncher.Pages.SettingPages
                     _ = Frame.Navigate(typeof(TestPage));
                     break;
                 case "SaveMCRoot":
-                    SettingsHelper.Set(SettingsHelper.MinecraftRoot, MCRoot.Text);
+                    SaveValue(SettingsHelper.MinecraftRoot, MCRoot.Text);
                     break;
                 case "SaveJava8Root":
-                    SettingsHelper.Set(SettingsHelper.Java8Root, Java8Root.Text);
+                    SaveValue(SettingsHelper.Java8Root, Java8Root.Text);
                     break;
                 case "SaveJava16Root":
-                    SettingsHelper.Set(SettingsHelper.Java16Root, Java16Root.Text);
+                    SaveValue(SettingsHelper.Java16Root, Java16Root.Text);
                     break;
                 case "LogFolder":
                     _ = await Windows.System.Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists));
@@ -122,37 +141,69 @@ namespace MinecraftLauncher.Pages.SettingPages
 
         private async void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            // Open a text file.
-            FileOpenPicker open = new();
-            open.SuggestedStartLocation = PickerLocationId.ComputerFolder;
-            open.FileTypeFilter.Add(".exe");
+            FrameworkElement element = sender as FrameworkElement;
+
+            FileOpenPicker FileOpen = new();
+            FolderPicker Folder = new();
+            if (element.Name == "ChooseMCRoot")
+            {
+                Folder.FileTypeFilter.Add("*");
+                Folder.SuggestedStartLocation = PickerLocationId.ComputerFolder;
+            }
+            else if (element.Name == "ChooseJava8Root" || element.Name == "ChooseJava16Root")
+            {
+                FileOpen.FileTypeFilter.Add(".exe");
+                FileOpen.SuggestedStartLocation = PickerLocationId.ComputerFolder;
+            }
 
             // When running on win32, FileOpenPicker needs to know the top-level hwnd via IInitializeWithWindow::Initialize.
             if (Window.Current == null)
             {
-                IInitializeWithWindow initializeWithWindowWrapper = open.As<IInitializeWithWindow>();
+                IInitializeWithWindow initializeWithWindowWrapper = null;
+                if (element.Name == "ChooseMCRoot")
+                {
+                    initializeWithWindowWrapper = Folder.As<IInitializeWithWindow>();
+                }
+                else if (element.Name == "ChooseJava8Root" || element.Name == "ChooseJava16Root")
+                {
+                    initializeWithWindowWrapper = FileOpen.As<IInitializeWithWindow>();
+                }
                 IntPtr hwnd = GetActiveWindow();
                 initializeWithWindowWrapper.Initialize(hwnd);
             }
 
-            StorageFile file = await open.PickSingleFileAsync();
-
-            if (file != null)
+            if (element.Name == "ChooseMCRoot")
             {
-                FrameworkElement element = sender as FrameworkElement;
-                switch (element.Name)
+                StorageFolder folder = await Folder.PickSingleFolderAsync();
+                if (folder != null)
                 {
-                    case "ChooseMCRoot":
-                        MCRoot.Text = file.Path.Replace("\\", "/");
-                        break;
-                    case "ChooseJava8Root":
-                        Java8Root.Text = file.Path.Replace("\\", "/");
-                        break;
-                    case "ChooseJava16Root":
-                        Java16Root.Text = file.Path.Replace("\\", "/");
-                        break;
-                    default:
-                        break;
+                    switch (element.Name)
+                    {
+                        case "ChooseMCRoot":
+                            MCRoot.Text = folder.Path;
+                            SaveValue(SettingsHelper.MinecraftRoot, MCRoot.Text, true);
+                            break;
+                    }
+                }
+            }
+            else if (element.Name == "ChooseJava8Root" || element.Name == "ChooseJava16Root")
+            {
+                StorageFile file = await FileOpen.PickSingleFileAsync();
+                if (file != null)
+                {
+                    switch (element.Name)
+                    {
+                        case "ChooseJava8Root":
+                            Java8Root.Text = file.Path;
+                            SaveValue(SettingsHelper.Java8Root, Java8Root.Text, true);
+                            break;
+                        case "ChooseJava16Root":
+                            Java16Root.Text = file.Path;
+                            SaveValue(SettingsHelper.Java16Root, Java16Root.Text, true);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
@@ -165,17 +216,84 @@ namespace MinecraftLauncher.Pages.SettingPages
                 switch (element.Name)
                 {
                     case "MCRoot":
-                        SettingsHelper.Set(SettingsHelper.MinecraftRoot, MCRoot.Text);
+                        SaveValue(SettingsHelper.MinecraftRoot, MCRoot.Text);
                         break;
                     case "Java8Root":
-                        SettingsHelper.Set(SettingsHelper.Java8Root, Java8Root.Text);
+                        SaveValue(SettingsHelper.Java8Root, Java8Root.Text);
                         break;
                     case "Java16Root":
-                        SettingsHelper.Set(SettingsHelper.Java16Root, Java8Root.Text);
+                        SaveValue(SettingsHelper.Java16Root, Java16Root.Text);
                         break;
                     default:
                         break;
                 }
+            }
+        }
+
+        private async void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            sender.Text = (args.SelectedItem as JavaVersion).JavaPath;
+            FrameworkElement element = sender;
+            switch (element.Name)
+            {
+                case "Java8Root":
+                    if ((args.SelectedItem as JavaVersion).Version.ProductMajorPart > 9 || (args.SelectedItem as JavaVersion).Version.ProductMajorPart < 8)
+                    {
+                        ContentDialog dialog = new()
+                        {
+                            Title = "确认",
+                            Content = $"{(args.SelectedItem as JavaVersion).Version.ProductVersion}并不是 JAVA 8，是否仍然使用？",
+                            PrimaryButtonText = "继续",
+                            CloseButtonText = "算了",
+                            DefaultButton = ContentDialogButton.Primary,
+                            RequestedTheme = SettingsHelper.Theme,
+                            XamlRoot = XamlRoot
+                        };
+                        ContentDialogResult result = await dialog.ShowAsync();
+                        if (result == ContentDialogResult.Primary)
+                        {
+                            SaveValue(SettingsHelper.Java8Root, Java8Root.Text);
+                        }
+                        else
+                        {
+                            sender.Text = SettingsHelper.Get<string>(SettingsHelper.Java8Root);
+                        }
+                    }
+                    else
+                    {
+                        SaveValue(SettingsHelper.Java8Root, Java8Root.Text, true);
+                    }
+                    break;
+                case "Java16Root":
+                    if ((args.SelectedItem as JavaVersion).Version.ProductMajorPart < 16)
+                    {
+                        ContentDialog dialog = new()
+                        {
+                            Title = "确认",
+                            Content = $"{(args.SelectedItem as JavaVersion).Version.ProductVersion}并不是 JAVA 16，是否仍然使用？",
+                            PrimaryButtonText = "继续",
+                            CloseButtonText = "算了",
+                            DefaultButton = ContentDialogButton.Primary,
+                            RequestedTheme = SettingsHelper.Theme,
+                            XamlRoot = XamlRoot
+                        };
+                        ContentDialogResult result = await dialog.ShowAsync();
+                        if (result == ContentDialogResult.Primary)
+                        {
+                            SaveValue(SettingsHelper.Java16Root, Java16Root.Text);
+                        }
+                        else
+                        {
+                            sender.Text = SettingsHelper.Get<string>(SettingsHelper.Java16Root);
+                        }
+                    }
+                    else
+                    {
+                        SaveValue(SettingsHelper.Java16Root, Java16Root.Text, true);
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }

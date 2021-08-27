@@ -1,4 +1,6 @@
-﻿using ModuleLauncher.Re.Launcher;
+﻿using MinecraftLauncher.Core.Helpers;
+using MinecraftLauncher.Models;
+using ModuleLauncher.Re.Launcher;
 using ModuleLauncher.Re.Locators;
 using ModuleLauncher.Re.Locators.Concretes;
 using ModuleLauncher.Re.Models.Locators.Minecraft;
@@ -9,6 +11,7 @@ namespace MinecraftLauncher.Helpers
 {
     internal class LaunchHelper
     {
+        public static List<JavaVersion> Javas;
         public static IEnumerable<Minecraft> Minecrafts;
 
         [System.Obsolete]
@@ -34,6 +37,11 @@ namespace MinecraftLauncher.Helpers
         {
             MinecraftLocator Locator = new(new LocalityLocator(SettingsHelper.Get<string>(SettingsHelper.MinecraftRoot)));
             Minecrafts = await Locator.GetLocalMinecrafts();
+        }
+
+        public static void GetJavas()
+        {
+            Javas = Utils.GetJavaInstallationPath();
         }
     }
 }

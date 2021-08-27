@@ -26,9 +26,9 @@ namespace MinecraftLauncher.Helpers
         public static void SetDefaultSettings()
         {
             if (!LocalSettings.Values.ContainsKey(Java8Root))
-            { LocalSettings.Values.Add(Java8Root, "C:/Program Files (x86)/Minecraft Launcher/runtime/jre-x64/bin/javaw.exe"); }
+            { LocalSettings.Values.Add(Java8Root, @"C:\Program Files (x86)\Minecraft Launcher\runtime\jre-x64\bin\javaw.exe"); }
             if (!LocalSettings.Values.ContainsKey(Java16Root))
-            { LocalSettings.Values.Add(Java16Root, "C:/Program Files (x86)/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"); }
+            { LocalSettings.Values.Add(Java16Root, @"C:\Program Files (x86)\Minecraft Launcher\runtime\java-runtime-alpha\windows-x64\java-runtime-alpha\bin\javaw.exe"); }
             if (!LocalSettings.Values.ContainsKey(IsDarkTheme))
             { LocalSettings.Values.Add(IsDarkTheme, true); }
             if (!LocalSettings.Values.ContainsKey(AccessToken))
@@ -36,7 +36,7 @@ namespace MinecraftLauncher.Helpers
             if (!LocalSettings.Values.ContainsKey(ClientToken))
             { LocalSettings.Values.Add(ClientToken, null); }
             if (!LocalSettings.Values.ContainsKey(MinecraftRoot))
-            { LocalSettings.Values.Add(MinecraftRoot, $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).Replace("\\", "/")}/.minecraft"); }
+            { LocalSettings.Values.Add(MinecraftRoot, @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\.minecraft"); }
             if (!LocalSettings.Values.ContainsKey(ShowOtherException))
             { LocalSettings.Values.Add(ShowOtherException, true); }
             if (!LocalSettings.Values.ContainsKey(IsBackgroundColorFollowSystem))
