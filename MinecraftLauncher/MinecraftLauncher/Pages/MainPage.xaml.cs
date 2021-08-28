@@ -63,6 +63,8 @@ namespace MinecraftLauncher.Pages
         {
             InitializeComponent();
             UIHelper.MainPage = this;
+            UIHelper.MainWindow.ExtendsContentIntoTitleBar = true;
+            UIHelper.MainWindow.SetTitleBar(CustomTitleBar);
             RectanglePointerExited();
             //UIHelper.CheckTheme();
             SettingsHelper.CheckLogin();
@@ -181,7 +183,7 @@ namespace MinecraftLauncher.Pages
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            CustomTitleBar.Width = XamlRoot.Size.Width - 165.5;
+            CustomTitleBar.Width = XamlRoot.Size.Width - 120;
         }
 
         #region 状态栏

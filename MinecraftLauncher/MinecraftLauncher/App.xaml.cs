@@ -33,19 +33,14 @@ namespace MinecraftLauncher
         /// <param name="args">Details about the launch request and process.</param>
         private MainWindow m_window;
 
+        [Obsolete]
+#pragma warning disable CS0809 // 过时成员重写未过时成员
         protected override void OnLaunched(LaunchActivatedEventArgs args)
+#pragma warning restore CS0809 // 过时成员重写未过时成员
         {
             RegisterExceptionHandlingSynchronizationContext();
-
-            Frame rootFrame = new();
-            m_window = new MainWindow
-            {
-                ExtendsContentIntoTitleBar = true,
-                Content = rootFrame
-            };
-            //m_window.SetTitleBar(m_window.CustomTitleBar);
-            _ = rootFrame.Navigate(typeof(MainPage));
-
+            m_window = new();
+            m_window.Title = "Universal-like Minecraft Launcher";
             m_window.Activate();
         }
         

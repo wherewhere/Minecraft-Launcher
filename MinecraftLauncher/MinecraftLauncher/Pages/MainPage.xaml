@@ -13,7 +13,14 @@
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
             Height="{StaticResource PageTitleHeight}"
-            Background="{ThemeResource SystemChromeMediumColor}"/>
+            Background="{ThemeResource SystemChromeMediumColor}">
+            <TextBlock
+                x:Name="AppTitle"
+                Margin="12,6,0,0"
+                TextTrimming="CharacterEllipsis"
+                Text="Universal-like Minecraft Launcher"
+                Style="{StaticResource CaptionTextBlockStyle}"/>
+        </Border>
         <Grid
             Margin="{StaticResource PageFrameMargin}"
             Background="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}">

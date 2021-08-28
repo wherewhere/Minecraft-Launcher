@@ -22,6 +22,7 @@ namespace MinecraftLauncher.Helpers
 
         public static float DpiX, DpiY;
         public static MainPage MainPage;
+        public static MainWindow MainWindow;
         public static bool IsShowingProgressRing, IsShowingProgressBar, IsShowingMessage;
         private static readonly ObservableCollection<(string message, string info, MainPage.MessageColor color)> MessageList = new();
 
@@ -150,7 +151,7 @@ namespace MinecraftLauncher.Helpers
         {
             if (sender != null)
             {
-                (sender as Frame).RequestedTheme = SettingsHelper.Theme;
+                (sender as Page).RequestedTheme = SettingsHelper.Theme;
             }
         }
 
