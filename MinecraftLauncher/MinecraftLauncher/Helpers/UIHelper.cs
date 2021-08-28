@@ -53,42 +53,66 @@ namespace MinecraftLauncher.Helpers
             };
         }
 
+        /// <summary>
+        /// 显示进度环
+        /// </summary>
         public static void ShowProgressRing()
         {
             IsShowingProgressRing = true;
             MainPage.ShowProgressRing();
         }
 
+        /// <summary>
+        /// 隐藏进度环
+        /// </summary>
         public static void HideProgressRing()
         {
             IsShowingProgressRing = false;
             MainPage.HideProgressRing();
         }
 
+        /// <summary>
+        /// 显示进度条-正常
+        /// </summary>
         public static void ShowProgressBar()
         {
             IsShowingProgressBar = true;
             MainPage.ShowProgressBar();
         }
 
+        /// <summary>
+        /// 显示进度条-暂停
+        /// </summary>
         public static void PausedProgressBar()
         {
             IsShowingProgressBar = true;
             MainPage.PausedProgressBar();
         }
 
+        /// <summary>
+        /// 显示进度条-错误
+        /// </summary>
         public static void ErrorProgressBar()
         {
             IsShowingProgressBar = true;
             MainPage.ErrorProgressBar();
         }
 
+        /// <summary>
+        /// 隐藏进度条
+        /// </summary>
         public static void HideProgressBar()
         {
             IsShowingProgressBar = false;
             MainPage.HideProgressBar();
         }
 
+        /// <summary>
+        /// 展示应用内通知
+        /// </summary>
+        /// <param name="message">要展示的消息</param>
+        /// <param name="info">消息前的图标</param>
+        /// <param name="color">消息前图标的颜色</param>
         public static async void ShowMessage(string message, string info = Message, MainPage.MessageColor color = MainPage.MessageColor.Blue)
         {
             MessageList.Add((message, info, color));
@@ -113,6 +137,9 @@ namespace MinecraftLauncher.Helpers
             }
         }
 
+        /// <summary>
+        /// 设置主题(不可用)
+        /// </summary>
         public static async void CheckTheme()
         {
             while (Window.Current?.Content is null)
@@ -147,6 +174,10 @@ namespace MinecraftLauncher.Helpers
             }
         }
 
+        /// <summary>
+        /// 设置主题
+        /// </summary>
+        /// <param name="sender">XamlRoot.Content</param>
         public static void ChangeTheme(object sender)
         {
             if (sender != null)
@@ -155,11 +186,21 @@ namespace MinecraftLauncher.Helpers
             }
         }
 
+        /// <summary>
+        /// 检测主题
+        /// </summary>
+        /// <param name="Theme">当前主题</param>
+        /// <returns>是否为深色主题</returns>
         public static bool IsDarkTheme(ElementTheme Theme)
         {
             return Theme == ElementTheme.Default ? Application.Current.RequestedTheme == ApplicationTheme.Dark : Theme == ElementTheme.Dark;
         }
 
+        /// <summary>
+        /// 将字节数转换为可读数据
+        /// </summary>
+        /// <param name="size">字节数</param>
+        /// <returns>xx.xx xB</returns>
         public static string GetSizeString(this double size)
         {
             int index = 0;

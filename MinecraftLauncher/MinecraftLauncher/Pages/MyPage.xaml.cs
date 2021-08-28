@@ -9,7 +9,7 @@ using MinecraftLauncher.Helpers;
 namespace MinecraftLauncher.Pages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// 账户页面
     /// </summary>
     public sealed partial class MyPage : Page
     {

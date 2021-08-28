@@ -10,6 +10,11 @@ namespace MinecraftLauncher.Core.Helpers
 {
     public static partial class Utils
     {
+        /// <summary>
+        /// 获取 MD5
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>不含 '-' 的 MD5 结果</returns>
         public static string GetMD5(string input)
         {
             using System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
@@ -18,6 +23,11 @@ namespace MinecraftLauncher.Core.Helpers
             return r2.Replace("-", "");
         }
 
+        /// <summary>
+        /// 获取 Base64
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>Base64 结果</returns>
         public static string GetBase64(string input)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(input);
@@ -36,6 +46,12 @@ namespace MinecraftLauncher.Core.Helpers
 
         private static readonly DateTime UnixDateBase = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
+        /// <summary>
+        /// 将 Unix 时间戳转换为正常的内容
+        /// </summary>
+        /// <param name="time">Unix 时间戳</param>
+        /// <param name="baseTime">相对时间</param>
+        /// <returns></returns>
         public static (TimeIntervalType type, object time) ConvertUnixTimeStampToReadable(double time, DateTime baseTime)
         {
             TimeSpan ttime = new((long)time * 1000_0000);
@@ -56,6 +72,11 @@ namespace MinecraftLauncher.Core.Helpers
             }
         }
 
+        /// <summary>
+        /// 将 DataTime 转换为 Unix 时间戳
+        /// </summary>
+        /// <param name="time">DataTime 时间</param>
+        /// <returns>Unix 时间戳</returns>
         public static double ConvertDateTimeToUnixTimeStamp(DateTime time)
         {
             return Math.Round(
@@ -63,10 +84,11 @@ namespace MinecraftLauncher.Core.Helpers
                     .Subtract(UnixDateBase)
                     .TotalSeconds);
         }
+
         /// <summary>
         /// 取Java路径(新)
         /// </summary>
-        /// <returns>列表(Path=路径,Version=Java版本)</returns>
+        /// <returns>列表(Java 环境信息)</returns>
         public static List<JavaVersion> GetJavaInstallationPath()
         {
             List<JavaVersion> vs = new();

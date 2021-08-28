@@ -18,10 +18,11 @@ using Windows.UI;
 namespace MinecraftLauncher.Pages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// 主页面
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        private bool HasBeenSmail;
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string useravatar;
@@ -181,9 +182,27 @@ namespace MinecraftLauncher.Pages
             }
         }
 
+        //我不知道这个方法能不能正确修复标题栏问题，可是它的确没问题了
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            CustomTitleBar.Width = XamlRoot.Size.Width - 120;
+            try
+            {
+                if (XamlRoot.Size.Width <= 240)
+                {
+                    if (!HasBeenSmail)
+                    {
+                        HasBeenSmail = true;
+                        UIHelper.MainWindow.SetTitleBar(null);
+                    }
+                }
+                else if (HasBeenSmail)
+                {
+                    HasBeenSmail = false;
+                    UIHelper.MainWindow.SetTitleBar(CustomTitleBar);
+                }
+                CustomTitleBar.Width = XamlRoot.Size.Width - 120;
+            }
+            catch { }
         }
 
         #region 状态栏

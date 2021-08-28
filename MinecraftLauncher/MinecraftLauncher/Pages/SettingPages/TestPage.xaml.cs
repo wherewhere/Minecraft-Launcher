@@ -10,7 +10,7 @@ using System.Threading;
 namespace MinecraftLauncher.Pages.SettingPages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// 测试页面
     /// </summary>
     public sealed partial class TestPage : Page
     {

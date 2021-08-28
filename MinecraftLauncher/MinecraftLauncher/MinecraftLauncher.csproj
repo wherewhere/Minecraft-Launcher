@@ -24,13 +24,12 @@
     <PackageReference Include="AsyncStackTraceEx" Version="1.0.1.1" />
     <PackageReference Include="ksemenenko.ColorThief" Version="1.1.1.4" />
     <PackageReference Include="MetroLog" Version="1.0.1" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="6.0.0-preview.5.21301.5" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-experimental1" />
     <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="1.0.0-experimental1" />
     <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.0.0-experimental1" />
     <PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.0.0-experimental1" />
     <PackageReference Include="ModuleLauncher.Re" Version="3.1.0" />
-    <PackageReference Include="SquareMinecraftLauncher.Core" Version="3.5.0" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0-preview.7.21377.19" />
     <PackageReference Include="System.Management" Version="6.0.0-preview.7.21377.19" />
     <Manifest Include="$(ApplicationManifest)" />
