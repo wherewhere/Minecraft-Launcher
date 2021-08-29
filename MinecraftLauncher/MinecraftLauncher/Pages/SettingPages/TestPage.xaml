@@ -1,11 +1,11 @@
 ﻿<Page
     x:Class="MinecraftLauncher.Pages.SettingPages.TestPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MinecraftLauncher.Pages.SettingPages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    NavigationCacheMode="Enabled"
     Background="{ThemeResource SystemControlBackgroundListLowBrush}">
     <Grid>
         <Grid.ChildrenTransitions>
@@ -61,19 +61,41 @@
                         x:Name="ShowProgressBar"/>
                     <Button
                         Margin="2,0"
-                        Click="Button_Click"
                         Content="暂停"
+                        Click="Button_Click"
                         x:Name="PausedProgressBar"/>
                     <Button
                         Margin="2,0"
-                        Click="Button_Click"
                         Content="错误"
+                        Click="Button_Click"
                         x:Name="ErrorProgressBar"/>
                     <Button
                         Margin="2,0"
-                        Click="Button_Click"
                         Content="关闭"
+                        Click="Button_Click"
                         x:Name="HideProgressBar"/>
+                </StackPanel>
+                <TextBlock
+                    Margin="0,8"
+                    FontSize="18"
+                    Text="网络测试"/>
+                <TextBox
+                    Margin="0,2"
+                    x:Name="WebUrl"
+                    Header="输入链接"/>
+                <StackPanel
+                    Margin="0,2"
+                    Orientation="Horizontal">
+                    <Button
+                        Margin="0,0,2,0"
+                        Click="Button_Click"
+                        x:Name="OpenBrowser"
+                        Content="打开内置浏览器"/>
+                    <Button
+                        Margin="2,0"
+                        x:Name="OpenEdge"
+                        Click="Button_Click"
+                        Content="打开系统浏览器"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

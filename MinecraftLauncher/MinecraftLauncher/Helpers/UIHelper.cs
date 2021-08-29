@@ -19,6 +19,7 @@ namespace MinecraftLauncher.Helpers
         public const string Seccess = "";
         public const string Message = "";
         public const string Warnning = "";
+        public const string AppTitle = "Universal-like Minecraft Launcher";
 
         public static float DpiX, DpiY;
         public static MainPage MainPage;
@@ -45,11 +46,11 @@ namespace MinecraftLauncher.Helpers
         {
             _ = Type switch
             {
-                NavigationThemeTransition.DrillIn => MainPage?.Frame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()),
-                NavigationThemeTransition.Entrance => MainPage?.Frame.Navigate(pageType, e, new EntranceNavigationTransitionInfo()),
-                NavigationThemeTransition.Suppress => MainPage?.Frame.Navigate(pageType, e, new SuppressNavigationTransitionInfo()),
-                NavigationThemeTransition.Default => MainPage?.Frame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()),
-                _ => MainPage?.Frame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()),
+                NavigationThemeTransition.DrillIn => MainPage?.NavigationViewFrame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()),
+                NavigationThemeTransition.Entrance => MainPage?.NavigationViewFrame.Navigate(pageType, e, new EntranceNavigationTransitionInfo()),
+                NavigationThemeTransition.Suppress => MainPage?.NavigationViewFrame.Navigate(pageType, e, new SuppressNavigationTransitionInfo()),
+                NavigationThemeTransition.Default => MainPage?.NavigationViewFrame.Navigate(pageType, e),
+                _ => MainPage?.NavigationViewFrame.Navigate(pageType, e),
             };
         }
 
@@ -194,6 +195,25 @@ namespace MinecraftLauncher.Helpers
         public static bool IsDarkTheme(ElementTheme Theme)
         {
             return Theme == ElementTheme.Default ? Application.Current.RequestedTheme == ApplicationTheme.Dark : Theme == ElementTheme.Dark;
+        }
+
+        /// <summary>
+        /// 获取时间内的问候语
+        /// </summary>
+        /// <returns>问候语</returns>
+        public static string GetGreetings()
+        {
+            string str = "";
+            DateTime now = DateTime.Now;
+            int times = now.Hour;
+            if (times is >= 0 and < 6) { str = "熬夜对身体不好哦"; }
+            if (times is >= 6 and < 9) { str = "早安"; }
+            if (times is >= 9 and < 11) { str = "上午好"; }
+            if (times is >= 11 and < 13) { str = "中午好"; }
+            if (times is >= 13 and < 17) { str = "下午好"; }
+            if (times is >= 17 and < 19) { str = "吃过晚饭了吗"; }
+            if (times is >= 19 and < 24) { str = "晚安"; }
+            return str;
         }
 
         /// <summary>

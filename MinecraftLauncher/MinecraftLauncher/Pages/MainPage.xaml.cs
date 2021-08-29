@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -42,7 +43,7 @@ namespace MinecraftLauncher.Pages
             get => usernames;
             set
             {
-                usernames = value;
+                usernames = string.IsNullOrEmpty(value) ? "账户" : value;
                 RaisePropertyChangedEvent();
             }
         }
@@ -59,7 +60,6 @@ namespace MinecraftLauncher.Pages
             ("UserHub", typeof(MyPage)),
         };
 
-        [Obsolete]
         public MainPage()
         {
             InitializeComponent();
@@ -67,8 +67,6 @@ namespace MinecraftLauncher.Pages
             UIHelper.MainWindow.ExtendsContentIntoTitleBar = true;
             UIHelper.MainWindow.SetTitleBar(CustomTitleBar);
             RectanglePointerExited();
-            //UIHelper.CheckTheme();
-            SettingsHelper.CheckLogin();
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -147,6 +145,10 @@ namespace MinecraftLauncher.Pages
             {
                 HeaderTitle.Text = "测试";
             }
+            else if (NavigationViewFrame.SourcePageType == typeof(BrowserPage))
+            {
+                HeaderTitle.Text = "浏览器";
+            }
             else if (NavigationViewFrame.SourcePageType != null)
             {
                 (string Tag, Type Page) item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
@@ -174,11 +176,20 @@ namespace MinecraftLauncher.Pages
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             if (XamlRoot != null)
             {
                 UIHelper.ChangeTheme(XamlRoot.Content);
+            }
+            if (await SettingsHelper.CheckLogin())
+            {
+                await Task.Delay(1000);
+                HelloWorld();
+            }
+            else
+            {
+                UIHelper.ShowMessage("请先添加账号");
             }
         }
 
@@ -271,6 +282,13 @@ namespace MinecraftLauncher.Pages
                 _ => new SolidColorBrush(Colors.Yellow),
             };
             RectanglePointerEntered();
+        }
+
+        public async void HelloWorld()
+        {
+            AppTitle.Text = $"{UIHelper.GetGreetings()}，{UserNames}";
+            await Task.Delay(3000);
+            AppTitle.Text = UIHelper.AppTitle;
         }
 
         public void RectanglePointerEntered()

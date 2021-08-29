@@ -27,16 +27,14 @@ namespace MinecraftLauncher.Helpers
         /// <param name="IsOld">是否为1.17以下</param>
         /// <param name="Fullscreen">是否全屏</param>
         /// <returns>启动参数</returns>
-        [System.Obsolete]
         public static Launcher Launch(bool IsOld = false, bool Fullscreen = false)
         {
-            SettingsHelper.CheckLogin();
             SettingsHelper.GetCapacity();
             Launcher launcher = new(SettingsHelper.Get<string>(SettingsHelper.MinecraftRoot))
             {
                 Java = IsOld ? SettingsHelper.Get<string>(SettingsHelper.Java8Root) : SettingsHelper.Get<string>(SettingsHelper.Java16Root),
                 Authentication = SettingsHelper.Authentication,
-                LauncherName = "UWP", //optianal
+                LauncherName = "UMCL", //optianal
                 MaximumMemorySize = (int)(SettingsHelper.Available * 0.9 / 1048576), //optional
                 MinimumMemorySize = null, //optional
                 WindowHeight = (int?)(480 * UIHelper.DpiY), //optional

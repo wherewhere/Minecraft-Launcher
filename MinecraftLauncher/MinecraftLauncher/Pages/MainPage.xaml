@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Loaded="Page_Loaded"
+    NavigationCacheMode="Enabled"
     SizeChanged="Page_SizeChanged">
     <Grid>
         <Border
@@ -17,6 +18,7 @@
             <TextBlock
                 x:Name="AppTitle"
                 Margin="12,6,0,0"
+                x:FieldModifier="public"
                 TextTrimming="CharacterEllipsis"
                 Text="Universal-like Minecraft Launcher"
                 Style="{StaticResource CaptionTextBlockStyle}"/>
@@ -127,7 +129,9 @@
                     </NavigationViewItem>
                 </NavigationView.FooterMenuItems>
                 <Grid CornerRadius="8,0,0,0">
-                    <Frame x:Name="NavigationViewFrame"/>
+                    <Frame
+                        x:FieldModifier="public"
+                        x:Name="NavigationViewFrame"/>
                 </Grid>
             </NavigationView>
         </Grid>

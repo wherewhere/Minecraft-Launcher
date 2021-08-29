@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using MinecraftLauncher.Helpers;
 using System;
 using System.Threading;
+using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -19,15 +20,21 @@ namespace MinecraftLauncher.Pages.SettingPages
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs _)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             FrameworkElement element = sender as FrameworkElement;
             switch (element.Name)
             {
+                case "OpenEdge":
+                    _ = Launcher.LaunchUriAsync(new Uri(WebUrl.Text));
+                    break;
                 case "ShowError":
                     throw new Exception(NotifyMessage.Text);
                 case "ShowMessage":
                     UIHelper.ShowMessage(NotifyMessage.Text);
+                    break;
+                case "OpenBrowser":
+                    _ = Frame.Navigate(typeof(BrowserPage), new object[] { WebUrl.Text });
                     break;
                 case "ShowAsyncError":
                     Thread thread = new(() => throw new Exception(NotifyMessage.Text));

@@ -33,7 +33,6 @@ namespace MinecraftLauncher
         /// <param name="args">Details about the launch request and process.</param>
         private MainWindow m_window;
 
-        [Obsolete]
 #pragma warning disable CS0809 // 过时成员重写未过时成员
         protected override void OnLaunched(LaunchActivatedEventArgs args)
 #pragma warning restore CS0809 // 过时成员重写未过时成员

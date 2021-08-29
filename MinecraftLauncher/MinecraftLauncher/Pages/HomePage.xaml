@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converter="using:MinecraftLauncher.Helpers.ValueConverters"
     mc:Ignorable="d"
+    NavigationCacheMode="Enabled"
     Background="{ThemeResource SystemControlBackgroundListLowBrush}">
     <Page.Resources>
         <ResourceDictionary>
@@ -32,17 +33,10 @@
                     Content="启动"
                     x:Name="Start"
                     Click="Button_Click"/>
-                <StackPanel>
-                    <TextBlock
-                        Margin="0,2"
-                        x:Name="StartInfo"
-                        Visibility="{x:Bind Path=StartInfo.Text, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='string'}"/>
-                    <ProgressBar
-                        Margin="0,2"
-                        x:Name="IsInfo"
-                        Visibility="Collapsed"
-                        IsIndeterminate="True"/>
-                </StackPanel>
+                <ComboBox
+                    Margin="0,2"
+                    x:Name="ChooseMC"
+                    TextSubmitted="ComboBox_TextSubmitted"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

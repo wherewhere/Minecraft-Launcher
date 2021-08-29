@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:minecraft="using:ModuleLauncher.Re.Models.Locators.Minecraft" xmlns:converter="using:MinecraftLauncher.Helpers.ValueConverters"
     mc:Ignorable="d"
+    NavigationCacheMode="Enabled"
     Background="{ThemeResource SystemControlBackgroundListLowBrush}">
     <Page.Resources>
         <ResourceDictionary>

@@ -86,6 +86,22 @@ namespace MinecraftLauncher.Core.Helpers
         }
 
         /// <summary>
+        /// 向 IEnumerable 添加项
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="e"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> Add<T>(this IEnumerable<T> e, T value)
+        {
+            foreach (var cur in e)
+            {
+                yield return cur;
+            }
+            yield return value;
+        }
+
+        /// <summary>
         /// 取Java路径(新)
         /// </summary>
         /// <returns>列表(Java 环境信息)</returns>

@@ -19,21 +19,22 @@ namespace MinecraftLauncher.Pages
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            await LaunchHelper.GetMinecrafts();
-            ListView.ItemsSource = LaunchHelper.Minecrafts;
+            _ = Refresh();
         }
 
         private async Task Refresh(int p = -1)
         {
+            UIHelper.ShowProgressBar();
             if (p == -2)
             {
                 _ = ScrollViewer.ChangeView(null, 0, null);
             }
             await LaunchHelper.GetMinecrafts();
             ListView.ItemsSource = LaunchHelper.Minecrafts;
+            UIHelper.HideProgressBar();
         }
 
         private async void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
