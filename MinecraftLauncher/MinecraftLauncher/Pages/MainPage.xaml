@@ -108,6 +108,10 @@
                         Tag="List"
                         Content="列表"
                         Icon="Library"/>
+                    <NavigationViewItem
+                        Content="下载"
+                        Icon="Download"
+                        Tag="Downloader"/>
                 </NavigationView.MenuItems>
                 <NavigationView.FooterMenuItems>
                     <NavigationViewItem Tag="UserHub">

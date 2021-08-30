@@ -18,10 +18,7 @@ namespace MinecraftLauncher.Pages
     /// </summary>
     public sealed partial class MyPage : Page
     {
-        public MyPage()
-        {
-            InitializeComponent();
-        }
+        public MyPage() => InitializeComponent();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

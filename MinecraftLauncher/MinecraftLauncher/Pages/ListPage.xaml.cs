@@ -1,6 +1,11 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using MinecraftLauncher.Core.Helpers.DataHelper;
 using MinecraftLauncher.Helpers;
+using ModuleLauncher.Re.Models.Locators.Minecraft;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 
@@ -14,10 +19,9 @@ namespace MinecraftLauncher.Pages
     /// </summary>
     public sealed partial class ListPage : Page
     {
-        public ListPage()
-        {
-            InitializeComponent();
-        }
+        internal VersionDS VersionDS = new();
+
+        public ListPage() => InitializeComponent();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -30,10 +34,12 @@ namespace MinecraftLauncher.Pages
             UIHelper.ShowProgressBar();
             if (p == -2)
             {
-                _ = ScrollViewer.ChangeView(null, 0, null);
+                await VersionDS.Refresh();
             }
-            await LaunchHelper.GetMinecrafts();
-            ListView.ItemsSource = LaunchHelper.Minecrafts;
+            else
+            {
+                _ = VersionDS.LoadMoreItemsAsync(20);
+            }
             UIHelper.HideProgressBar();
         }
 
@@ -41,6 +47,55 @@ namespace MinecraftLauncher.Pages
         {
             using Deferral RefreshCompletionDeferral = args.GetDeferral();
             await Refresh(-2);
+        }
+    }
+
+    /// <summary>
+    /// Provide list of Minecraft Versions. <br/>
+    /// You can bind this ds to ItemSource to enable incremental loading ,
+    /// or call LoadMoreItemsAsync to load more.
+    /// </summary>
+    internal class VersionDS : DataSourceBase<Minecraft>
+    {
+        private int _loaditems;
+
+        protected async override Task<IList<Minecraft>> LoadItemsAsync(uint count)
+        {
+            if (_currentPage == 1)
+            {
+                await LaunchHelper.GetMinecrafts();
+                _loaditems = 0;
+            }
+            if (_loaditems == LaunchHelper.Minecrafts.Count())
+            {
+                return null;
+            }
+            else if (_loaditems + count > LaunchHelper.Minecrafts.Count())
+            {
+                List<Minecraft> results = LaunchHelper.Minecrafts.ToList().GetRange(_loaditems, LaunchHelper.Minecrafts.Count() - _loaditems);
+                _loaditems = LaunchHelper.Minecrafts.Count();
+                return results;
+            }
+            else
+            {
+                List<Minecraft> results = LaunchHelper.Minecrafts.ToList().GetRange(_loaditems, (int)count);
+                _loaditems += (int)count;
+                return results;
+            }
+        }
+
+        protected override void AddItems(IList<Minecraft> items)
+        {
+            if (items != null)
+            {
+                foreach (Minecraft news in items)
+                {
+                    if (!this.Any(n => n.Locality.Json == news.Locality.Json))
+                    {
+                        Add(news);
+                    }
+                }
+            }
         }
     }
 }

@@ -28,15 +28,16 @@
                 <TextBlock
                     Margin="0,2"
                     x:Name="GetMemory"/>
+                <ComboBox
+                    Margin="0,2"
+                    x:Name="ChooseMC"
+                    PlaceholderText="选择一个版本"
+                    TextSubmitted="ComboBox_TextSubmitted"/>
                 <Button
                     Margin="0,2"
                     Content="启动"
                     x:Name="Start"
                     Click="Button_Click"/>
-                <ComboBox
-                    Margin="0,2"
-                    x:Name="ChooseMC"
-                    TextSubmitted="ComboBox_TextSubmitted"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -21,25 +21,16 @@ namespace MinecraftLauncher.Core
                 _method = callback.Method;
             }
 
-            public bool Equals(Action<TEventArgs> callback)
-            {
-                return _reference.Target == callback.Target && _method == callback.Method;
-            }
+            public bool Equals(Action<TEventArgs> callback) => _reference.Target == callback.Target && _method == callback.Method;
 
-            public void Invoke(object arg)
-            {
-                _method.Invoke(_reference.Target, new object[] { arg });
-            }
+            public void Invoke(object arg) => _method.Invoke(_reference.Target, new object[] { arg });
         }
 
         private readonly List<Method> _list = new List<Method>();
 
         public int Count => _list.Count;
 
-        public void Add(Action<TEventArgs> callback)
-        {
-            _list.Add(new Method(callback));
-        }
+        public void Add(Action<TEventArgs> callback) => _list.Add(new Method(callback));
 
         public void Remove(Action<TEventArgs> callback)
         {
@@ -67,9 +58,6 @@ namespace MinecraftLauncher.Core
             }
         }
 
-        public void Clear()
-        {
-            _list.Clear();
-        }
+        public void Clear() => _list.Clear();
     }
 }

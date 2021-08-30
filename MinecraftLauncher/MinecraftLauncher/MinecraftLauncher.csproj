@@ -13,6 +13,7 @@
     <None Remove="Control\LoginDialog.xaml" />
     <None Remove="MainWindow.xaml" />
     <None Remove="Pages\BrowserPage.xaml" />
+    <None Remove="Pages\DownloadPage.xaml" />
     <None Remove="Pages\HomePage.xaml" />
     <None Remove="Pages\ListPage.xaml" />
     <None Remove="Pages\MainPage.xaml" />
@@ -93,5 +94,11 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\DownloadPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

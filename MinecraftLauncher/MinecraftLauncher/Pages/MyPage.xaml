@@ -30,7 +30,6 @@
                             Grid.Column="1"
                             Orientation="Vertical">
                             <TextBlock
-                                Margin="4,0"
                                 Text="{x:Bind Name}"
                                 TextTrimming="CharacterEllipsis"/>
                             <StackPanel Orientation="Horizontal">

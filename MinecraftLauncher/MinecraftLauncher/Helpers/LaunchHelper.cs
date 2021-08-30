@@ -33,7 +33,7 @@ namespace MinecraftLauncher.Helpers
             Launcher launcher = new(SettingsHelper.Get<string>(SettingsHelper.MinecraftRoot))
             {
                 Java = IsOld ? SettingsHelper.Get<string>(SettingsHelper.Java8Root) : SettingsHelper.Get<string>(SettingsHelper.Java16Root),
-                Authentication = SettingsHelper.Authentication,
+                Authentication = string.IsNullOrEmpty(SettingsHelper.Authentication.Name) ? "Steve" : SettingsHelper.Authentication,
                 LauncherName = "UMCL", //optianal
                 MaximumMemorySize = (int)(SettingsHelper.Available * 0.9 / 1048576), //optional
                 MinimumMemorySize = null, //optional

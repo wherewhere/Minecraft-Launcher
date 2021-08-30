@@ -57,6 +57,7 @@ namespace MinecraftLauncher.Pages
         {
             ("Home", typeof(HomePage)),
             ("List", typeof(ListPage)),
+            ("Downloader", typeof(DownloadPage)),
             ("UserHub", typeof(MyPage)),
         };
 
@@ -99,10 +100,7 @@ namespace MinecraftLauncher.Pages
             }
         }
 
-        private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
-        {
-            _ = TryGoBack();
-        }
+        private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) => _ = TryGoBack();
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
@@ -193,7 +191,7 @@ namespace MinecraftLauncher.Pages
             }
         }
 
-        //我不知道这个方法能不能正确修复标题栏问题，可是它的确没问题了
+        // 我不知道这个方法能不能正确修复标题栏问题，可是它的确没问题了
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             try
@@ -291,15 +289,9 @@ namespace MinecraftLauncher.Pages
             AppTitle.Text = UIHelper.AppTitle;
         }
 
-        public void RectanglePointerEntered()
-        {
-            EnterStoryboard.Begin();
-        }
+        public void RectanglePointerEntered() => EnterStoryboard.Begin();
 
-        public void RectanglePointerExited()
-        {
-            ExitStoryboard.Begin();
-        }
+        public void RectanglePointerExited() => ExitStoryboard.Begin();
         #endregion
 
         private void NavigationView_SizeChanged(object sender, SizeChangedEventArgs e)

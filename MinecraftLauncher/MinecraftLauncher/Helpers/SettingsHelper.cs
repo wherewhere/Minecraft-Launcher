@@ -84,6 +84,7 @@ namespace MinecraftLauncher.Helpers
             set
             {
                 UIHelper.MainPage.UserNames = value.Name;
+                UIHelper.MainPage.UserAvatar = "https://crafatar.com/renders/head/" + value.Uuid;
                 authentication = value;
             }
         }

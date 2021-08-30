@@ -155,6 +155,7 @@
                 <TextBlock
                     Grid.Row="0"
                     Grid.ColumnSpan="2"
+                    TextWrapping="WrapWholeWords"
                     FontSize="{ThemeResource ContentControlFontSize}"
                     Text="{x:Bind local:SettingPage.VersionTextBlockText}"/>
                 <TextBlock

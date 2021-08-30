@@ -33,7 +33,7 @@ namespace MinecraftLauncher.Pages.SettingPages
             get
             {
                 string ver = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}";
-                string name = "Minecraft Launcher";
+                string name = UIHelper.AppTitle;
                 return $"{name} v{ver}";
             }
         }
@@ -233,8 +233,7 @@ namespace MinecraftLauncher.Pages.SettingPages
         private async void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             sender.Text = (args.SelectedItem as JavaVersion).JavaPath;
-            FrameworkElement element = sender;
-            switch (element.Name)
+            switch (sender.Name)
             {
                 case "Java8Root":
                     if ((args.SelectedItem as JavaVersion).Version.ProductMajorPart > 9 || (args.SelectedItem as JavaVersion).Version.ProductMajorPart < 8)

@@ -15,10 +15,7 @@ namespace MinecraftLauncher.Pages.SettingPages
     /// </summary>
     public sealed partial class TestPage : Page
     {
-        public TestPage()
-        {
-            InitializeComponent();
-        }
+        public TestPage() => InitializeComponent();
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
