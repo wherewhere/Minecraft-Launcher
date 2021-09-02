@@ -4,7 +4,9 @@ using Microsoft.UI.Xaml.Navigation;
 using MinecraftLauncher.Core.Helpers;
 using MinecraftLauncher.Helpers;
 using ModuleLauncher.Re.Authenticators;
+using ModuleLauncher.Re.Downloaders;
 using ModuleLauncher.Re.Launcher;
+using ModuleLauncher.Re.Locators.Dependencies;
 using ModuleLauncher.Re.Models.Locators.Minecraft;
 using System;
 using System.Collections.Generic;
@@ -71,15 +73,20 @@ namespace MinecraftLauncher.Pages
         {
             UIHelper.ShowProgressBar();
             Launcher launcher = LaunchHelper.Launch(false);
+            //await DownloadHelper.DownloadDependencies(ChooseMC.SelectedValue.ToString(), true);
+            UIHelper.MainPage.AppTitle.Text = "正在加载...";
             System.Diagnostics.Process Process = await launcher.Launch(ChooseMC.SelectedValue.ToString());
             SettingsHelper.Set(SettingsHelper.ChooseVersion, ChooseMC.SelectedValue.ToString());
-            while (!string.IsNullOrEmpty(await Process.StandardOutput.ReadLineAsync()))
+            UIHelper.MainPage.AppTitle.Text = "正在启动...";
+            string Title = await Process.StandardOutput.ReadLineAsync();
+            UIHelper.HideProgressBar();
+            while (!string.IsNullOrEmpty(Title))
             {
-                UIHelper.MainPage.AppTitle.Text = await Process.StandardOutput.ReadLineAsync();
+                UIHelper.MainPage.AppTitle.Text = Title;
+                Title = await Process.StandardOutput.ReadLineAsync();
             }
             UIHelper.MainPage.AppTitle.Text = "已退出";
             await Task.Delay(3000);
-            UIHelper.HideProgressBar();
             UIHelper.MainPage.AppTitle.Text = UIHelper.AppTitle;
         }
 

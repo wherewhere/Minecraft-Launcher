@@ -89,7 +89,9 @@ namespace MinecraftLauncher.Pages
             if (result == ContentDialogResult.Primary)
             {
                 UIHelper.ShowProgressBar();
-                await MinecraftRS.Downloader.Download(element.Tag.ToString());
+                UIHelper.MainPage.AppTitle.Text = "正在下载 Jar 文件...";
+                await MinecraftRS.Downloader.Download(element.Tag.ToString(), true);
+                await DownloadHelper.DownloadDependencies(element.Tag.ToString(), true);
                 UIHelper.HideProgressBar();
             }
         }
@@ -122,7 +124,7 @@ namespace MinecraftLauncher.Pages
                 Minecrafts = (await Downloader.GetRemoteMinecrafts()).Where(x => x.Type == _type);
                 _loaditems = 0;
             }
-            if(_loaditems == Minecrafts.Count())
+            if (_loaditems == Minecrafts.Count())
             {
                 return null;
             }
