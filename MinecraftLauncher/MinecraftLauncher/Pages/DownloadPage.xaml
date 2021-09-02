@@ -21,8 +21,15 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <FontIcon/>
-                        <StackPanel Orientation="Vertical">
+                        <SymbolIcon
+                            Width="36"
+                            Height="36"
+                            Symbol="AllApps"
+                            Margin="-3,0,3,0"/>
+                        <StackPanel
+                            Grid.Column="1"
+                            Padding="0,0,25,0"
+                            Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock
                                     Text="版本:"
