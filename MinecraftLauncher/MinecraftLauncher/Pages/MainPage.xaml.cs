@@ -296,20 +296,7 @@ namespace MinecraftLauncher.Pages
 
         private void NavigationView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if ((sender as NavigationView).XamlRoot.Size.Width <= (sender as NavigationView).CompactModeThresholdWidth)
-            {
-                HeaderTitle.FontSize = UserName.FontSize;
-                MessageInfo.Margin = new Thickness(0, -12, 0, 0);
-                ProgressRing.Margin = new Thickness(10, -14, 0, 0);
-                MessageGrid.VerticalAlignment = VerticalAlignment.Stretch;
-            }
-            else
-            {
-                HeaderTitle.FontSize = 24;
-                MessageInfo.Margin = new Thickness(0, 4, 0, 0);
-                ProgressRing.Margin = new Thickness(10, 0, 0, 0);
-                MessageGrid.VerticalAlignment = VerticalAlignment.Center;
-            }
+            
         }
     }
 }

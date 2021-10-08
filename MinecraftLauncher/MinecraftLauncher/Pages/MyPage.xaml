@@ -6,8 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:authenticators="using:ModuleLauncher.Re.Models.Authenticators"
     mc:Ignorable="d"
-    NavigationCacheMode="Enabled"
-    Background="{ThemeResource SystemControlBackgroundListLowBrush}">
+    NavigationCacheMode="Enabled">
     <Page.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="List" x:DataType="authenticators:AuthenticateResult">

@@ -7,8 +7,7 @@
     xmlns:models="using:MinecraftLauncher.Models"
     xmlns:local="using:MinecraftLauncher.Pages.SettingPages"
     mc:Ignorable="d"
-    NavigationCacheMode="Enabled"
-    Background="{ThemeResource SystemControlBackgroundListLowBrush}">
+    NavigationCacheMode="Enabled">
     <Page.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="JavaList" x:DataType="models:JavaVersion">
