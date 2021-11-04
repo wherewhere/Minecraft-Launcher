@@ -8,14 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="LiteDB" Version="5.0.11" />
-      <PackageReference Include="MetroLog" Version="1.0.1" />
       <PackageReference Include="Microsoft.Win32.Registry" Version="6.0.0-preview.5.21301.5" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview3" GeneratePathProperty="true" />
-      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.20348.19" />
-      <PackageReference Include="ModuleLauncher.Re" Version="3.1.0" />
-      <PackageReference Include="System.Drawing.Common" Version="6.0.0-rc.2.21480.5" />
-      <PackageReference Include="System.Management" Version="6.0.0-rc.2.21480.5" />
+      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22494-preview" />
   </ItemGroup>
 	
   <Target Name="FixReferenceCopyLocalPaths" BeforeTargets="ResolvePackageAssets">
