@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
@@ -7,123 +7,36 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
-    <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
+    <PackageCertificateThumbprint>0CDF4A03E9BE9DD789894BB3C7AD3DEDECD9AB25</PackageCertificateThumbprint>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <DefaultLanguage>zh-CN</DefaultLanguage>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Control\LoginDialog.xaml" />
-    <None Remove="Images\LockScreenLogo.scale-200.png" />
-    <None Remove="Images\SplashScreen.scale-200.png" />
-    <None Remove="Images\Square150x150Logo.scale-200.png" />
-    <None Remove="Images\Square44x44Logo.scale-200.png" />
-    <None Remove="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <None Remove="Images\StoreLogo.png" />
-    <None Remove="Images\Wide310x150Logo.scale-200.png" />
-    <None Remove="MainWindow.xaml" />
-    <None Remove="Package.appxmanifest" />
-    <None Remove="Pages\BrowserPage.xaml" />
-    <None Remove="Pages\DownloadPage.xaml" />
-    <None Remove="Pages\HomePage.xaml" />
-    <None Remove="Pages\ListPage.xaml" />
-    <None Remove="Pages\MainPage.xaml" />
-    <None Remove="Pages\MyPage.xaml" />
-    <None Remove="Pages\SettingPages\SettingPage.xaml" />
-    <None Remove="Pages\SettingPages\TestPage.xaml" />
-  </ItemGroup>
+
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\LockScreenLogo.scale-200.png" />
-    <Content Include="Images\SplashScreen.scale-200.png" />
-    <Content Include="Images\Square150x150Logo.scale-200.png" />
-    <Content Include="Images\Square44x44Logo.scale-200.png" />
-    <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Images\StoreLogo.png" />
-    <Content Include="Images\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AsyncStackTraceEx" Version="1.0.1.1" />
-    <PackageReference Include="ksemenenko.ColorThief" Version="1.1.1.4" />
-    <PackageReference Include="LiteDB" Version="5.0.11" />
-    <PackageReference Include="MetroLog" Version="1.0.1" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="6.0.0-preview.5.21301.5" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview2" />
-    <PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.0.0-experimental1" />
-    <PackageReference Include="ModuleLauncher.Re" Version="3.1.0" />
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0-rc.1.21451.13" />
-    <PackageReference Include="System.Management" Version="6.0.0-rc.1.21451.13" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview3" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.20348.19" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MinecraftLauncher.Core\MinecraftLauncher.Core.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\BrowserPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\HomePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\SettingPages\SettingPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\LoginDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\ListPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\SettingPages\TestPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\MyPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\DownloadPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>
