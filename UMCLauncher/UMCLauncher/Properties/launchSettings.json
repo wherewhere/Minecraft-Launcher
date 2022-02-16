@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "UMCLauncher (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "UMCLauncher (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

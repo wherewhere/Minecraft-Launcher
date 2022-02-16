@@ -1,0 +1,121 @@
+﻿<Page
+    x:Class="UMCLauncher.Pages.DownloadPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:UMCLauncher.Helpers.ValueConverters"
+    xmlns:minecraft="using:ModuleLauncher.Re.Models.Downloaders.Minecraft"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
+    <Page.Resources>
+        <ResourceDictionary>
+            <converter:TimeToReadableConverter x:Key="TimeToReadableConverter"/>
+            <DataTemplate x:Key="List" x:DataType="minecraft:MinecraftDownloadItem">
+                <ListViewItem
+                    Tag="{x:Bind Id}"
+                    Tapped="ListViewItem_Tapped">
+                    <Grid Padding="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <SymbolIcon
+                            Width="36"
+                            Height="36"
+                            Symbol="AllApps"
+                            Margin="-3,0,3,0"/>
+                        <StackPanel
+                            Grid.Column="1"
+                            Padding="0,0,25,0"
+                            Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Text="版本:"
+                                    TextTrimming="CharacterEllipsis"/>
+                                <TextBlock
+                                    Margin="4,0"
+                                    Text="{x:Bind Id}"
+                                    TextTrimming="CharacterEllipsis"/>
+                                <TextBlock
+                                    Margin="4,0"
+                                    Text="发布日期:"
+                                    TextTrimming="CharacterEllipsis"
+                                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                                <TextBlock
+                                    Margin="4,0"
+                                    TextTrimming="CharacterEllipsis"
+                                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                    Text="{x:Bind Path=ReleaseTime, Mode=OneWay, Converter={StaticResource TimeToReadableConverter}, ConverterParameter='DataTime'}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Text="链接:"
+                                    TextTrimming="CharacterEllipsis"
+                                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                                <TextBlock
+                                    Margin="4,0"
+                                    Text="{x:Bind Url}"
+                                    TextTrimming="CharacterEllipsis"
+                                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </ListViewItem>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Pivot Padding="16,16,16,16">
+            <PivotItem Header="正式版">
+                <RefreshContainer
+                    x:Name="RefreshRelease"
+                    RefreshRequested="RefreshContainer_RefreshRequested">
+                    <ListView
+                        MaxWidth="820"
+                        ItemTemplate="{StaticResource List}"
+                        ItemsSource="{x:Bind MinecraftRS, Mode=OneWay}">
+                    </ListView>
+                </RefreshContainer>
+            </PivotItem>
+            <PivotItem Header="快照">
+                <RefreshContainer
+                    x:Name="RefreshSnapshot"
+                    RefreshRequested="RefreshContainer_RefreshRequested">
+                    <ListView
+                        MaxWidth="820"
+                        ItemTemplate="{StaticResource List}"
+                        ItemsSource="{x:Bind MinecraftSS, Mode=OneWay}">
+                    </ListView>
+                </RefreshContainer>
+            </PivotItem>
+            <PivotItem Header="Old Beta">
+                <RefreshContainer
+                    x:Name="RefreshBeta"
+                    RefreshRequested="RefreshContainer_RefreshRequested">
+                    <ListView
+                        MaxWidth="820"
+                        ItemTemplate="{StaticResource List}"
+                        ItemsSource="{x:Bind MinecraftOB, Mode=OneWay}">
+                    </ListView>
+                </RefreshContainer>
+            </PivotItem>
+            <PivotItem Header="Old Alpha">
+                <RefreshContainer
+                    x:Name="RefreshAlpha"
+                    RefreshRequested="RefreshContainer_RefreshRequested">
+                    <ListView
+                        MaxWidth="820"
+                        ItemTemplate="{StaticResource List}"
+                        ItemsSource="{x:Bind MinecraftOA, Mode=OneWay}">
+                    </ListView>
+                </RefreshContainer>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</Page>
