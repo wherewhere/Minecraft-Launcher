@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -20,6 +21,9 @@ namespace UMCLauncher.Helpers
         public const string Message = "";
         public const string Warnning = "";
         public const string AppTitle = "Universal-like Minecraft Launcher";
+
+        public static bool HasTitleBar = !AppWindowTitleBar.IsCustomizationSupported();
+        public static bool TitleBarExtended => HasTitleBar ? MainWindow.ExtendsContentIntoTitleBar : WindowHelper.GetAppWindowForCurrentWindow().TitleBar.ExtendsContentIntoTitleBar;
 
         public static float DpiX, DpiY;
         public static MainPage MainPage;
@@ -136,65 +140,6 @@ namespace UMCLauncher.Helpers
                 }
                 IsShowingMessage = false;
             }
-        }
-
-        /// <summary>
-        /// 设置主题(不可用)
-        /// </summary>
-        public static async void CheckTheme()
-        {
-            while (Window.Current?.Content is null)
-            {
-                await Task.Delay(100);
-            }
-
-            if (Window.Current.Content is FrameworkElement frameworkElement)
-            {
-                foreach (CoreApplicationView item in CoreApplication.Views)
-                {
-                    await item.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        (Window.Current.Content as FrameworkElement).RequestedTheme = SettingsHelper.Theme;
-                    });
-                }
-
-                bool IsDark = IsDarkTheme(SettingsHelper.Theme);
-
-                if (IsDark)
-                {
-                    ApplicationViewTitleBar view = ApplicationView.GetForCurrentView().TitleBar;
-                    view.ButtonBackgroundColor = view.InactiveBackgroundColor = view.ButtonInactiveBackgroundColor = Colors.Transparent;
-                    view.ButtonForegroundColor = Colors.White;
-                }
-                else
-                {
-                    ApplicationViewTitleBar view = ApplicationView.GetForCurrentView().TitleBar;
-                    view.ButtonBackgroundColor = view.InactiveBackgroundColor = view.ButtonInactiveBackgroundColor = Colors.Transparent;
-                    view.ButtonForegroundColor = Colors.Black;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 设置主题
-        /// </summary>
-        /// <param name="sender">XamlRoot.Content</param>
-        public static void ChangeTheme(object sender)
-        {
-            if (sender != null)
-            {
-                (sender as Page).RequestedTheme = SettingsHelper.Theme;
-            }
-        }
-
-        /// <summary>
-        /// 检测主题
-        /// </summary>
-        /// <param name="Theme">当前主题</param>
-        /// <returns>是否为深色主题</returns>
-        public static bool IsDarkTheme(ElementTheme Theme)
-        {
-            return Theme == ElementTheme.Default ? Application.Current.RequestedTheme == ApplicationTheme.Dark : Theme == ElementTheme.Dark;
         }
 
         /// <summary>

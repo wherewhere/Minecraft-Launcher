@@ -82,7 +82,6 @@ namespace UMCLauncher.Pages
                 PrimaryButtonText = "开始下载",
                 CloseButtonText = "取消",
                 DefaultButton = ContentDialogButton.Primary,
-                RequestedTheme = SettingsHelper.Theme,
                 XamlRoot = XamlRoot
             };
             ContentDialogResult result = await dialog.ShowAsync();

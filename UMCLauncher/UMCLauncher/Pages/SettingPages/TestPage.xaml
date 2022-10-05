@@ -15,6 +15,17 @@
         </Grid.ChildrenTransitions>
         <ScrollViewer x:Name="ScrollViewer">
             <StackPanel>
+                <RadioButtons Header="背景选择" SelectedIndex="{x:Bind SelectedBackdrop, Mode=TwoWay}">
+                    <RadioButtons.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontSize="18" Text="{Binding}" />
+                        </DataTemplate>
+                    </RadioButtons.HeaderTemplate>
+                    <RadioButton Content="Mica" />
+                    <RadioButton Content="MicaAlt" />
+                    <RadioButton Content="DesktopAcrylic" />
+                    <RadioButton Content="DefaultColor" />
+                </RadioButtons>
                 <TextBlock
                     Margin="0,8"
                     FontSize="18"

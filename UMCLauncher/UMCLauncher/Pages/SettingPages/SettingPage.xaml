@@ -62,24 +62,11 @@
         </Grid.ChildrenTransitions>
         <ScrollViewer x:Name="ScrollViewer">
             <StackPanel>
-                <StackPanel>
-                    <TextBlock
-                        Margin="0,8"
-                        FontSize="18"
-                        Text="主题" />
-                    <RadioButton
-                        x:Name="Light"
-                        Checked="Button_Checked"
-                        Content="浅色" />
-                    <RadioButton
-                        x:Name="Dark"
-                        Checked="Button_Checked"
-                        Content="深色" />
-                    <RadioButton
-                        x:Name="Default"
-                        Checked="Button_Checked"
-                        Content="跟随系统" />
-                </StackPanel>
+                <RadioButtons Header="主题" SelectedIndex="{x:Bind SelectedTheme, Mode=TwoWay}">
+                    <RadioButton Content="深色" />
+                    <RadioButton Content="浅色" />
+                    <RadioButton Content="跟随系统" />
+                </RadioButtons>
                 <TextBlock
                     Margin="0,8"
                     FontSize="18"

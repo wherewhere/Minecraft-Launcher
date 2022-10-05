@@ -15,6 +15,19 @@ namespace UMCLauncher.Pages.SettingPages
     /// </summary>
     public sealed partial class TestPage : Page
     {
+        internal int SelectedBackdrop
+        {
+            get => (int)SettingsHelper.Get<BackdropType>(SettingsHelper.SelectedBackdrop);
+            set
+            {
+                if (SelectedBackdrop != value)
+                {
+                    BackdropType type = (BackdropType)value;
+                    SettingsHelper.Set(SettingsHelper.SelectedBackdrop, type);
+                    UIHelper.MainWindow.Backdrop.SetBackdrop(type);
+                }
+            }
+        }
         public TestPage() => InitializeComponent();
 
         private void Button_Click(object sender, RoutedEventArgs e)

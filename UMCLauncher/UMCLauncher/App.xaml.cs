@@ -32,12 +32,12 @@ namespace UMCLauncher
         /// <param name="args">Details about the launch request and process.</param>
         private MainWindow m_window;
 
-#pragma warning disable CS0809 // 过时成员重写未过时成员
         protected override void OnLaunched(LaunchActivatedEventArgs args)
-#pragma warning restore CS0809 // 过时成员重写未过时成员
         {
             RegisterExceptionHandlingSynchronizationContext();
             m_window = new();
+            m_window.TrackWindow();
+            ThemeHelper.Initialize();
             m_window.Title = "Universal-like Minecraft Launcher";
             m_window.Activate();
         }

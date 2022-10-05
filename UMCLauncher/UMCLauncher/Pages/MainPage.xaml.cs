@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.WinUI.UI;
 using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -26,6 +27,8 @@ namespace UMCLauncher.Pages
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        private readonly AppWindow AppWindow = WindowHelper.GetAppWindowForCurrentWindow();
+
         public PageHeader PageHeader => NavigationView.FindDescendant<PageHeader>();
 
         private string useravatar;
@@ -69,10 +72,21 @@ namespace UMCLauncher.Pages
         {
             InitializeComponent();
             UIHelper.MainPage = this;
-            UIHelper.MainWindow.ExtendsContentIntoTitleBar = true;
+            UIHelper.MainWindow.Backdrop.BackdropTypeChanged += OnBackdropTypeChanged;
+            if (UIHelper.HasTitleBar)
+            {
+                UIHelper.MainWindow.ExtendsContentIntoTitleBar = true;
+            }
+            else
+            {
+                AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                ActualThemeChanged += (sender, arg) => ThemeHelper.UpdateSystemCaptionButtonColors();
+            }
             UIHelper.MainWindow.SetTitleBar(AppTitleBar);
             PageHeader?.RectanglePointerExited();
         }
+
+        private void OnBackdropTypeChanged(BackdropHelper sender, object args) => RootBackground.Opacity = (BackdropType)args == BackdropType.DefaultColor ? 1 : 0;
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -180,10 +194,6 @@ namespace UMCLauncher.Pages
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (XamlRoot != null)
-            {
-                UIHelper.ChangeTheme(XamlRoot.Content);
-            }
             if (await SettingsHelper.CheckLogin())
             {
                 await Task.Delay(1000);

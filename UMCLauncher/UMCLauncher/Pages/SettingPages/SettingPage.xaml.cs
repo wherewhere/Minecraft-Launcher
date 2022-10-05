@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using PInvoke;
 using System;
 using System.Runtime.InteropServices;
 using UMCLauncher.Helpers;
@@ -24,9 +25,17 @@ namespace UMCLauncher.Pages.SettingPages
     /// </summary>
     public sealed partial class SettingPage : Page
     {
-        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto, PreserveSig = true, SetLastError = false)]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1401:P/Invokes 应该是不可见的", Justification = "<挂起>")]
-        public static extern IntPtr GetActiveWindow();
+        internal int SelectedTheme
+        {
+            get => 2 - (int)ThemeHelper.RootTheme;
+            set
+            {
+                if (SelectedTheme != value)
+                {
+                    ThemeHelper.RootTheme = (ElementTheme)(2 - value);
+                }
+            }
+        }
 
         internal static string VersionTextBlockText
         {
@@ -51,18 +60,6 @@ namespace UMCLauncher.Pages.SettingPages
             Java8Root.Text = SettingsHelper.Get<string>(SettingsHelper.Java8Root);
             MCRoot.Text = SettingsHelper.Get<string>(SettingsHelper.MinecraftRoot);
             Java16Root.Text = SettingsHelper.Get<string>(SettingsHelper.Java16Root);
-            if (SettingsHelper.Get<bool>(SettingsHelper.IsBackgroundColorFollowSystem))
-            {
-                Default.IsChecked = true;
-            }
-            else if (SettingsHelper.Get<bool>(SettingsHelper.IsDarkTheme))
-            {
-                Dark.IsChecked = true;
-            }
-            else
-            {
-                Light.IsChecked = true;
-            }
         }
 
         private static void SaveValue(string title, string value, bool isbackground = false)
@@ -78,39 +75,6 @@ namespace UMCLauncher.Pages.SettingPages
             else
             {
                 UIHelper.ShowMessage("保存失败", UIHelper.Error, MainPage.MessageColor.Red);
-            }
-        }
-
-        private void Button_Checked(object sender, RoutedEventArgs _)
-        {
-            FrameworkElement element = sender as FrameworkElement;
-            switch (element.Name)
-            {
-                case "Dark":
-                    SettingsHelper.Set(SettingsHelper.IsBackgroundColorFollowSystem, false);
-                    SettingsHelper.Set(SettingsHelper.IsDarkTheme, true);
-                    if (XamlRoot != null)
-                    {
-                        UIHelper.ChangeTheme(XamlRoot.Content);
-                    }
-                    break;
-                case "Light":
-                    SettingsHelper.Set(SettingsHelper.IsBackgroundColorFollowSystem, false);
-                    SettingsHelper.Set(SettingsHelper.IsDarkTheme, false);
-                    if (XamlRoot != null)
-                    {
-                        UIHelper.ChangeTheme(XamlRoot.Content);
-                    }
-                    break;
-                case "Default":
-                    SettingsHelper.Set(SettingsHelper.IsBackgroundColorFollowSystem, true);
-                    if (XamlRoot != null)
-                    {
-                        UIHelper.ChangeTheme(XamlRoot.Content);
-                    }
-                    break;
-                default:
-                    break;
             }
         }
 
@@ -168,7 +132,7 @@ namespace UMCLauncher.Pages.SettingPages
                 {
                     initializeWithWindowWrapper = FileOpen.As<IInitializeWithWindow>();
                 }
-                IntPtr hwnd = GetActiveWindow();
+                IntPtr hwnd = User32.GetActiveWindow();
                 initializeWithWindowWrapper.Initialize(hwnd);
             }
 
@@ -245,7 +209,6 @@ namespace UMCLauncher.Pages.SettingPages
                             PrimaryButtonText = "继续",
                             CloseButtonText = "算了",
                             DefaultButton = ContentDialogButton.Primary,
-                            RequestedTheme = SettingsHelper.Theme,
                             XamlRoot = XamlRoot
                         };
                         ContentDialogResult result = await dialog.ShowAsync();
@@ -273,7 +236,6 @@ namespace UMCLauncher.Pages.SettingPages
                             PrimaryButtonText = "继续",
                             CloseButtonText = "算了",
                             DefaultButton = ContentDialogButton.Primary,
-                            RequestedTheme = SettingsHelper.Theme,
                             XamlRoot = XamlRoot
                         };
                         ContentDialogResult result = await dialog.ShowAsync();

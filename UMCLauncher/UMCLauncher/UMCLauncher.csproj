@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AppxPackageDir>AppPackages</AppxPackageDir>
@@ -44,6 +44,8 @@
     <PackageReference Include="MetroLog.Net6" Version="2.0.1" />
 	<PackageReference Include="ModuleLauncher.Re" Version="3.1.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2" />
+    <PackageReference Include="NativeMethods" Version="0.0.3" />
+    <PackageReference Include="PInvoke.User32" Version="0.7.124" />
 	<PackageReference Include="System.Management" Version="6.0.0" />
 	<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />

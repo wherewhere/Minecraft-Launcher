@@ -9,8 +9,11 @@ using System.IO;
 using System.Management;
 using System.Threading.Tasks;
 using Windows.Storage;
+using System.Text.Json;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
+using JsonSerializer = System.Text.Json.JsonSerializer;
+using CommunityToolkit.WinUI.Helpers;
 
 namespace UMCLauncher.Helpers
 {
@@ -19,38 +22,36 @@ namespace UMCLauncher.Helpers
         public const string UserUID = "UserUID";
         public const string Java8Root = "Java8Root";
         public const string Java16Root = "Java16Root";
-        public const string IsDarkTheme = "IsDarkTheme";
         public const string ChooseVersion = "ChooseVersion";
         public const string MinecraftRoot = "MinecraftRoot";
+        public const string SelectedAppTheme = "SelectedAppTheme";
+        public const string SelectedBackdrop = "SelectedBackdrop";
         public const string ShowOtherException = "ShowOtherException";
-        public const string IsBackgroundColorFollowSystem = "IsBackgroundColorFollowSystem";
+
+        public static Type Get<Type>(string key) => LocalObject.Read<Type>(key);
+        public static void Set<Type>(string key, Type value) => LocalObject.Save(key, value);
+        public static void SetFile<Type>(string key, Type value) => LocalObject.CreateFileAsync(key, value);
+        public static async Task<Type> GetFile<Type>(string key) => await LocalObject.ReadFileAsync<Type>(key);
 
         public static void SetDefaultSettings()
         {
-            if (!LocalSettings.Values.ContainsKey(UserUID))
-            { LocalSettings.Values.Add(UserUID, null); }
-            if (!LocalSettings.Values.ContainsKey(Java8Root))
-            { LocalSettings.Values.Add(Java8Root, @"C:\Program Files (x86)\Minecraft Launcher\runtime\jre-x64\bin\javaw.exe"); }
-            if (!LocalSettings.Values.ContainsKey(Java16Root))
-            { LocalSettings.Values.Add(Java16Root, @"C:\Program Files (x86)\Minecraft Launcher\runtime\java-runtime-alpha\windows-x64\java-runtime-alpha\bin\javaw.exe"); }
-            if (!LocalSettings.Values.ContainsKey(IsDarkTheme))
-            { LocalSettings.Values.Add(IsDarkTheme, true); }
-            if (!LocalSettings.Values.ContainsKey(ChooseVersion))
-            { LocalSettings.Values.Add(ChooseVersion, null); }
-            if (!LocalSettings.Values.ContainsKey(MinecraftRoot))
-            { LocalSettings.Values.Add(MinecraftRoot, @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\.minecraft"); }
-            if (!LocalSettings.Values.ContainsKey(ShowOtherException))
-            { LocalSettings.Values.Add(ShowOtherException, true); }
-            if (!LocalSettings.Values.ContainsKey(IsBackgroundColorFollowSystem))
-            { LocalSettings.Values.Add(IsBackgroundColorFollowSystem, true); }
+            if (!LocalObject.KeyExists(UserUID))
+            { LocalObject.Save(UserUID, string.Empty); }
+            if (!LocalObject.KeyExists(Java8Root))
+            { LocalObject.Save(Java8Root, @"C:\Program Files (x86)\Minecraft Launcher\runtime\jre-x64\bin\javaw.exe"); }
+            if (!LocalObject.KeyExists(Java16Root))
+            { LocalObject.Save(Java16Root, @"C:\Program Files (x86)\Minecraft Launcher\runtime\java-runtime-alpha\windows-x64\java-runtime-alpha\bin\javaw.exe"); }
+            if (!LocalObject.KeyExists(ChooseVersion))
+            { LocalObject.Save(ChooseVersion, string.Empty); }
+            if (!LocalObject.KeyExists(MinecraftRoot))
+            { LocalObject.Save(MinecraftRoot, @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\.minecraft"); }
+            if (!LocalObject.KeyExists(SelectedAppTheme))
+            { LocalObject.Save(SelectedAppTheme, ElementTheme.Default); }
+            if (!LocalObject.KeyExists(SelectedBackdrop))
+            { LocalObject.Save(SelectedBackdrop, BackdropType.Mica); }
+            if (!LocalObject.KeyExists(ShowOtherException))
+            { LocalObject.Save(ShowOtherException, true); }
         }
-    }
-
-    internal enum UISettingChangedType
-    {
-        LightMode,
-        DarkMode,
-        NoPicChanged
     }
 
     internal enum AuthenticatorType
@@ -64,18 +65,11 @@ namespace UMCLauncher.Helpers
     internal static partial class SettingsHelper
     {
         public static double Capacity, Available;
-        public static readonly UISettings UISettings = new();
         public static readonly ILogManager LogManager = LogManagerFactory.CreateLogManager();
         public static ulong version = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
-        private static readonly ApplicationDataContainer LocalSettings = ApplicationData.Current.LocalSettings;
         public static string AccountPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Accounts.db");
-        public static Core.WeakEvent<UISettingChangedType> UISettingChanged { get; } = new Core.WeakEvent<UISettingChangedType>();
-
-        public static Type Get<Type>(string key) => (Type)LocalSettings.Values[key];
-
-        public static void Set(string key, object value) => LocalSettings.Values[key] = value;
+        private static readonly ApplicationDataStorageHelper LocalObject = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonObjectSerializer());
         public static double WindowsVersion = double.Parse($"{(ushort)((version & 0x00000000FFFF0000L) >> 16)}.{(ushort)(version & 0x000000000000FFFFL)}");
-        public static ElementTheme Theme => Get<bool>(IsBackgroundColorFollowSystem) ? ElementTheme.Default : (Get<bool>(IsDarkTheme) ? ElementTheme.Dark : ElementTheme.Light);
 
         private static AuthenticateResult authentication;
         public static AuthenticateResult Authentication
@@ -92,19 +86,6 @@ namespace UMCLauncher.Helpers
         static SettingsHelper()
         {
             SetDefaultSettings();
-            SetBackgroundTheme(UISettings, null);
-            UISettings.ColorValuesChanged += SetBackgroundTheme;
-            UIHelper.CheckTheme();
-        }
-
-        private static void SetBackgroundTheme(UISettings o, object _)
-        {
-            if (Get<bool>(IsBackgroundColorFollowSystem))
-            {
-                bool value = o.GetColorValue(UIColorType.Background) == Colors.Black;
-                Set(IsDarkTheme, value);
-                UISettingChanged.Invoke(value ? UISettingChangedType.DarkMode : UISettingChangedType.LightMode);
-            }
         }
 
         /// <summary>
@@ -211,5 +192,12 @@ namespace UMCLauncher.Helpers
             moc2.Dispose();
             cimobject2.Dispose();
         }
+    }
+
+    public class SystemTextJsonObjectSerializer : CommunityToolkit.Common.Helpers.IObjectSerializer
+    {
+        string CommunityToolkit.Common.Helpers.IObjectSerializer.Serialize<T>(T value) => JsonSerializer.Serialize(value);
+
+        public T Deserialize<T>(string value) => JsonSerializer.Deserialize<T>(value);
     }
 }

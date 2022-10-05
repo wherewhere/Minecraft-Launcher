@@ -13,6 +13,7 @@
     PrimaryButtonText="使用微软账号登录"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     SecondaryButtonText="确定"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <ContentDialog.Resources>
         <ResourceDictionary>

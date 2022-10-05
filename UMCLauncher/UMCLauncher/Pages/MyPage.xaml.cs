@@ -53,7 +53,6 @@ namespace UMCLauncher.Pages
             {
                 LoginDialog dialog = new()
                 {
-                    RequestedTheme = SettingsHelper.Theme,
                     XamlRoot = XamlRoot
                 };
                 _ = dialog.ShowAsync();

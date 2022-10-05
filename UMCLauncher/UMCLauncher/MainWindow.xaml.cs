@@ -12,13 +12,22 @@ namespace UMCLauncher
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        [System.Obsolete]
+        public BackdropHelper Backdrop;
+
         public MainWindow()
         {
             InitializeComponent();
+            Backdrop = new BackdropHelper(this);
             UIHelper.MainWindow = this;
             MainPage MainPage = new();
             Content = MainPage;
+            SetBackdrop();
+        }
+
+        private void SetBackdrop()
+        {
+            BackdropType type = SettingsHelper.Get<BackdropType>(SettingsHelper.SelectedBackdrop);
+            Backdrop.SetBackdrop(type);
         }
     }
 }
