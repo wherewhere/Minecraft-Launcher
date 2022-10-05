@@ -6,16 +6,24 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <!-- Other merged dictionaries here -->
+                <!--  Other merged dictionaries here  -->
             </ResourceDictionary.MergedDictionaries>
-            <!-- Other app resources here -->
-            <SolidColorBrush x:Key="GrayText" Color="{ThemeResource SystemColorGrayTextColor}"/>
-            <x:Double x:Key="PageTitleHeight">28</x:Double>
-            <Thickness x:Key="PageFrameMargin">0,28,0,0</Thickness>
-            <VerticalAlignment x:Key="TitleContentVerticalAlignment">Bottom</VerticalAlignment>
+            <!--  Other app resources here  -->
 
-            <SolidColorBrush x:Key="WindowCaptionBackground" Color="{ThemeResource SystemChromeMediumColor}"/>
-            <SolidColorBrush x:Key="WindowCaptionBackgroundDisabled" Color="{ThemeResource SystemChromeMediumColor}"/>
+            <!--  Breakpoints  -->
+            <x:Double x:Key="Breakpoint640Plus">641</x:Double>
+
+            <Thickness x:Key="PageHeaderDefaultPadding">0</Thickness>
+            <Thickness x:Key="PageHeaderMinimalPadding">-4,0,12,0</Thickness>
+
+            <!--  L-Pattern Overwriting resources  -->
+            <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
+            <Thickness x:Key="NavigationViewContentGridBorderThickness">1,1,0,0</Thickness>
+            <CornerRadius x:Key="NavigationViewContentGridCornerRadius">8,0,0,0</CornerRadius>
+            <Thickness x:Key="NavigationViewHeaderMargin">56,34,0,0</Thickness>
+
+            <SolidColorBrush x:Key="WindowCaptionBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="WindowCaptionBackgroundDisabled">Transparent</SolidColorBrush>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

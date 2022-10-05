@@ -1,4 +1,5 @@
-﻿using Microsoft.UI;
+﻿using CommunityToolkit.WinUI.UI;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -9,8 +10,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using UMCLauncher.Control;
 using UMCLauncher.Helpers;
 using UMCLauncher.Pages.SettingPages;
+using Windows.Foundation.Metadata;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -23,8 +26,7 @@ namespace UMCLauncher.Pages
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        private bool HasBeenSmail;
-        public event PropertyChangedEventHandler PropertyChanged;
+        public PageHeader PageHeader => NavigationView.FindDescendant<PageHeader>();
 
         private string useravatar;
         public string UserAvatar
@@ -48,7 +50,9 @@ namespace UMCLauncher.Pages
             }
         }
 
-        internal void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
         {
             if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
         }
@@ -66,8 +70,8 @@ namespace UMCLauncher.Pages
             InitializeComponent();
             UIHelper.MainPage = this;
             UIHelper.MainWindow.ExtendsContentIntoTitleBar = true;
-            UIHelper.MainWindow.SetTitleBar(CustomTitleBar);
-            RectanglePointerExited();
+            UIHelper.MainWindow.SetTitleBar(AppTitleBar);
+            PageHeader?.RectanglePointerExited();
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -137,15 +141,15 @@ namespace UMCLauncher.Pages
             {
                 // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
                 NavigationView.SelectedItem = (NavigationViewItem)NavigationView.SettingsItem;
-                HeaderTitle.Text = "设置";
+                NavigationView.Header = "设置";
             }
             else if (NavigationViewFrame.SourcePageType == typeof(TestPage))
             {
-                HeaderTitle.Text = "测试";
+                NavigationView.Header = "测试";
             }
             else if (NavigationViewFrame.SourcePageType == typeof(BrowserPage))
             {
-                HeaderTitle.Text = "浏览器";
+                NavigationView.Header = "浏览器";
             }
             else if (NavigationViewFrame.SourcePageType != null)
             {
@@ -168,7 +172,7 @@ namespace UMCLauncher.Pages
                     catch { }
                 }
 
-                HeaderTitle.Text = NavigationViewFrame.SourcePageType == typeof(MyPage)
+                NavigationView.Header = NavigationViewFrame.SourcePageType == typeof(MyPage)
                     ? UserNames
                     : (((NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString());
             }
@@ -191,30 +195,96 @@ namespace UMCLauncher.Pages
             }
         }
 
-        // 我不知道这个方法能不能正确修复标题栏问题，可是它的确没问题了
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void NavigationViewControl_PaneClosing(NavigationView sender, NavigationViewPaneClosingEventArgs args)
         {
-            try
+            UpdateAppTitleMargin(sender);
+        }
+
+        private void NavigationViewControl_PaneOpening(NavigationView sender, object args)
+        {
+            UpdateAppTitleMargin(sender);
+        }
+
+        private void NavigationViewControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
+        {
+            if (ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.UIElement", "TranslationTransition"))
             {
-                if (XamlRoot.Size.Width <= 240)
-                {
-                    if (!HasBeenSmail)
-                    {
-                        HasBeenSmail = true;
-                        UIHelper.MainWindow.SetTitleBar(null);
-                    }
-                }
-                else if (HasBeenSmail)
-                {
-                    HasBeenSmail = false;
-                    UIHelper.MainWindow.SetTitleBar(CustomTitleBar);
-                }
-                CustomTitleBar.Width = XamlRoot.Size.Width - 120;
+                AppTitleBar.TranslationTransition = new Vector3Transition();
+
+                AppTitleBar.Translation = sender.DisplayMode == NavigationViewDisplayMode.Minimal &&
+                         sender.IsBackButtonVisible != NavigationViewBackButtonVisible.Collapsed
+                    ? new System.Numerics.Vector3(((float)sender.CompactPaneLength * 2) - 8, 0, 0)
+                    : new System.Numerics.Vector3((float)sender.CompactPaneLength, 0, 0);
             }
-            catch { }
+            else
+            {
+                Thickness currMargin = AppTitleBar.Margin;
+
+                AppTitleBar.Margin = sender.DisplayMode == NavigationViewDisplayMode.Minimal &&
+                             sender.IsBackButtonVisible != NavigationViewBackButtonVisible.Collapsed
+                    ? new Thickness((sender.CompactPaneLength * 2) - 8, currMargin.Top, currMargin.Right, currMargin.Bottom)
+                    : new Thickness(sender.CompactPaneLength, currMargin.Top, currMargin.Right, currMargin.Bottom);
+            }
+
+            UpdateAppTitleMargin(sender);
+            UpdateHeaderMargin(sender);
+        }
+
+        private void UpdateAppTitleMargin(NavigationView sender)
+        {
+            const int smallLeftIndent = 4, largeLeftIndent = 24;
+
+            if (ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.UIElement", "TranslationTransition"))
+            {
+                AppTitle.TranslationTransition = new Vector3Transition();
+
+                AppTitle.Translation = (sender.DisplayMode == NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
+                         sender.DisplayMode == NavigationViewDisplayMode.Minimal
+                    ? new System.Numerics.Vector3(smallLeftIndent, 0, 0)
+                    : new System.Numerics.Vector3(largeLeftIndent, 0, 0);
+            }
+            else
+            {
+                Thickness currMargin = AppTitle.Margin;
+
+                AppTitle.Margin = (sender.DisplayMode == NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
+                         sender.DisplayMode == NavigationViewDisplayMode.Minimal
+                    ? new Thickness(smallLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom)
+                    : new Thickness(largeLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
+            }
+        }
+
+        private void UpdateHeaderMargin(NavigationView sender)
+        {
+            if (PageHeader != null)
+            {
+                PageHeader.HeaderPadding = sender.DisplayMode == NavigationViewDisplayMode.Minimal
+                    ? (Thickness)Application.Current.Resources["PageHeaderMinimalPadding"]
+                    : (Thickness)Application.Current.Resources["PageHeaderDefaultPadding"];
+
+                if (ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.UIElement", "TranslationTransition"))
+                {
+                    PageHeader.TranslationTransition = new Vector3Transition();
+
+                    PageHeader.Translation = sender.DisplayMode == NavigationViewDisplayMode.Minimal &&
+                             sender.IsBackButtonVisible != NavigationViewBackButtonVisible.Collapsed
+                        ? new System.Numerics.Vector3(-(float)sender.CompactPaneLength + 8, 0, 0)
+                        : new System.Numerics.Vector3(0, 0, 0);
+                }
+                else
+                {
+                    Thickness currMargin = PageHeader.Margin;
+
+                    PageHeader.Margin = sender.DisplayMode == NavigationViewDisplayMode.Minimal &&
+                             sender.IsBackButtonVisible != NavigationViewBackButtonVisible.Collapsed
+                        ? new Thickness(-sender.CompactPaneLength + 8, currMargin.Top, currMargin.Right, currMargin.Bottom)
+                        : new Thickness(0, currMargin.Top, currMargin.Right, currMargin.Bottom);
+                }
+            }
         }
 
         #region 状态栏
+
         public enum MessageColor
         {
             Red,
@@ -225,14 +295,20 @@ namespace UMCLauncher.Pages
 
         public void ShowProgressRing()
         {
-            ProgressRing.Visibility = Visibility.Visible;
-            ProgressRing.IsActive = true;
+            if (PageHeader != null)
+            {
+                PageHeader.ProgressRing.Visibility = Visibility.Visible;
+                PageHeader.ProgressRing.IsActive = true;
+            }
         }
 
         public void HideProgressRing()
         {
-            ProgressRing.IsActive = false;
-            ProgressRing.Visibility = Visibility.Collapsed;
+            if (PageHeader != null)
+            {
+                PageHeader.ProgressRing.IsActive = false;
+                PageHeader.ProgressRing.Visibility = Visibility.Collapsed;
+            }
         }
 
         public void ShowProgressBar()
@@ -269,17 +345,20 @@ namespace UMCLauncher.Pages
 
         public void ShowMessage(string message, string info, MessageColor color)
         {
-            Message.Text = message;
-            MessageInfo.Glyph = info;
-            MessageInfo.Foreground = color switch
+            if (PageHeader != null)
             {
-                MessageColor.Red => new SolidColorBrush(Color.FromArgb(255, 245, 88, 98)),
-                MessageColor.Blue => new SolidColorBrush(Color.FromArgb(255, 119, 220, 255)),
-                MessageColor.Green => new SolidColorBrush(Color.FromArgb(255, 155, 230, 155)),
-                MessageColor.Yellow => new SolidColorBrush(Color.FromArgb(255, 254, 228, 160)),
-                _ => new SolidColorBrush(Colors.Yellow),
-            };
-            RectanglePointerEntered();
+                PageHeader.Message.Text = message;
+                PageHeader.MessageInfo.Glyph = info;
+                PageHeader.MessageInfo.Foreground = color switch
+                {
+                    MessageColor.Red => new SolidColorBrush(Color.FromArgb(255, 245, 88, 98)),
+                    MessageColor.Blue => new SolidColorBrush(Color.FromArgb(255, 119, 220, 255)),
+                    MessageColor.Green => new SolidColorBrush(Color.FromArgb(255, 155, 230, 155)),
+                    MessageColor.Yellow => new SolidColorBrush(Color.FromArgb(255, 254, 228, 160)),
+                    _ => new SolidColorBrush(Colors.Yellow),
+                };
+                PageHeader?.RectanglePointerEntered();
+            }
         }
 
         public async void HelloWorld()
@@ -289,14 +368,6 @@ namespace UMCLauncher.Pages
             AppTitle.Text = UIHelper.AppTitle;
         }
 
-        public void RectanglePointerEntered() => EnterStoryboard.Begin();
-
-        public void RectanglePointerExited() => ExitStoryboard.Begin();
         #endregion
-
-        private void NavigationView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
-        }
     }
 }

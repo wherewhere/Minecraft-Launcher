@@ -1,148 +1,89 @@
 ﻿<Page
     x:Class="UMCLauncher.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:UMCLauncher.Control"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded"
     NavigationCacheMode="Enabled"
-    SizeChanged="Page_SizeChanged">
+    mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="NavigationViewHeaderTemplate">
+            <controls:PageHeader
+                Title="{Binding}"
+                Background="Transparent"
+                BackgroundColorOpacity="1" />
+        </DataTemplate>
+    </Page.Resources>
+
     <Grid>
         <Border
-            x:Name="CustomTitleBar"
+            x:Name="AppTitleBar"
+            Height="{Binding ElementName=NavigationView, Path=CompactPaneLength}"
             VerticalAlignment="Top"
-            HorizontalAlignment="Left"
-            Height="{StaticResource PageTitleHeight}"
-            Background="{ThemeResource SystemChromeMediumColor}">
+            Canvas.ZIndex="1"
+            IsHitTestVisible="True">
             <TextBlock
                 x:Name="AppTitle"
-                Margin="12,6,0,0"
-                x:FieldModifier="public"
-                TextTrimming="CharacterEllipsis"
+                Margin="0,15,0,0"
+                VerticalAlignment="Top"
+                x:FieldModifier="Public"
+                Style="{StaticResource CaptionTextBlockStyle}"
                 Text="Universal-like Minecraft Launcher"
-                Style="{StaticResource CaptionTextBlockStyle}"/>
+                TextTrimming="CharacterEllipsis" />
         </Border>
-        <Grid
-            Margin="{StaticResource PageFrameMargin}"
-            Background="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}">
-            <Grid.ChildrenTransitions>
-                <TransitionCollection>
-                    <EntranceThemeTransition/>
-                </TransitionCollection>
-            </Grid.ChildrenTransitions>
-            <Grid.Resources>
-                <Storyboard x:Name="EnterStoryboard">
-                    <FadeInThemeAnimation Storyboard.TargetName="MessageBar"/>
-                </Storyboard>
-                <Storyboard x:Name="ExitStoryboard">
-                    <FadeOutThemeAnimation Storyboard.TargetName="MessageBar"/>
-                </Storyboard>
-            </Grid.Resources>
-            <NavigationView
-                PaneTitle="启动器"
-                x:Name="NavigationView"
-                Loaded="NavigationView_Loaded"
-                SizeChanged="NavigationView_SizeChanged"
-                BackRequested="NavigationView_BackRequested"
-                SelectionChanged="NavigationView_SelectionChanged"
-                Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
-                <NavigationView.Header>
-                    <Grid
-                        Margin="-40,0,0,0"
-                        x:Name="HeaderGrid">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            x:Name="HeaderTitle"
+
+        <NavigationView
+            x:Name="NavigationView"
+            BackRequested="NavigationView_BackRequested"
+            DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
+            HeaderTemplate="{StaticResource NavigationViewHeaderTemplate}"
+            IsTabStop="False"
+            IsTitleBarAutoPaddingEnabled="False"
+            Loaded="NavigationView_Loaded"
+            PaneClosing="NavigationViewControl_PaneClosing"
+            PaneOpening="NavigationViewControl_PaneOpening"
+            PaneTitle="启动器"
+            SelectionChanged="NavigationView_SelectionChanged">
+            <NavigationView.MenuItems>
+                <NavigationViewItem
+                    Content="主页"
+                    Icon="Home"
+                    Tag="Home" />
+                <NavigationViewItem
+                    Content="列表"
+                    Icon="Library"
+                    Tag="List" />
+                <NavigationViewItem
+                    Content="下载"
+                    Icon="Download"
+                    Tag="Downloader" />
+            </NavigationView.MenuItems>
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItem Tag="UserHub">
+                    <StackPanel Height="40" Orientation="Horizontal">
+                        <PersonPicture
+                            x:Name="UserIcon"
+                            Width="20"
+                            Height="20"
+                            Margin="-2,0,0,0"
                             HorizontalAlignment="Left"
-                            TextTrimming="CharacterEllipsis"/>
-                        <Grid
-                            Margin="10,0"
-                            Grid.Column="1"
-                            x:Name="MessageGrid"
-                            HorizontalAlignment="Right">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid
-                                Grid.Column="0"
-                                x:Name="MessageBar">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <FontIcon
-                                    Grid.Column="0"
-                                    x:Name="MessageInfo"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    FontSize="{x:Bind Path=UserName.FontSize, Mode=OneWay}"/>
-                                <TextBlock
-                                    MaxLines="1"
-                                    Grid.Column="1"
-                                    x:Name="Message"
-                                    Margin="2,8,0,0"
-                                    TextTrimming="CharacterEllipsis"
-                                    FontSize="{x:Bind Path=UserName.FontSize, Mode=OneWay}"/>
-                            </Grid>
-                            <ProgressRing
-                                Width="20"
-                                Height="20"
-                                Grid.Column="1"
-                                x:Name="ProgressRing"
-                                Visibility="Collapsed"
-                                Background="Transparent"/>
-                        </Grid>
-                    </Grid>
-                </NavigationView.Header>
-                <NavigationView.MenuItems>
-                    <NavigationViewItem
-                        Tag="Home"
-                        Icon="Home"
-                        Content="主页"/>
-                    <NavigationViewItem
-                        Tag="List"
-                        Content="列表"
-                        Icon="Library"/>
-                    <NavigationViewItem
-                        Content="下载"
-                        Icon="Download"
-                        Tag="Downloader"/>
-                </NavigationView.MenuItems>
-                <NavigationView.FooterMenuItems>
-                    <NavigationViewItem Tag="UserHub">
-                        <StackPanel
-                            Height="40"
-                            Orientation="Horizontal">
-                            <PersonPicture
-                                Width="20"
-                                Height="20"
-                                x:Name="UserIcon"
-                                Margin="-2,0,0,0"
-                                HorizontalAlignment="Left"
-                                DisplayName="{x:Bind UserNames, Mode=OneWay}"/>
-                            <TextBlock
-                                Margin="14,10"
-                                x:Name="UserName"
-                                Text="{x:Bind UserNames, Mode=OneWay}"/>
-                        </StackPanel>
-                    </NavigationViewItem>
-                </NavigationView.FooterMenuItems>
-                <Grid CornerRadius="8,0,0,0">
-                    <Frame
-                        x:FieldModifier="public"
-                        x:Name="NavigationViewFrame"/>
-                </Grid>
-            </NavigationView>
-        </Grid>
+                            DisplayName="{x:Bind UserNames, Mode=OneWay}" />
+                        <TextBlock
+                            x:Name="UserName"
+                            Margin="14,10"
+                            Text="{x:Bind UserNames, Mode=OneWay}" />
+                    </StackPanel>
+                </NavigationViewItem>
+            </NavigationView.FooterMenuItems>
+            <Frame x:Name="NavigationViewFrame" x:FieldModifier="public" />
+        </NavigationView>
         <ProgressBar
             x:Name="ProgressBar"
-            IsIndeterminate="False"
             VerticalAlignment="Top"
-            Background="Transparent"/>
+            Background="Transparent"
+            IsIndeterminate="False" />
     </Grid>
 </Page>
