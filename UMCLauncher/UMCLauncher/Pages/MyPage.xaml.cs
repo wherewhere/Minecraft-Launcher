@@ -63,7 +63,7 @@ namespace UMCLauncher.Pages
                 ILiteCollection<AuthenticateResult> AuthenticateResults = db.GetCollection<AuthenticateResult>();
                 SettingsHelper.Authentication = AuthenticateResults.FindById(element.Tag.ToString());
                 SettingsHelper.Set(SettingsHelper.UserUID, SettingsHelper.Authentication.Uuid);
-                UIHelper.ShowMessage("切换成功", UIHelper.Seccess, MainPage.MessageColor.Blue);
+                UIHelper.ShowMessage("切换成功", InfoBarSeverity.Success);
                 UIHelper.MainPage.HelloWorld();
             }
         }

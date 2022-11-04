@@ -1,5 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Text;
 using UMCLauncher.Core.Exceptions;
 using UMCLauncher.Helpers;
 using UMCLauncher.Pages;
@@ -44,26 +46,18 @@ namespace UMCLauncher
 
         private void Application_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
         {
+            SettingsHelper.LogManager.GetLogger("Unhandled Exception - Application").Error(ExceptionToMessage(e.Exception), e.Exception);
             e.Handled = true;
-            if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
-            {
-                UIHelper.ShowMessage($"程序出现了错误……\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
-#if DEBUG
-                    + $"\n{e.Exception.StackTrace}"
-#endif
-                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
-            }
-            SettingsHelper.LogManager.GetLogger("UnhandledException").Error($"\n{e.Exception.Message}\n{e.Exception.HResult}\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
         }
 
         private void CurrentDomain_UnhandledException(object sender, System.UnhandledExceptionEventArgs e)
         {
-            if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
+            if (e.ExceptionObject is Exception Exception)
             {
-                UIHelper.ShowMessage(e.ExceptionObject.ToString(), UIHelper.Error, MainPage.MessageColor.Red);
+                SettingsHelper.LogManager.GetLogger("Unhandled Exception - CurrentDomain").Error(ExceptionToMessage(Exception), Exception);
             }
-            SettingsHelper.LogManager.GetLogger("UnhandledException").Error(e.ExceptionObject.ToString());
         }
+
         /// <summary>
         /// Should be called from OnActivated and OnLaunched
         /// </summary>
@@ -76,16 +70,19 @@ namespace UMCLauncher
 
         private void SynchronizationContext_UnhandledException(object sender, Core.Exceptions.UnhandledExceptionEventArgs e)
         {
+            SettingsHelper.LogManager.GetLogger("Unhandled Exception - SynchronizationContext").Error(ExceptionToMessage(e.Exception), e.Exception);
             e.Handled = true;
-            if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
-            {
-                UIHelper.ShowMessage($"程序出现了错误……\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
-#if DEBUG
-                    + $"\n{e.Exception.StackTrace}"
-#endif
-                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
-            }
-            SettingsHelper.LogManager.GetLogger("UnhandledException").Error($"\n{e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)})\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
+        }
+
+        private string ExceptionToMessage(Exception ex)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append('\n');
+            if (!string.IsNullOrWhiteSpace(ex.Message)) { builder.AppendLine($"Message: {ex.Message}"); }
+            builder.AppendLine($"HResult: {ex.HResult} (0x{Convert.ToString(ex.HResult, 16)})");
+            if (!string.IsNullOrWhiteSpace(ex.StackTrace)) { builder.AppendLine(ex.StackTrace); }
+            if (!string.IsNullOrWhiteSpace(ex.HelpLink)) { builder.Append($"HelperLink: {ex.HelpLink}"); }
+            return builder.ToString();
         }
     }
 }

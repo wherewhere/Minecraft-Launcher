@@ -38,13 +38,13 @@ namespace UMCLauncher.Control
             UIHelper.MainPage.AppTitle.Text = "正在登录...";
             if ((bool)IsOffline.IsChecked ? await SettingsHelper.CheckLogin(AuthenticatorType.OfflineAuthenticator, new object[] { Username.Text }) : await SettingsHelper.CheckLogin(AuthenticatorType.MojangAuthenticator, new object[] { Username.Text, Password.Password }))
             {
-                UIHelper.ShowMessage("登录成功", UIHelper.Seccess, MainPage.MessageColor.Blue);
+                UIHelper.ShowMessage("登录成功", InfoBarSeverity.Success);
                 UIHelper.MainPage.HelloWorld();
                 UIHelper.HideProgressBar();
             }
             else
             {
-                UIHelper.ShowMessage("登录失败", UIHelper.Warnning, MainPage.MessageColor.Yellow);
+                UIHelper.ShowMessage("登录失败", InfoBarSeverity.Error);
                 UIHelper.ErrorProgressBar();
                 UIHelper.MainPage.AppTitle.Text = UIHelper.AppTitle;
             }

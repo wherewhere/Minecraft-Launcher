@@ -69,12 +69,12 @@ namespace UMCLauncher.Pages.SettingPages
             {
                 if (!isbackground)
                 {
-                    UIHelper.ShowMessage("保存成功", UIHelper.Seccess, MainPage.MessageColor.Green);
+                    UIHelper.ShowMessage("保存成功", InfoBarSeverity.Success);
                 }
             }
             else
             {
-                UIHelper.ShowMessage("保存失败", UIHelper.Error, MainPage.MessageColor.Red);
+                UIHelper.ShowMessage("保存失败", InfoBarSeverity.Error);
             }
         }
 

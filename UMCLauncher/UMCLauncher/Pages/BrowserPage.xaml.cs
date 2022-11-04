@@ -65,13 +65,13 @@ namespace UMCLauncher.Pages
             if (!string.IsNullOrEmpty(code) && await SettingsHelper.CheckLogin(AuthenticatorType.MicrosoftAuthenticator, new object[] { code }))
             {
                 if (Frame.CanGoBack) { Frame.GoBack(); }
-                UIHelper.ShowMessage("登录成功", UIHelper.Seccess, MainPage.MessageColor.Blue);
+                UIHelper.ShowMessage("登录成功", InfoBarSeverity.Success);
                 UIHelper.MainPage.HelloWorld();
                 UIHelper.HideProgressBar();
             }
             else
             {
-                UIHelper.ShowMessage("登录失败", UIHelper.Warnning, MainPage.MessageColor.Yellow);
+                UIHelper.ShowMessage("登录失败", InfoBarSeverity.Error);
                 UIHelper.ErrorProgressBar();
                 UIHelper.MainPage.AppTitle.Text = UIHelper.AppTitle;
             }

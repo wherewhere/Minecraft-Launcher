@@ -16,10 +16,6 @@ namespace UMCLauncher.Helpers
 {
     internal static class UIHelper
     {
-        public const string Error = "";
-        public const string Seccess = "";
-        public const string Message = "";
-        public const string Warnning = "";
         public const string AppTitle = "Universal-like Minecraft Launcher";
 
         public static bool HasTitleBar = !AppWindowTitleBar.IsCustomizationSupported();
@@ -29,7 +25,7 @@ namespace UMCLauncher.Helpers
         public static MainPage MainPage;
         public static MainWindow MainWindow;
         public static bool IsShowingProgressRing, IsShowingProgressBar, IsShowingMessage;
-        private static readonly ObservableCollection<(string message, string info, MainPage.MessageColor color)> MessageList = new();
+        private static readonly ObservableCollection<(string Message, InfoBarSeverity Severity)> MessageList = new();
 
         public enum NavigationThemeTransition
         {
@@ -118,18 +114,18 @@ namespace UMCLauncher.Helpers
         /// <param name="message">要展示的消息</param>
         /// <param name="info">消息前的图标</param>
         /// <param name="color">消息前图标的颜色</param>
-        public static async void ShowMessage(string message, string info = Message, MainPage.MessageColor color = MainPage.MessageColor.Blue)
+        public static async void ShowMessage(string message, InfoBarSeverity severity = InfoBarSeverity.Warning)
         {
-            MessageList.Add((message, info, color));
+            MessageList.Add((message, severity));
             if (!IsShowingMessage)
             {
                 IsShowingMessage = true;
                 while (MessageList.Count > 0)
                 {
-                    if (!string.IsNullOrEmpty(MessageList[0].message))
+                    if (!string.IsNullOrEmpty(MessageList[0].Message))
                     {
-                        string messages = $"{MessageList[0].message.Replace("\n", " ")}";
-                        MainPage?.ShowMessage(messages, MessageList[0].info, MessageList[0].color);
+                        string messages = $"{MessageList[0].Message.Replace("\n", " ")}";
+                        MainPage?.ShowMessage(messages, MessageList.Count, MessageList[0].Severity);
                         await Task.Delay(3000);
                     }
                     MessageList.RemoveAt(0);

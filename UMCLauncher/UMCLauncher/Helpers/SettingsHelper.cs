@@ -14,6 +14,7 @@ using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 using CommunityToolkit.WinUI.Helpers;
+using MetroLog.Targets;
 
 namespace UMCLauncher.Helpers
 {
@@ -65,9 +66,9 @@ namespace UMCLauncher.Helpers
     internal static partial class SettingsHelper
     {
         public static double Capacity, Available;
-        public static readonly ILogManager LogManager = LogManagerFactory.CreateLogManager();
         public static ulong version = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
         public static string AccountPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Accounts.db");
+        public static readonly ILogManager LogManager = LogManagerFactory.CreateLogManager(GetDefaultReleaseConfiguration());
         private static readonly ApplicationDataStorageHelper LocalObject = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonObjectSerializer());
         public static double WindowsVersion = double.Parse($"{(ushort)((version & 0x00000000FFFF0000L) >> 16)}.{(ushort)(version & 0x000000000000FFFFL)}");
 
@@ -86,6 +87,15 @@ namespace UMCLauncher.Helpers
         static SettingsHelper()
         {
             SetDefaultSettings();
+        }
+
+        private static LoggingConfiguration GetDefaultReleaseConfiguration()
+        {
+            string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MetroLogs");
+            if (!Directory.Exists(path)) { Directory.CreateDirectory(path); }
+            LoggingConfiguration loggingConfiguration = new();
+            loggingConfiguration.AddTarget(LogLevel.Info, LogLevel.Fatal, new StreamingFileTarget(path, 7));
+            return loggingConfiguration;
         }
 
         /// <summary>

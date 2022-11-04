@@ -68,20 +68,28 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <FontIcon
+                    <InfoBadge
                         x:Name="MessageInfo"
                         Grid.Column="0"
-                        x:FieldModifier="Public"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        FontSize="{StaticResource ContentControlFontSize}" />
-                    <TextBlock
-                        x:Name="Message"
+                        x:FieldModifier="Public" />
+                    <Grid
                         Grid.Column="1"
-                        Margin="2,8,0,0"
-                        x:FieldModifier="Public"
-                        FontSize="{StaticResource ContentControlFontSize}"
-                        MaxLines="1"
-                        TextTrimming="CharacterEllipsis" />
+                        Margin="0"
+                        VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            x:Name="Message"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            x:FieldModifier="Public"
+                            FontSize="{StaticResource ContentControlFontSize}"
+                            MaxLines="1"
+                            TextTrimming="CharacterEllipsis" />
+                    </Grid>
                 </Grid>
                 <ProgressRing
                     x:Name="ProgressRing"

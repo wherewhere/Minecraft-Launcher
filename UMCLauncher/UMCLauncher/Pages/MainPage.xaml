@@ -33,8 +33,7 @@
             IsHitTestVisible="True">
             <TextBlock
                 x:Name="AppTitle"
-                Margin="0,15,0,0"
-                VerticalAlignment="Top"
+                VerticalAlignment="Center"
                 x:FieldModifier="Public"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="Universal-like Minecraft Launcher"
@@ -51,7 +50,6 @@
             Loaded="NavigationView_Loaded"
             PaneClosing="NavigationViewControl_PaneClosing"
             PaneOpening="NavigationViewControl_PaneOpening"
-            PaneTitle="启动器"
             SelectionChanged="NavigationView_SelectionChanged">
             <NavigationView.MenuItems>
                 <NavigationViewItem

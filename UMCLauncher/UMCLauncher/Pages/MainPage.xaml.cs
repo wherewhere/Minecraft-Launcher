@@ -244,12 +244,11 @@ namespace UMCLauncher.Pages
         {
             const int smallLeftIndent = 4, largeLeftIndent = 24;
 
-            if (ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.UIElement", "TranslationTransition"))
+            if (ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "TranslationTransition"))
             {
                 AppTitle.TranslationTransition = new Vector3Transition();
 
-                AppTitle.Translation = (sender.DisplayMode == NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
-                         sender.DisplayMode == NavigationViewDisplayMode.Minimal
+                AppTitle.Translation = sender.DisplayMode == NavigationViewDisplayMode.Minimal || sender.IsPaneOpen
                     ? new System.Numerics.Vector3(smallLeftIndent, 0, 0)
                     : new System.Numerics.Vector3(largeLeftIndent, 0, 0);
             }
@@ -257,8 +256,7 @@ namespace UMCLauncher.Pages
             {
                 Thickness currMargin = AppTitle.Margin;
 
-                AppTitle.Margin = (sender.DisplayMode == NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
-                         sender.DisplayMode == NavigationViewDisplayMode.Minimal
+                AppTitle.Margin = sender.DisplayMode == NavigationViewDisplayMode.Minimal || sender.IsPaneOpen
                     ? new Thickness(smallLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom)
                     : new Thickness(largeLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
             }
@@ -294,14 +292,6 @@ namespace UMCLauncher.Pages
         }
 
         #region 状态栏
-
-        public enum MessageColor
-        {
-            Red,
-            Blue,
-            Green,
-            Yellow,
-        }
 
         public void ShowProgressRing()
         {
@@ -353,20 +343,30 @@ namespace UMCLauncher.Pages
             ProgressBar.ShowPaused = false;
         }
 
-        public void ShowMessage(string message, string info, MessageColor color)
+        public void ShowMessage(string message, int value, InfoBarSeverity severity)
         {
             if (PageHeader != null)
             {
+                Style style = value > 1 ?
+                    severity switch
+                    {
+                        InfoBarSeverity.Success => (Style)Application.Current.Resources["SuccessValueInfoBadgeStyle"],
+                        InfoBarSeverity.Informational => (Style)Application.Current.Resources["InformationalValueInfoBadgeStyle"],
+                        InfoBarSeverity.Error => (Style)Application.Current.Resources["CriticalValueInfoBadgeStyle"],
+                        InfoBarSeverity.Warning => (Style)Application.Current.Resources["AttentionValueInfoBadgeStyle"],
+                        _ => (Style)Application.Current.Resources["AttentionValueInfoBadgeStyle"]
+                    }
+                    : severity switch
+                    {
+                        InfoBarSeverity.Success => (Style)Application.Current.Resources["SuccessIconInfoBadgeStyle"],
+                        InfoBarSeverity.Informational => (Style)Application.Current.Resources["InformationalIconInfoBadgeStyle"],
+                        InfoBarSeverity.Error => (Style)Application.Current.Resources["CriticalIconInfoBadgeStyle"],
+                        InfoBarSeverity.Warning => (Style)Application.Current.Resources["AttentionIconInfoBadgeStyle"],
+                        _ => (Style)Application.Current.Resources["AttentionIconInfoBadgeStyle"]
+                    };
                 PageHeader.Message.Text = message;
-                PageHeader.MessageInfo.Glyph = info;
-                PageHeader.MessageInfo.Foreground = color switch
-                {
-                    MessageColor.Red => new SolidColorBrush(Color.FromArgb(255, 245, 88, 98)),
-                    MessageColor.Blue => new SolidColorBrush(Color.FromArgb(255, 119, 220, 255)),
-                    MessageColor.Green => new SolidColorBrush(Color.FromArgb(255, 155, 230, 155)),
-                    MessageColor.Yellow => new SolidColorBrush(Color.FromArgb(255, 254, 228, 160)),
-                    _ => new SolidColorBrush(Colors.Yellow),
-                };
+                PageHeader.MessageInfo.Value = value;
+                PageHeader.MessageInfo.Style = style;
                 PageHeader?.RectanglePointerEntered();
             }
         }

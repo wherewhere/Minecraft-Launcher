@@ -131,8 +131,6 @@
                     FontSize="18"
                     Text="更新" />
                 <TextBlock
-                    Grid.Row="0"
-                    Grid.ColumnSpan="2"
                     FontSize="{ThemeResource ContentControlFontSize}"
                     Text="{x:Bind local:SettingPage.VersionTextBlockText}"
                     TextWrapping="WrapWholeWords" />
