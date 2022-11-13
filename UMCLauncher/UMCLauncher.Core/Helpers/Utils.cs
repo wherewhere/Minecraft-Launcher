@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Text;
 using UMCLauncher.Models;
 
@@ -104,6 +105,7 @@ namespace UMCLauncher.Core.Helpers
         /// 取Java路径(新)
         /// </summary>
         /// <returns>列表(Java 环境信息)</returns>
+        [SupportedOSPlatform("windows")]
         public static List<JavaVersion> GetJavaInstallationPath()
         {
             List<JavaVersion> vs = new();

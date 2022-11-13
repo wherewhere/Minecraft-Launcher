@@ -11,7 +11,7 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <RootNamespace>UMCLauncher</RootNamespace>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
-    <TargetFramework>net6.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <UseWinUI>true</UseWinUI>
     <WindowsSdkPackageVersion>10.0.22621.27</WindowsSdkPackageVersion>
@@ -43,12 +43,12 @@
 	<PackageReference Include="LiteDB" Version="5.0.12" />
     <PackageReference Include="MetroLog.Net6" Version="2.0.1" />
 	<PackageReference Include="ModuleLauncher.Re" Version="3.1.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
     <PackageReference Include="NativeMethods" Version="0.0.3" />
     <PackageReference Include="PInvoke.User32" Version="0.7.124" />
-	<PackageReference Include="System.Management" Version="6.0.0" />
-	<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
+	<PackageReference Include="System.Management" Version="7.0.0" />
+	<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
