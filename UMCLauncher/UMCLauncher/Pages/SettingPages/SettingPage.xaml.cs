@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using PInvoke;
 using System;
 using System.Runtime.InteropServices;
@@ -8,6 +9,7 @@ using UMCLauncher.Models;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.System;
 using WinRT;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -20,6 +22,7 @@ namespace UMCLauncher.Pages.SettingPages
     {
         void Initialize([In] IntPtr hwnd);
     }
+
     /// <summary>
     /// 设置页面
     /// </summary>
@@ -172,9 +175,9 @@ namespace UMCLauncher.Pages.SettingPages
             }
         }
 
-        private void TextBox_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void TextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == VirtualKey.Enter)
             {
                 FrameworkElement element = sender as FrameworkElement;
                 switch (element.Name)

@@ -1,7 +1,8 @@
 {
   "profiles": {
     "UMCLauncher (Package)": {
-      "commandName": "MsixPackage"
+      "commandName": "MsixPackage",
+      "nativeDebugging": true
     },
     "UMCLauncher (Unpackaged)": {
       "commandName": "Project"
