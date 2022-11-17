@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace UMCLauncher.Core.Helpers.DataHelper
+namespace UMCLauncher.Helpers.DataHelper
 {
     public delegate void OnDataRequestError(int code);
 

@@ -27,7 +27,7 @@
                                     Text="{x:Bind Version.ProductVersion}"
                                     TextTrimming="CharacterEllipsis" />
                                 <TextBlock
-                                    x:Name="ISWOW6432"
+                                    x:Name="ISWOW32"
                                     x:Load="{x:Bind ISWOW6432}"
                                     Text="(x86)"
                                     TextTrimming="CharacterEllipsis" />

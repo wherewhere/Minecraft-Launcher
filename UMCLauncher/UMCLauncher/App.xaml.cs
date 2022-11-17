@@ -2,8 +2,8 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Text;
-using UMCLauncher.Core.Exceptions;
 using UMCLauncher.Helpers;
+using UMCLauncher.Helpers.Exceptions;
 using UMCLauncher.Pages;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -68,7 +68,7 @@ namespace UMCLauncher
                 .UnhandledException += SynchronizationContext_UnhandledException;
         }
 
-        private void SynchronizationContext_UnhandledException(object sender, Core.Exceptions.UnhandledExceptionEventArgs e)
+        private void SynchronizationContext_UnhandledException(object sender, Helpers.Exceptions.UnhandledExceptionEventArgs e)
         {
             SettingsHelper.LogManager.GetLogger("Unhandled Exception - SynchronizationContext").Error(ExceptionToMessage(e.Exception), e.Exception);
             e.Handled = true;

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 
-namespace UMCLauncher.Core.Helpers.DataHelper
+namespace UMCLauncher.Helpers.DataHelper
 {
     /// <summary>
     /// A incremental loading class base on the data binding sample on

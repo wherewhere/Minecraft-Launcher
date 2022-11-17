@@ -37,8 +37,8 @@ namespace UMCLauncher.Helpers
                 LauncherName = "UMCL", //optianal
                 MaximumMemorySize = (int)(SettingsHelper.Available * 0.9 / 1048576), //optional
                 MinimumMemorySize = null, //optional
-                WindowHeight = (int?)(480 * UIHelper.DpiY), //optional
-                WindowWidth = (int?)(854 * UIHelper.DpiX), //optional
+                WindowHeight = (int?)(480 * MainWindow.ScalingFactor), //optional
+                WindowWidth = (int?)(854 * MainWindow.ScalingFactor), //optional
                 Fullscreen = Fullscreen //optional
             };
             return launcher;
@@ -59,7 +59,7 @@ namespace UMCLauncher.Helpers
         /// </summary>
         public static void GetJavas()
         {
-            Javas = Utils.GetJavaInstallationPath();
+            Javas = Extensions.GetJavaInstallationPath();
         }
     }
 }

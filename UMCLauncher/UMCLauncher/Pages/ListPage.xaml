@@ -42,7 +42,7 @@
                                 <TextBlock
                                     Margin="4,0"
                                     Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
-                                    Text="{x:Bind Path=Locality.Version.LastAccessTime, Mode=OneWay, Converter={StaticResource TimeToReadableConverter}, ConverterParameter='DataTime'}"
+                                    Text="{x:Bind Path=Locality.Version.LastAccessTime, Converter={StaticResource TimeToReadableConverter}}"
                                     TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">

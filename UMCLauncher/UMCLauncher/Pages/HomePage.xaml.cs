@@ -3,9 +3,12 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using ModuleLauncher.Re.Launcher;
 using ModuleLauncher.Re.Models.Locators.Minecraft;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using UMCLauncher.Core.Helpers;
 using UMCLauncher.Helpers;
+using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -20,11 +23,11 @@ namespace UMCLauncher.Pages
         public HomePage()
         {
             InitializeComponent();
-            GetDPI.Text = $"X:{UIHelper.DpiX} Y:{UIHelper.DpiY}";
+            GetDPI.Text = $"Scale: {MainWindow.ScalingFactor}";
             SettingsHelper.GetCapacity();
             SettingsHelper.GetAvailable();
             _ = LaunchHelper.GetMinecrafts();
-            GetMemory.Text = $"{SettingsHelper.Available.GetSizeString()}/{SettingsHelper.Capacity.GetSizeString()}";
+            GetMemory.Text = $"{SettingsHelper.Available.GetSizeString()} / {SettingsHelper.Capacity.GetSizeString()}";
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

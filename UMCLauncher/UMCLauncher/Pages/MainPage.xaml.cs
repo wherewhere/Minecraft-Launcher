@@ -365,7 +365,7 @@ namespace UMCLauncher.Pages
                         _ => (Style)Application.Current.Resources["AttentionIconInfoBadgeStyle"]
                     };
                 PageHeader.Message.Text = message;
-                PageHeader.MessageInfo.Value = value;
+                PageHeader.MessageInfo.Value = value == 1 ? 0 : value;
                 PageHeader.MessageInfo.Style = style;
                 PageHeader?.RectanglePointerEntered();
             }

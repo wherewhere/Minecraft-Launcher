@@ -5,6 +5,7 @@ using NativeMethods.Interop;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using UMCLauncher.Core.Helpers;
 using WinRT.Interop;
 
 namespace UMCLauncher.Helpers

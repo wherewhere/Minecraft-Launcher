@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System;
+using UMCLauncher.Core.Helpers;
 
 namespace UMCLauncher.Helpers.ValueConverters
 {
@@ -8,14 +9,13 @@ namespace UMCLauncher.Helpers.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return (string)parameter switch
-            {
-                "double" => DataHelper.ConvertUnixTimeStampToReadable((double)value),
-                "DataTime" => DataHelper.ConvertDateTimeToReadable((DateTime)value),
-                _ => value is DateTime time ? DataHelper.ConvertDateTimeToReadable(time) : value is double @double ? DataHelper.ConvertUnixTimeStampToReadable(@double) : value,
-            };
+            return value is DateTime time
+                ? DateHelper.ConvertDateTimeToReadable(time)
+                : value is double @double
+                    ? DateHelper.ConvertUnixTimeStampToReadable(@double)
+                    : value;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language) => (Visibility)value == Visibility.Visible;
+        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
     }
 }

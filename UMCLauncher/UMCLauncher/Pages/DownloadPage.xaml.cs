@@ -8,8 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UMCLauncher.Core.Helpers.DataHelper;
 using UMCLauncher.Helpers;
+using UMCLauncher.Helpers.DataHelper;
 using Windows.Foundation;
 
 // To learn more about WinUI, the WinUI project structure,

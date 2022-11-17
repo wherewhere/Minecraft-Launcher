@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace UMCLauncher.Core.Exceptions
+namespace UMCLauncher.Helpers.Exceptions
 {
     /// <summary>
     /// Wrapper around a standard synchronization context, that catches any unhandled exceptions.

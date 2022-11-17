@@ -98,12 +98,6 @@ namespace UMCLauncher.Helpers
             return loggingConfiguration;
         }
 
-        /// <summary>
-        /// 检查账号信息
-        /// </summary>
-        /// <param name="Type">登录方式</param>
-        /// <param name="vs">登录参数</param>
-        /// <returns>是否登录成功</returns>
         public static async Task<bool> CheckLogin(AuthenticatorType Type = AuthenticatorType.AuthenticateResult, object[] vs = null)
         {
             switch (Type)
@@ -111,7 +105,9 @@ namespace UMCLauncher.Helpers
                 case AuthenticatorType.MojangAuthenticator:
                     if (vs != null && vs[0] is string && vs[1] is string)
                     {
+#pragma warning disable CS0618 // 类型或成员已过时
                         MojangAuthenticator Authenticator = new(vs[0] as string, vs[1] as string);
+#pragma warning restore CS0618 // 类型或成员已过时
                         Authentication = await Authenticator.Authenticate();
                         if (!string.IsNullOrEmpty(Authentication.Uuid))
                         {
