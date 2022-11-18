@@ -15,6 +15,7 @@ using Windows.UI.ViewManagement;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 using CommunityToolkit.WinUI.Helpers;
 using MetroLog.Targets;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace UMCLauncher.Helpers
 {
@@ -79,7 +80,7 @@ namespace UMCLauncher.Helpers
             set
             {
                 UIHelper.MainPage.UserNames = value.Name;
-                UIHelper.MainPage.UserAvatar = "https://crafatar.com/renders/head/" + value.Uuid;
+                UIHelper.MainPage.UserAvatar = new BitmapImage(new Uri("https://crafatar.com/renders/head/" + value.Uuid));
                 authentication = value;
             }
         }

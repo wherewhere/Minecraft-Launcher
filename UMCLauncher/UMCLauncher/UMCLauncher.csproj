@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AppxPackageDir>AppPackages</AppxPackageDir>
@@ -23,26 +24,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Control\PageHeader.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-  </ItemGroup>
-
-  <ItemGroup>
 	<PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
 	<PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
 	<PackageReference Include="LiteDB" Version="5.0.12" />
     <PackageReference Include="MetroLog.Net6" Version="2.0.1" />
 	<PackageReference Include="ModuleLauncher.Re" Version="3.1.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221116.1" />
     <PackageReference Include="NativeMethods" Version="0.0.3" />
     <PackageReference Include="PInvoke.User32" Version="0.7.124" />
 	<PackageReference Include="System.Management" Version="7.0.0" />
@@ -73,9 +60,4 @@
     <ProjectReference Include="..\UMCLauncher.Core\UMCLauncher.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="Control\PageHeader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
 </Project>

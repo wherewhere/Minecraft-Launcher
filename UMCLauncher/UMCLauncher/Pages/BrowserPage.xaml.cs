@@ -43,7 +43,7 @@ namespace UMCLauncher.Pages
             UIHelper.ShowProgressBar();
             if (IsLoginPage && args.Uri.StartsWith("https://login.live.com/oauth20_desktop.srf?code="))
             {
-                CheckLogin(args.Uri.Substring(args.Uri.IndexOf("=") + 1));
+                CheckLogin(args.Uri[(args.Uri.IndexOf("=") + 1)..]);
             }
             else if (args.Uri == LoginUrl)
             {

@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -31,8 +32,8 @@ namespace UMCLauncher.Pages
 
         public PageHeader PageHeader => NavigationView.FindDescendant<PageHeader>();
 
-        private string useravatar;
-        public string UserAvatar
+        private ImageSource useravatar;
+        public ImageSource UserAvatar
         {
             get => useravatar;
             set
