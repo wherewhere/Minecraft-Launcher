@@ -73,6 +73,7 @@ namespace UMCLauncher.Pages
         {
             InitializeComponent();
             UIHelper.MainPage = this;
+            NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
             UIHelper.MainWindow.Backdrop.BackdropTypeChanged += OnBackdropTypeChanged;
             if (UIHelper.HasTitleBar)
             {
@@ -94,6 +95,7 @@ namespace UMCLauncher.Pages
             // Add handler for ContentFrame navigation.
             NavigationViewFrame.Navigated += On_Navigated;
             NavigationView.SelectedItem = NavigationView.MenuItems[0];
+            NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.Auto;
         }
 
         private void NavigationView_Navigate(string NavItemTag, NavigationTransitionInfo TransitionInfo)

@@ -1,7 +1,9 @@
-﻿using LiteDB;
+﻿using CommunityToolkit.WinUI.Helpers;
+using LiteDB;
 using MetroLog;
-using Microsoft.UI;
+using MetroLog.Targets;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 using ModuleLauncher.Re.Authenticators;
 using ModuleLauncher.Re.Models.Authenticators;
 using System;
@@ -9,13 +11,9 @@ using System.IO;
 using System.Management;
 using System.Threading.Tasks;
 using Windows.Storage;
-using System.Text.Json;
 using Windows.System.Profile;
-using Windows.UI.ViewManagement;
+using IObjectSerializer = CommunityToolkit.Common.Helpers.IObjectSerializer;
 using JsonSerializer = System.Text.Json.JsonSerializer;
-using CommunityToolkit.WinUI.Helpers;
-using MetroLog.Targets;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace UMCLauncher.Helpers
 {
@@ -175,35 +173,43 @@ namespace UMCLauncher.Helpers
 
         public static void GetCapacity()
         {
-            ManagementClass cimobject1 = new("Win32_ComputerSystem");
-            ManagementObjectCollection moc1 = cimobject1.GetInstances();
-            Capacity = 0;
-            foreach (ManagementObject mo1 in moc1)
+            try
             {
-                Capacity += long.Parse(mo1.Properties["TotalPhysicalMemory"].Value.ToString());
+                ManagementClass cimobject1 = new("Win32_ComputerSystem");
+                ManagementObjectCollection moc1 = cimobject1.GetInstances();
+                Capacity = 0;
+                foreach (ManagementBaseObject mo1 in moc1)
+                {
+                    Capacity += long.Parse(mo1.Properties["TotalPhysicalMemory"].Value.ToString());
+                }
+                moc1.Dispose();
+                cimobject1.Dispose();
             }
-            moc1.Dispose();
-            cimobject1.Dispose();
+            catch { }
         }
 
         public static void GetAvailable()
         {
-            ManagementClass cimobject2 = new("Win32_OperatingSystem");
-            ManagementObjectCollection moc2 = cimobject2.GetInstances();
-            Available = 0;
-            foreach (ManagementObject mo2 in moc2)
+            try
             {
-                Available += long.Parse(mo2.Properties["FreePhysicalMemory"].Value.ToString());
+                ManagementClass cimobject2 = new("Win32_OperatingSystem");
+                ManagementObjectCollection moc2 = cimobject2.GetInstances();
+                Available = 0;
+                foreach (ManagementBaseObject mo2 in moc2)
+                {
+                    Available += long.Parse(mo2.Properties["FreePhysicalMemory"].Value.ToString());
+                }
+                Available *= 1024;
+                moc2.Dispose();
+                cimobject2.Dispose();
             }
-            Available *= 1024;
-            moc2.Dispose();
-            cimobject2.Dispose();
+            catch { }
         }
     }
 
-    public class SystemTextJsonObjectSerializer : CommunityToolkit.Common.Helpers.IObjectSerializer
+    public class SystemTextJsonObjectSerializer : IObjectSerializer
     {
-        string CommunityToolkit.Common.Helpers.IObjectSerializer.Serialize<T>(T value) => JsonSerializer.Serialize(value);
+        string IObjectSerializer.Serialize<T>(T value) => JsonSerializer.Serialize(value);
 
         public T Deserialize<T>(string value) => JsonSerializer.Deserialize<T>(value);
     }
