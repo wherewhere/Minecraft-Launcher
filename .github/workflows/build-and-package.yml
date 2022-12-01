@@ -5,8 +5,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-    - '**.cs'
-    - '**.csproj'
+    - 'UMCLauncher/**'
 
 env:
   DOTNET_VERSION: '6.0.x' # The .NET SDK version to use
